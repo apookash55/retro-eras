@@ -26,7 +26,7 @@ import net.minecraft.world.item.Items;
 /**
  * Gameplay rules for the eras.
  * <ul>
- * <li>Every era predates the hunger system (added in Beta 1.8): no hunger, no sprinting, no natural regeneration, and
+ * <li>Eras before Beta 1.8 ({@link Era#hasHunger()} false) have no hunger, no sprinting and no natural regeneration;
  * food heals instantly instead (see FoodPropertiesMixin).</li>
  * <li>Eras without survival ({@link Era#isSurvival()}) also have no damage except falling into the void, break blocks
  * instantly without drops, and keep the player's hotbar stocked with that era's building blocks.</li>
@@ -52,9 +52,11 @@ public final class EraRules {
 				return;
 			}
 			for (ServerPlayer player : level.players()) {
-				FoodData food = player.getFoodData();
-				food.setFoodLevel(HUNGERLESS_FOOD_LEVEL);
-				food.setSaturation(0.0F);
+				if (!era.hasHunger()) {
+					FoodData food = player.getFoodData();
+					food.setFoodLevel(HUNGERLESS_FOOD_LEVEL);
+					food.setSaturation(0.0F);
+				}
 				if (era == Era.CAVEGAME && level.getGameTime() % 20 == 0) {
 					restockKit(player, CAVEGAME_KIT);
 				}
@@ -89,7 +91,8 @@ public final class EraRules {
 	}
 
 	public static boolean hasHunger(Player player) {
-		return eraOf(player) == null;
+		Era era = eraOf(player);
+		return era == null || era.hasHunger();
 	}
 
 	private static void setInstantBreak(ServerPlayer player, boolean enabled) {

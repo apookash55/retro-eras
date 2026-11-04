@@ -5,6 +5,8 @@ import dev.retroeras.worldgen.beta.BetaBiomeSource;
 import dev.retroeras.worldgen.beta.BetaChunkGenerator;
 import dev.retroeras.worldgen.cavegame.CavegameChunkGenerator;
 import dev.retroeras.worldgen.infdev.InfdevChunkGenerator;
+import dev.retroeras.worldgen.release.ReleaseBiomeSource;
+import dev.retroeras.worldgen.release.ReleaseChunkGenerator;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 
@@ -20,11 +22,15 @@ public final class ModWorldgen {
 		Registry.register(BuiltInRegistries.BIOME_SOURCE, RetroEras.id("beta"), BetaBiomeSource.CODEC);
 		Registry.register(BuiltInRegistries.CHUNK_GENERATOR, RetroEras.id("cavegame"), CavegameChunkGenerator.CODEC);
 		Registry.register(BuiltInRegistries.CHUNK_GENERATOR, RetroEras.id("infdev"), InfdevChunkGenerator.CODEC);
+		Registry.register(BuiltInRegistries.CHUNK_GENERATOR, RetroEras.id("release"), ReleaseChunkGenerator.CODEC);
+		Registry.register(BuiltInRegistries.BIOME_SOURCE, RetroEras.id("release"), ReleaseBiomeSource.CODEC);
 
-		// Seed the Beta generator as soon as its level loads, so biome lookups (e.g. /locate) work before any chunk generates.
+		// Seed the Beta and 1.6.4 generators as soon as their level loads, so biome lookups (e.g. /locate) work before any chunk generates.
 		ServerLevelEvents.LOAD.register((server, level) -> {
 			if (level.getChunkSource().getGenerator() instanceof BetaChunkGenerator beta) {
 				beta.terrain(level.getSeed());
+			} else if (level.getChunkSource().getGenerator() instanceof ReleaseChunkGenerator release) {
+				release.terrain(level.getSeed());
 			}
 		});
 	}

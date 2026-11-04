@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:random_selector",
+  "default": {
+    "feature": "minecraft:jungle_tree",
+    "placement": []
+  },
+  "features": [
+    {
+      "feature": {
+        "feature": "minecraft:fancy_oak",
+        "placement": []
+      },
+      "chance": 0.1
+    },
+    {
+      "feature": {
+        "feature": "minecraft:jungle_bush",
+        "placement": []
+      },
+      "chance": 0.5
+    },
+    {
+      "feature": {
+        "feature": "minecraft:mega_jungle_tree",
+        "placement": []
+      },
+      "chance": 0.33333334
+    }
+  ]
+}

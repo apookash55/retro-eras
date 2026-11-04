@@ -211,8 +211,24 @@ public final class EraTexturePack {
 				continue;
 			}
 			written += writeAll(transform.equals("legacy_skin") ? legacySkin(image) : image, targets);
+			copyAnimation(zip, file.get("from").getAsString(), targets);
 		}
 		return written;
+	}
+
+	/** Copies an animated texture's .mcmeta (1.6+ jars have them), so the strip animates instead of showing squashed. */
+	private void copyAnimation(ZipFile zip, String from, JsonArray targets) throws IOException {
+		ZipEntry meta = zip.getEntry(from + ".mcmeta");
+		if (meta == null) {
+			return;
+		}
+		byte[] bytes;
+		try (InputStream in = zip.getInputStream(meta)) {
+			bytes = in.readAllBytes();
+		}
+		for (JsonElement target : targets) {
+			Files.write(packDir.resolve("assets/minecraft/textures/" + target.getAsString() + ".png.mcmeta"), bytes);
+		}
 	}
 
 	/** Draws a 64x32 era texture over the top half of the modern 64x64 one, keeping the modern bottom half. */

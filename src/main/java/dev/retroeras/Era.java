@@ -15,11 +15,13 @@ import net.minecraft.world.level.block.Blocks;
  * lighting a portal inside a frame of the era's frame block.
  */
 public enum Era {
-	BETA("beta", Blocks.MOSSY_COBBLESTONE, 0, true),
+	/** Old Release: Minecraft 1.6.4, the last version before 1.7's biome overhaul. Hunger, sprinting and XP are back. */
+	OLD_RELEASE("old_release", Blocks.STONE_BRICKS, 0, true, true),
+	BETA("beta", Blocks.MOSSY_COBBLESTONE, 0, true, false),
 	/** Pre-Alpha: Infdev 20100618, the last Infdev build. Bricks recall Infdev's brick pyramids. */
-	PRE_ALPHA("pre_alpha", Blocks.BRICKS, 0, true),
+	PRE_ALPHA("pre_alpha", Blocks.BRICKS, 0, true, false),
 	/** Pre-classic "Cave game" (rd-161348): a finite 256x256 world where you build without health or survival. */
-	CAVEGAME("cavegame", Blocks.COBBLESTONE, 256, false);
+	CAVEGAME("cavegame", Blocks.COBBLESTONE, 256, false, false);
 
 	/** Inventory group for every dimension that is not an era (overworld, nether, end, other mods). */
 	public static final String MODERN = "modern";
@@ -29,13 +31,15 @@ public enum Era {
 	private final Block frame;
 	private final int worldSize;
 	private final boolean survival;
+	private final boolean hunger;
 
-	Era(String name, Block frame, int worldSize, boolean survival) {
+	Era(String name, Block frame, int worldSize, boolean survival, boolean hunger) {
 		this.name = name;
 		this.dimension = ResourceKey.create(Registries.DIMENSION, RetroEras.id(name));
 		this.frame = frame;
 		this.worldSize = worldSize;
 		this.survival = survival;
+		this.hunger = hunger;
 	}
 
 	public String getName() {
@@ -58,6 +62,14 @@ public enum Era {
 	/** Whether the era had health and damage. Eras without them hide the hearts and only the void can hurt you. */
 	public boolean isSurvival() {
 		return survival;
+	}
+
+	/**
+	 * Whether the era had hunger, sprinting and experience (added in Beta 1.8). Eras without them hide those bars, hold
+	 * hunger still, heal from food instantly and default to flat lighting.
+	 */
+	public boolean hasHunger() {
+		return hunger;
 	}
 
 	/** Moves {@code pos} inside a finite world, keeping a margin from the edge; infinite worlds return it unchanged. */

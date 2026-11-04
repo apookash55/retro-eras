@@ -1,0 +1,32 @@
+{
+  "type": "retroeras:old_release",
+  "generator": {
+    "type": "retroeras:release",
+    "biome_source": {
+      "type": "retroeras:release",
+      "biomes": {
+        "ocean": "retroeras:release/ocean",
+        "plains": "retroeras:release/plains",
+        "desert": "retroeras:release/desert",
+        "extreme_hills": "retroeras:release/extreme_hills",
+        "forest": "retroeras:release/forest",
+        "taiga": "retroeras:release/taiga",
+        "swampland": "retroeras:release/swampland",
+        "river": "retroeras:release/river",
+        "frozen_ocean": "retroeras:release/frozen_ocean",
+        "frozen_river": "retroeras:release/frozen_river",
+        "ice_plains": "retroeras:release/ice_plains",
+        "ice_mountains": "retroeras:release/ice_mountains",
+        "mushroom_island": "retroeras:release/mushroom_island",
+        "mushroom_island_shore": "retroeras:release/mushroom_island_shore",
+        "beach": "retroeras:release/beach",
+        "desert_hills": "retroeras:release/desert_hills",
+        "forest_hills": "retroeras:release/forest_hills",
+        "taiga_hills": "retroeras:release/taiga_hills",
+        "extreme_hills_edge": "retroeras:release/extreme_hills_edge",
+        "jungle": "retroeras:release/jungle",
+        "jungle_hills": "retroeras:release/jungle_hills"
+      }
+    }
+  }
+}

@@ -13,17 +13,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
 /**
- * Hides HUD elements that did not exist yet in the era the player is in: the hunger and experience bars in every era,
- * and the hearts, armor and air bars in eras without survival.
+ * Hides HUD elements that did not exist yet in the era the player is in: the hunger and experience bars before Beta
+ * 1.8, and the hearts, armor and air bars in eras without survival.
  */
 public final class EraHud {
 	private EraHud() {
 	}
 
 	public static void init() {
-		hideWhen(VanillaHudElements.FOOD_BAR, era -> true);
-		hideWhen(VanillaHudElements.EXPERIENCE_LEVEL, era -> true);
-		hideWhen(VanillaHudElements.INFO_BAR, era -> true);
+		hideWhen(VanillaHudElements.FOOD_BAR, era -> !era.hasHunger());
+		hideWhen(VanillaHudElements.EXPERIENCE_LEVEL, era -> !era.hasHunger());
+		hideWhen(VanillaHudElements.INFO_BAR, era -> !era.hasHunger());
 		hideWhen(VanillaHudElements.HEALTH_BAR, era -> !era.isSurvival());
 		hideWhen(VanillaHudElements.ARMOR_BAR, era -> !era.isSurvival());
 		hideWhen(VanillaHudElements.AIR_BAR, era -> !era.isSurvival());
