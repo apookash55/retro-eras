@@ -39,9 +39,6 @@
         "10": [
           "block/tnt_bottom"
         ],
-        "11": [
-          "block/cobweb"
-        ],
         "12": [
           "block/poppy"
         ],
@@ -104,12 +101,6 @@
         "37": [
           "block/obsidian"
         ],
-        "38": [
-          "block/grass_block_side_overlay"
-        ],
-        "39": [
-          "block/short_grass"
-        ],
         "43": [
           "block/crafting_table_top"
         ],
@@ -134,12 +125,6 @@
         "52": [
           "block/oak_leaves",
           "block/birch_leaves"
-        ],
-        "55": [
-          "block/dead_bush"
-        ],
-        "56": [
-          "block/fern"
         ],
         "59": [
           "block/crafting_table_side"
@@ -198,9 +183,6 @@
         ],
         "83": [
           "block/ladder"
-        ],
-        "84": [
-          "block/oak_trapdoor"
         ],
         "86": [
           "block/farmland_moist"
@@ -912,7 +894,8 @@
     "item/leather_leggings_overlay",
     "item/leather_boots_overlay",
     "entity/equipment/humanoid/leather_overlay",
-    "entity/equipment/humanoid_leggings/leather_overlay"
+    "entity/equipment/humanoid_leggings/leather_overlay",
+    "block/grass_block_side_overlay"
   ],
   "compose": [
     {
