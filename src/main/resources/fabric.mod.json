@@ -3,7 +3,7 @@
 	"id": "retroeras",
 	"version": "${version}",
 	"name": "Retro Eras",
-	"description": "Visit dimensions that recreate Minecraft's historical eras: Old Release, Beta/Alpha, Pre-Alpha and Cavegame.",
+	"description": "Visit dimensions that recreate Minecraft's historical eras with their own terrain, textures, sounds and rules: 1.6.4, Beta 1.7.3, Alpha 1.2.6, Infdev and the Cave game. Old textures and sounds are read from your own copies of those versions.",
 	"authors": [
 		"Apoorv Kashyap"
 	],

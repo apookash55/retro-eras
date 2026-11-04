@@ -26,6 +26,16 @@ For Pre-Alpha (Infdev), build it out of **bricks**, a nod to Infdev's brick pyra
 
 For Cave game, build the same frame out of **cobblestone**. You arrive inside its 256×256 world wherever you light the portal.
 
+## Installing in your own game
+
+Retro Eras is a Fabric mod for Minecraft 26.3. It needs Fabric Loader 0.20.1 or newer, Fabric API 0.165.0+26.3, and Java 25 (the launcher's own runtime for 26.3 is fine).
+
+1. Build it with `./gradlew build`. The mod is `build/libs/retroeras-<version>.jar`.
+2. Install Fabric for 26.3 (the Fabric installer from fabricmc.net, or the version profile from `meta.fabricmc.net`), and put the mod and Fabric API in that profile's `mods` folder.
+3. Play each old version once in the launcher (Beta 1.7.3, Alpha 1.2.6, Infdev 20100618, rd-161348 and 1.6.4) so its jar and sounds are on your computer. The mod reads its textures and sounds from them, and an era whose jar is missing keeps modern textures.
+
+On this machine there is a **Retro Eras** profile in the Minecraft launcher with its own game folder, `.minecraft/profiles/retro-eras`, so its worlds and settings are kept apart from your normal ones. After changing the mod, `./gradlew installMod` copies the new jar into that profile (`-PmodsDir=<folder>` points it somewhere else).
+
 ## Digging down through the eras
 
 The eras are stacked on top of each other, newest at the top: the overworld, then Old Release, Beta, Alpha, Pre-Alpha and Cave game at the bottom (`EraLayers`).

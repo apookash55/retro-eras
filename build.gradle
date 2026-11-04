@@ -91,3 +91,20 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+// Copies the built mod into the "Retro Eras" profile of the Minecraft launcher, replacing any older build:
+//   ./gradlew installMod
+// The folder can be changed with -PmodsDir=<path>.
+def modsDir = providers.gradleProperty("modsDir").orElse(
+		providers.environmentVariable("APPDATA").map { "$it/.minecraft/profiles/retro-eras/mods" })
+tasks.register("installMod", Sync) {
+	description = "Copies the mod jar into the Retro Eras launcher profile's mods folder."
+	group = "retro eras"
+	from(tasks.named("jar"))
+	into(modsDir)
+	// Sync would delete everything else in the folder; keep Fabric API and any other mods.
+	preserve {
+		include "**/*"
+		exclude "retroeras-*.jar"
+	}
+}
