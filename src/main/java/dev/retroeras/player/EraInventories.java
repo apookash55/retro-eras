@@ -68,6 +68,7 @@ public final class EraInventories {
 	/** Swaps the player's live inventory if they are now in a different group than the one it belongs to. */
 	public static void sync(ServerPlayer player) {
 		switchTo(player, Era.inventoryGroup(player.level().dimension()));
+		EraItems.giveBack(player);
 	}
 
 	/** Makes {@code target} the player's live inventory group, storing the current one. */

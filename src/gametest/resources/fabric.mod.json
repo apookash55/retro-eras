@@ -13,6 +13,7 @@
 			"dev.retroeras.test.PortalAndInventoryTest"
 		],
 		"fabric-client-gametest": [
+			"dev.retroeras.test.EraGameplayClientTest",
 			"dev.retroeras.test.EraScreenshotClientTest"
 		]
 	},

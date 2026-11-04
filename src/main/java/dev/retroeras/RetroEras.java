@@ -1,7 +1,9 @@
 package dev.retroeras;
 
 import dev.retroeras.block.ModBlocks;
+import dev.retroeras.player.EraCombat;
 import dev.retroeras.player.EraInventories;
+import dev.retroeras.player.EraItems;
 import dev.retroeras.player.EraRules;
 import dev.retroeras.portal.PortalIgnition;
 import dev.retroeras.worldgen.ModWorldgen;
@@ -24,6 +26,8 @@ public class RetroEras implements ModInitializer {
 		PortalIgnition.init();
 		EraInventories.init();
 		EraRules.init();
+		EraCombat.init();
+		EraItems.init();
 	}
 
 	public static Identifier id(String path) {

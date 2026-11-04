@@ -1,4 +1,10 @@
 {
+  "retroeras.era.old_release": "1.6.4",
+  "retroeras.era.beta": "Beta 1.7.3",
+  "retroeras.era.pre_alpha": "Infdev",
+  "retroeras.era.cavegame": "Cave game",
+  "retroeras.item.too_new": "%s is too new for %s: it will be back in your modern inventory",
+  "retroeras.item.too_new.creative": "%s is too new for %s",
   "block.retroeras.beta_portal": "Beta Portal",
   "block.retroeras.cavegame_portal": "Cave Game Portal",
   "block.retroeras.old_release_portal": "Old Release Portal",

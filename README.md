@@ -23,6 +23,16 @@ For Pre-Alpha (Infdev), build it out of **bricks**, a nod to Infdev's brick pyra
 
 For Cave game, build the same frame out of **cobblestone**. You arrive inside its 256×256 world wherever you light the portal.
 
+## Gameplay in every era
+
+- **Combat is pre-1.9.** There is no attack cooldown, so every click is a full-strength hit and the attack indicator never shows. There are no sweep attacks and no offhand: anything put in the offhand goes back into your inventory. Critical hits arrived in Beta 1.8, so only Old Release has them.
+- **Weapons deal their era's damage.** In Beta and Infdev, swords dealt 4 + 2 per tier (wood and gold 4, stone 6, iron 8, diamond 10). In 1.6.4 they dealt 4 + 1 per tier (4, 5, 6, 7). Axes, pickaxes and shovels dealt 3, 2 and 1 plus their tier in all of them, and everything else 1. Strength and weakness still apply on top.
+- **Only the era's items.** Each era has a list of the items it had, in `src/main/resources/data/retroeras/era_items/`: about 120 for Infdev, 220 for Beta and 410 for 1.6.4 (including creative-only blocks and its spawn eggs). In an era:
+  - Crafting gives nothing for a newer item, and newer items on the ground cannot be picked up.
+  - Drops follow the era. Iron and gold ore drop themselves rather than raw ore, Beta and Infdev zombies drop feathers, and anything the era did not have (like raw beef in Beta) is not dropped. This applies to chest loot too.
+  - Anything newer that still gets into your inventory, from a furnace, a command or the creative menu, is taken away with a message. Survival items are kept for you and come back the next time you are in the modern world; creative-menu items are just removed.
+- **1.6.4 hunger.** Old Release has no fast healing from saturation (added in 1.11). You heal half a heart every 4 seconds while your hunger bar is at 18 or more, which costs 3 exhaustion as it did in 1.6.4.
+
 ## Old textures and sounds
 
 The mod never ships Mojang's old textures. On startup it reads them from your own copies of the old client jars, which the launcher stores under `.minecraft/versions/`: `1.6.4`, `b1.7.3`, `inf-20100618` and `rd-161348`. It cuts them into resource packs at `resourcepacks/retroeras_<era>/` and turns each pack on only while you are in that era. You can point it at another jar with `<era>.jar=<path>` (for example `beta.jar=...`) in `config/retroeras.properties`. If a jar is missing, that era keeps modern textures.
@@ -41,6 +51,7 @@ If the sound files are missing (the launcher downloads them the first time you p
 - `src/main/java/dev/retroeras/Era.java`: the list of eras and their dimension keys.
 - `src/main/java/dev/retroeras/portal/`: era portals (frame detection, lighting, linking and travel).
 - `src/main/java/dev/retroeras/player/EraInventories.java`: the separate inventory, ender chest and XP for each era.
+- `src/main/java/dev/retroeras/player/EraRules.java`, `EraCombat.java` and `EraItems.java`: hunger, combat and the item lists.
 - `src/client/java/dev/retroeras/client/texture/`: builds each era's texture pack from the old jar and switches it on and off.
 - `src/main/java/dev/retroeras/worldgen/`: each era's terrain generator.
 - `src/main/resources/data/retroeras/`: each era's dimension, dimension type, biomes and features.
@@ -80,3 +91,6 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 - Port 1.6.4's structures (villages, temples, witch huts, strongholds, mineshafts) for the Old Release era.
 - Cave game's wandering zombies, and stopping its saplings from growing into modern trees.
+- Sword blocking in Old Release (holding right-click halved damage in 1.6.4).
+- 1.6.4's critical hits added a random 0 to 50% plus 1 instead of 26.3's flat 50%.
+- Furnaces still smelt newer items (the result is taken away when you pick it up).

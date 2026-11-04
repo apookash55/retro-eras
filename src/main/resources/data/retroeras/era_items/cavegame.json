@@ -1,0 +1,12 @@
+{
+  "_comment": "Cave game had only its five placeable blocks.",
+  "replace": {},
+  "items": [
+    "stone",
+    "dirt",
+    "cobblestone",
+    "oak_planks",
+    "oak_sapling",
+    "grass_block"
+  ]
+}

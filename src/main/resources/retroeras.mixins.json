@@ -3,7 +3,11 @@
 	"package": "dev.retroeras.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"FoodPropertiesMixin"
+		"CraftingMenuMixin",
+		"FoodDataMixin",
+		"FoodPropertiesMixin",
+		"ItemEntityMixin",
+		"PlayerCombatMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
