@@ -73,7 +73,6 @@ If the sound files are missing (the launcher downloads them the first time you p
 ## Cave game
 
 - The world is a port of rd-161348's level generator: two diamond-square height maps give hills of grass over dirt over rock. It is 256×256 blocks and 64 tall, with void past the edges, just like the original. The original made a new random map on every launch; here it is seeded from your world seed.
-- Rock is drawn with Cave game's cobblestone tile, the classic look of the first build (rd-132211), rather than rd-161348's later smoother rock tile.
 - The sky is the pale blue (#80CCFF) and the fog the near-white (#FEFBFA) of the original. The sun never moves, there is no rain and there are no clouds.
 - As in Cave game, there is no health, no hunger and nothing to survive. Only falling off the edge hurts. Blocks break instantly and drop nothing, and your hotbar always holds 64 each of the five blocks Cave game let you place (stone, dirt, cobblestone, planks and saplings). No mobs spawn.
 
