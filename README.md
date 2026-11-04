@@ -34,6 +34,8 @@ Retro Eras is a Fabric mod for Minecraft 26.3. It needs Fabric Loader 0.20.1 or 
 2. Install Fabric for 26.3 (the Fabric installer from fabricmc.net, or the version profile from `meta.fabricmc.net`), and put the mod and Fabric API in that profile's `mods` folder.
 3. Play each old version once in the launcher (Beta 1.7.3, Alpha 1.2.6, Infdev 20100618, rd-161348 and 1.6.4) so its jar and sounds are on your computer. The mod reads its textures and sounds from them, and an era whose jar is missing keeps modern textures.
 
+Ready-made jars are on the GitHub Releases page. To publish a new one, set `version` in `gradle.properties`, commit, and push a matching tag (`git tag v0.2.0` then `git push origin v0.2.0`): GitHub Actions builds the mod and attaches the jar to a new release, with the install steps from `.github/release-notes.md`.
+
 On this machine there is a **Retro Eras** profile in the Minecraft launcher with its own game folder, `.minecraft/profiles/retro-eras`, so its worlds and settings are kept apart from your normal ones. After changing the mod, `./gradlew installMod` copies the new jar into that profile (`-PmodsDir=<folder>` points it somewhere else).
 
 ## Digging down through the eras
