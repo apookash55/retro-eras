@@ -135,13 +135,23 @@ public class EraPortalBlock extends Block implements Portal {
 				.min(Comparator.<BlockPos>comparingDouble(pos -> pos.distSqr(near)).thenComparingInt(BlockPos::getY));
 	}
 
+	/**
+	 * The first open block above the ground at {@code near}'s column, kept inside the level's build height.
+	 * Level.getHeight answers with the bottom of the world for chunks that are not loaded, which is usually the case on
+	 * a first trip, so the chunk is loaded (and generated if needed) first.
+	 */
+	public static BlockPos surfaceAbove(ServerLevel level, BlockPos near) {
+		level.getChunk(near.getX() >> 4, near.getZ() >> 4);
+		int surface = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, near.getX(), near.getZ());
+		int y = Math.clamp(surface, level.getMinY() + 2, level.getMaxY() - 6);
+		return new BlockPos(near.getX(), y, near.getZ());
+	}
+
 	/** Builds a 4x5 frame with a 2x3 portal standing on the surface above {@code near}, and returns a portal block in it. */
 	private BlockPos buildExitPortal(ServerLevel level, BlockPos near, Direction.Axis axis) {
 		Direction right = axis == Direction.Axis.X ? Direction.EAST : Direction.SOUTH;
 		Direction forward = right.getClockWise();
-		int surface = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, near.getX(), near.getZ());
-		int y = Math.clamp(surface, level.getMinY() + 2, level.getMaxY() - 6);
-		BlockPos origin = new BlockPos(near.getX(), y, near.getZ());
+		BlockPos origin = surfaceAbove(level, near);
 
 		BlockState frame = era.getFrame().defaultBlockState();
 		BlockState portal = defaultBlockState().setValue(AXIS, axis);

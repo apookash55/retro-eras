@@ -3,6 +3,7 @@ package dev.retroeras.test;
 import dev.retroeras.Era;
 import dev.retroeras.block.ModBlocks;
 import dev.retroeras.player.EraInventories;
+import dev.retroeras.portal.EraPortalBlock;
 import dev.retroeras.portal.EraPortalShape;
 
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
@@ -10,6 +11,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -67,6 +69,20 @@ public class PortalAndInventoryTest {
 		var shape = EraPortalShape.findEmpty(helper.getLevel(), helper.absolutePos(new BlockPos(2, 2, 3)),
 				Era.BETA.getFrame(), ModBlocks.portal(Era.BETA), Direction.Axis.X);
 		helper.assertTrue(shape.isEmpty(), "An obsidian frame must not light a Beta portal");
+		helper.succeed();
+	}
+
+	/** Exit portals used to be built at the bottom of the world when the destination chunk was not loaded yet. */
+	@GameTest
+	public void exitPortalStandsOnTheSurfaceOfUnloadedChunks(GameTestHelper helper) {
+		ServerLevel level = helper.getLevel();
+		BlockPos far = helper.absolutePos(new BlockPos(0, 0, 0)).offset(60_000, 0, 60_000);
+		helper.assertTrue(!level.hasChunk(far.getX() >> 4, far.getZ() >> 4), "The test needs a chunk that is not loaded yet");
+
+		BlockPos exit = EraPortalBlock.surfaceAbove(level, far);
+		helper.assertTrue(exit.getY() > level.getMinY() + 2, "Exit portal placed at the bottom of the world (y=" + exit.getY() + ")");
+		helper.assertTrue(!level.getBlockState(exit.below()).isAir(), "Exit portal should stand on the ground, but " + exit.below() + " is air");
+		helper.assertTrue(level.getBlockState(exit).canBeReplaced(), "Exit portal should be in open air at " + exit);
 		helper.succeed();
 	}
 
