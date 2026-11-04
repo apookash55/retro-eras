@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContex
 import java.util.Optional;
 
 import dev.retroeras.entity.ModEntities;
+import dev.retroeras.player.EraLayers;
 import dev.retroeras.worldgen.release.ReleaseChunkGenerator;
 import dev.retroeras.worldgen.release.structure.LegacyBox;
 import dev.retroeras.worldgen.release.structure.LegacyStart;
@@ -68,7 +69,52 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkFurnace(context, server);
 			checkCaveGame(context, server);
 			checkStructures(context, server);
+			checkLayers(context, server);
 		}
+	}
+
+	/**
+	 * The eras are stacked: only the very lowest bedrock can be mined, with a diamond pickaxe; falling out of the bottom of
+	 * Beta lands in Pre-Alpha's sky, and climbing out of the top of Pre-Alpha comes up just above Beta's bedrock.
+	 */
+	private static void checkLayers(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.BETA);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			int bottom = player.level().getMinY();
+			BlockState bedrock = Blocks.BEDROCK.defaultBlockState();
+			player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_PICKAXE));
+			Float lowest = EraLayers.bedrockProgress(bedrock, player, new BlockPos(0, bottom, 0));
+			check(lowest != null && lowest > 0.003F && lowest < 0.01F, "Bottom bedrock should take about as long as obsidian, progress " + lowest);
+			check(EraLayers.bedrockProgress(bedrock, player, new BlockPos(0, bottom + 1, 0)) == null, "Bedrock above the bottom layer stays unbreakable");
+			player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
+			Float iron = EraLayers.bedrockProgress(bedrock, player, new BlockPos(0, bottom, 0));
+			check(iron != null && iron == 0.0F, "An iron pickaxe should not break bedrock, progress " + iron);
+		});
+
+		server.runCommand("execute in " + Era.BETA.getDimension().identifier() + " run tp @a 40 -30 40");
+		String preAlpha = Era.PRE_ALPHA.getDimension().identifier().toString();
+		context.waitFor(client -> client.level != null && client.level.dimension().identifier().toString().equals(preAlpha), 200);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().dimension() == Era.PRE_ALPHA.getDimension(), "Falling out of Beta should land in Pre-Alpha");
+			check(player.getY() > 64 && EraLayers.isFallingIn(player), "Should arrive in Pre-Alpha's sky with a soft landing, at y=" + player.getY());
+		});
+		context.waitFor(client -> client.player != null && client.player.onGround(), 1200);
+		context.waitTicks(10);
+		server.runOnServer(s -> check(!EraLayers.isFallingIn(player(s)), "The soft landing should be used up once on the ground"));
+
+		server.runCommand("execute in " + preAlpha + " run tp @a 40 135 40");
+		String beta = Era.BETA.getDimension().identifier().toString();
+		context.waitFor(client -> client.level != null && client.level.dimension().identifier().toString().equals(beta), 200);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().dimension() == Era.BETA.getDimension(), "Climbing out of Pre-Alpha should come up in Beta");
+			BlockPos feet = player.blockPosition();
+			check(feet.getY() < 40, "Should come up near Beta's bedrock, at " + feet);
+			check(player.level().getBlockState(feet).isAir() && player.level().getBlockState(feet.above()).isAir(), "Should come up in an air pocket at " + feet);
+			RetroEras.LOGGER.info("Came up from Pre-Alpha into Beta at {}", feet);
+		});
 	}
 
 	/** In Old Release, a raised sword cuts a 6-point hit to (1 + 6) / 2. */
@@ -205,7 +251,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 
 	private static void go(ClientGameTestContext context, TestServerContext server, @Nullable Era era) {
 		String dimension = (era == null ? Level.OVERWORLD : era.getDimension()).identifier().toString();
-		server.runCommand("execute in " + dimension + " run tp @a 40 200 40");
+		server.runCommand("execute in " + dimension + " run tp @a 40 60 40");
 		context.waitFor(client -> client.level != null && client.level.dimension().identifier().toString().equals(dimension) && client.gui.overlay() == null, 1200);
 		server.runCommand("execute in " + dimension + " run spreadplayers 40 40 0 20 false @a");
 		context.waitTicks(40);

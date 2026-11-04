@@ -1,15 +1,22 @@
 {
-  "_comment": "Maps textures in the player's own Beta 1.7.3 client jar onto 26.3 texture paths (under assets/minecraft/textures/). Atlas tiles are numbered left to right, top to bottom on a 16x16 grid. Textures whose layout changed since Beta (chests, beds, redstone dust, leather armor, inventory screen) are left out on purpose. A file's optional transform is legacy_skin (convert a 64x32 skin the way vanilla does) or over_modern (draw onto the top of the modern 64x64 texture, keeping its extra bottom half).",
+  "_comment": "Maps textures in the player's own Beta 1.7.3 client jar onto 26.3 texture paths (under assets/minecraft/textures/). Atlas tiles are numbered left to right, top to bottom on a 16x16 grid. Textures whose layout changed since Beta are rebuilt: chests and the inventory screen are composed from parts (compose), beds and redstone dust are turned to fit (a target ending in |rot90 or |flipx), and leather and water have the colour 26.3 tints them with divided out (|untint). Beta drew water, lava, fire and the portal with code; effects runs ports of that code and records the animation. A file's optional transform is legacy_skin (convert a 64x32 skin the way vanilla does) or over_modern (draw onto the top of the modern 64x64 texture, keeping its extra bottom half).",
   "jar": "b1.7.3",
   "atlases": [
     {
       "file": "terrain.png",
       "tiles": {
+        "134": ["block/red_bed_foot_up|rot270"],
+        "135": ["block/red_bed_head_up|rot270"],
+        "149": ["block/red_bed_foot_south"],
+        "150": ["block/red_bed_foot_east", "block/red_bed_foot_west|flipx"],
+        "151": ["block/red_bed_head_east", "block/red_bed_head_west|flipx"],
+        "152": ["block/bed_head_north"],
+        "165": ["block/redstone_dust_line0|rot90", "block/redstone_dust_line1|rot90"],
         "0": ["block/grass_block_top"],
         "1": ["block/stone"],
         "2": ["block/dirt"],
         "3": ["block/grass_block_side"],
-        "4": ["block/oak_planks"],
+        "4": ["block/oak_planks", "block/bed_down"],
         "5": ["block/smooth_stone_slab_side"],
         "6": ["block/smooth_stone"],
         "7": ["block/bricks"],
@@ -139,6 +146,10 @@
     {
       "file": "gui/items.png",
       "tiles": {
+        "0": ["item/leather_helmet|untint:A06540"],
+        "16": ["item/leather_chestplate|untint:A06540"],
+        "32": ["item/leather_leggings|untint:A06540"],
+        "48": ["item/leather_boots|untint:A06540"],
         "1": ["item/chainmail_helmet"],
         "2": ["item/iron_helmet"],
         "3": ["item/diamond_helmet"],
@@ -258,6 +269,8 @@
     }
   ],
   "files": [
+    { "from": "armor/cloth_1.png", "to": ["entity/equipment/humanoid/leather|untint:A06540"] },
+    { "from": "armor/cloth_2.png", "to": ["entity/equipment/humanoid_leggings/leather|untint:A06540"] },
     { "from": "mob/creeper.png", "to": ["entity/creeper/creeper"] },
     { "from": "mob/skeleton.png", "to": ["entity/skeleton/skeleton"] },
     { "from": "mob/spider.png", "to": ["entity/spider/spider"] },
@@ -321,5 +334,97 @@
     { "from": "gui/icons.png", "x": 34, "y": 9, "w": 9, "h": 9, "to": ["gui/sprites/hud/armor_full"] },
     { "from": "gui/icons.png", "x": 16, "y": 18, "w": 9, "h": 9, "to": ["gui/sprites/hud/air"] },
     { "from": "gui/icons.png", "x": 25, "y": 18, "w": 9, "h": 9, "to": ["gui/sprites/hud/air_bursting"] }
+  ],
+  "clear": [
+    "block/redstone_dust_overlay",
+    "gui/sprites/container/slot/shield", "gui/sprites/recipe_book/button", "gui/sprites/recipe_book/button_highlighted",
+    "item/leather_helmet_overlay", "item/leather_chestplate_overlay", "item/leather_leggings_overlay", "item/leather_boots_overlay",
+    "entity/equipment/humanoid/leather_overlay", "entity/equipment/humanoid_leggings/leather_overlay"
+  ],
+  "compose": [
+    {
+      "_comment": "Beta's chest was a block textured with terrain tiles 25 (top), 26 (side) and 27 (front); this paints them onto 26.3's chest model.",
+      "to": ["entity/chest/normal"],
+      "size": [64, 64],
+      "parts": [
+        { "tile": 27, "src": [7, 4, 2, 3], "dst": [0, 0, 6, 5] },
+        { "tile": 25, "src": [1, 1, 14, 14], "dst": [14, 0], "shade": 0.45 },
+        { "tile": 25, "src": [1, 1, 14, 14], "dst": [28, 0] },
+        { "tile": 26, "src": [1, 1, 14, 5], "dst": [0, 14] },
+        { "tile": 26, "src": [1, 1, 14, 5], "dst": [14, 14] },
+        { "tile": 26, "src": [1, 1, 14, 5], "dst": [28, 14] },
+        { "tile": 27, "src": [1, 1, 14, 5], "dst": [42, 14] },
+        { "tile": 25, "src": [1, 1, 14, 14], "dst": [14, 19] },
+        { "tile": 25, "src": [1, 1, 14, 14], "dst": [28, 19], "shade": 0.25 },
+        { "tile": 26, "src": [1, 6, 14, 10], "dst": [0, 33] },
+        { "tile": 26, "src": [1, 6, 14, 10], "dst": [14, 33] },
+        { "tile": 26, "src": [1, 6, 14, 10], "dst": [28, 33] },
+        { "tile": 27, "src": [1, 6, 14, 10], "dst": [42, 33] }
+      ]
+    },
+    {
+      "_comment": "Left half of a double chest: tiles 41 (front) and 58 (back).",
+      "to": ["entity/chest/normal_left"],
+      "size": [64, 64],
+      "parts": [
+        { "tile": 41, "src": [15, 4, 1, 3], "dst": [0, 0, 6, 5] },
+        { "tile": 25, "src": [0, 1, 15, 14], "dst": [14, 0], "shade": 0.45 },
+        { "tile": 25, "src": [0, 1, 15, 14], "dst": [29, 0] },
+        { "tile": 26, "src": [1, 1, 14, 5], "dst": [0, 14] },
+        { "tile": 58, "src": [0, 1, 15, 5], "dst": [14, 14] },
+        { "tile": 26, "src": [1, 1, 14, 5], "dst": [29, 14] },
+        { "tile": 41, "src": [0, 1, 15, 5], "dst": [43, 14] },
+        { "tile": 25, "src": [0, 1, 15, 14], "dst": [14, 19] },
+        { "tile": 25, "src": [0, 1, 15, 14], "dst": [29, 19], "shade": 0.25 },
+        { "tile": 26, "src": [1, 6, 14, 10], "dst": [0, 33] },
+        { "tile": 58, "src": [0, 6, 15, 10], "dst": [14, 33] },
+        { "tile": 26, "src": [1, 6, 14, 10], "dst": [29, 33] },
+        { "tile": 41, "src": [0, 6, 15, 10], "dst": [43, 33] }
+      ]
+    },
+    {
+      "_comment": "Right half of a double chest: tiles 42 (front) and 57 (back).",
+      "to": ["entity/chest/normal_right"],
+      "size": [64, 64],
+      "parts": [
+        { "tile": 42, "src": [0, 4, 1, 3], "dst": [0, 0, 6, 5] },
+        { "tile": 25, "src": [1, 1, 15, 14], "dst": [14, 0], "shade": 0.45 },
+        { "tile": 25, "src": [1, 1, 15, 14], "dst": [29, 0] },
+        { "tile": 26, "src": [1, 1, 14, 5], "dst": [0, 14] },
+        { "tile": 57, "src": [1, 1, 15, 5], "dst": [14, 14] },
+        { "tile": 26, "src": [1, 1, 14, 5], "dst": [29, 14] },
+        { "tile": 42, "src": [1, 1, 15, 5], "dst": [43, 14] },
+        { "tile": 25, "src": [1, 1, 15, 14], "dst": [14, 19] },
+        { "tile": 25, "src": [1, 1, 15, 14], "dst": [29, 19], "shade": 0.25 },
+        { "tile": 26, "src": [1, 6, 14, 10], "dst": [0, 33] },
+        { "tile": 57, "src": [1, 6, 15, 10], "dst": [14, 33] },
+        { "tile": 26, "src": [1, 6, 14, 10], "dst": [29, 33] },
+        { "tile": 42, "src": [1, 6, 15, 10], "dst": [43, 33] }
+      ]
+    },
+    {
+      "_comment": "Beta's redstone cross (tile 164) drew a blob in the middle; 26.3 draws that dot on its own.",
+      "to": ["block/redstone_dust_dot"],
+      "size": [16, 16],
+      "parts": [{ "tile": 164, "src": [4, 4, 8, 8], "dst": [4, 4] }]
+    },
+    {
+      "_comment": "Beta's inventory screen, with its crafting grid moved to where 26.3 puts it. There is no offhand slot, as in Beta.",
+      "to": ["gui/container/inventory"],
+      "base": "gui/inventory.png",
+      "parts": [
+        { "fill": "FFC6C6C6", "dst": [86, 24, 77, 39] },
+        { "file": "gui/inventory.png", "src": [86, 24, 77, 39], "dst": [96, 16] }
+      ]
+    }
+  ],
+  "effects": [
+    { "effect": "water_still", "frames": 64, "to": ["block/water_still|untint:3F76E4"] },
+    { "effect": "water_flow", "frames": 64, "scale": 2, "to": ["block/water_flow|untint:3F76E4"] },
+    { "effect": "lava_still", "frames": 64, "to": ["block/lava_still"] },
+    { "effect": "lava_flow", "frames": 48, "scale": 2, "to": ["block/lava_flow"] },
+    { "effect": "fire", "frames": 64, "seed": 0, "to": ["block/fire_0"] },
+    { "effect": "fire", "frames": 64, "seed": 1, "to": ["block/fire_1"] },
+    { "effect": "portal", "frames": 32, "to": ["block/nether_portal"] }
   ]
 }

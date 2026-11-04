@@ -150,7 +150,7 @@ public final class EraTexturePack {
 		Files.createDirectories(packDir);
 		int written;
 		try (ZipFile zip = new ZipFile(jar.toFile())) {
-			written = writeAtlases(zip) + writeFiles(zip) + writeRegions(zip) + writeCleared();
+			written = writeAtlases(zip) + writeFiles(zip) + writeRegions(zip) + writeCleared() + writeComposed(zip) + writeEffects();
 			ZipEntry icon = zip.getEntry("pack.png");
 			if (icon != null) {
 				try (InputStream in = zip.getInputStream(icon)) {
@@ -239,7 +239,7 @@ public final class EraTexturePack {
 			bytes = in.readAllBytes();
 		}
 		for (JsonElement target : targets) {
-			Files.write(packDir.resolve("assets/minecraft/textures/" + target.getAsString() + ".png.mcmeta"), bytes);
+			Files.write(packDir.resolve("assets/minecraft/textures/" + path(target.getAsString()) + ".png.mcmeta"), bytes);
 		}
 	}
 
@@ -341,13 +341,173 @@ public final class EraTexturePack {
 		}
 	}
 
+	/**
+	 * Writes {@code image} to every target. A target may end in |-separated adjustments applied to that copy only:
+	 * flipx, rot90, rot180, rot270 (clockwise), or untint:RRGGBB, which divides out a colour 26.3 multiplies the texture by
+	 * (old leather and water had their colour drawn in; 26.3 draws them grey and tints them).
+	 */
 	private int writeAll(BufferedImage image, JsonArray targets) throws IOException {
 		for (JsonElement target : targets) {
-			Path out = packDir.resolve("assets/minecraft/textures/" + target.getAsString() + ".png");
+			String[] parts = target.getAsString().split("\\|");
+			BufferedImage adjusted = image;
+			for (int i = 1; i < parts.length; i++) {
+				adjusted = adjust(adjusted, parts[i]);
+			}
+			Path out = packDir.resolve("assets/minecraft/textures/" + parts[0] + ".png");
 			Files.createDirectories(out.getParent());
-			ImageIO.write(image, "png", out.toFile());
+			ImageIO.write(adjusted, "png", out.toFile());
 		}
 		return targets.size();
+	}
+
+	/** A target's texture path, without its adjustments. */
+	private static String path(String target) {
+		int bar = target.indexOf('|');
+		return bar < 0 ? target : target.substring(0, bar);
+	}
+
+	private static BufferedImage adjust(BufferedImage image, String adjustment) {
+		if (adjustment.startsWith("untint:")) {
+			int tint = Integer.parseInt(adjustment.substring("untint:".length()), 16);
+			BufferedImage out = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			for (int x = 0; x < image.getWidth(); x++) {
+				for (int y = 0; y < image.getHeight(); y++) {
+					int argb = image.getRGB(x, y);
+					out.setRGB(x, y, argb & 0xFF000000 | untint(argb >> 16, tint >> 16) << 16 | untint(argb >> 8, tint >> 8) << 8 | untint(argb, tint));
+				}
+			}
+			return out;
+		}
+		int w = image.getWidth();
+		int h = image.getHeight();
+		int turns = switch (adjustment) {
+			case "rot90" -> 1;
+			case "rot180" -> 2;
+			case "rot270" -> 3;
+			case "flipx" -> 0;
+			default -> throw new IllegalArgumentException("Unknown texture adjustment " + adjustment);
+		};
+		BufferedImage out = new BufferedImage(turns % 2 == 1 ? h : w, turns % 2 == 1 ? w : h, BufferedImage.TYPE_INT_ARGB);
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y++) {
+				int argb = image.getRGB(x, y);
+				switch (turns) {
+					case 1 -> out.setRGB(h - 1 - y, x, argb);
+					case 2 -> out.setRGB(w - 1 - x, h - 1 - y, argb);
+					case 3 -> out.setRGB(y, w - 1 - x, argb);
+					default -> out.setRGB(w - 1 - x, y, argb);
+				}
+			}
+		}
+		return out;
+	}
+
+	private static int untint(int channel, int tint) {
+		int c = channel & 255;
+		int t = Math.max(tint & 255, 1);
+		return Math.min(255, c * 255 / t);
+	}
+
+	/**
+	 * Builds textures whose 26.3 layout has no single old counterpart (chest models, the inventory screen) from parts of
+	 * old textures: each part copies a rectangle from an atlas tile or a file to a place in the new texture, optionally
+	 * scaled and shaded, or fills a rectangle with a colour.
+	 */
+	private int writeComposed(ZipFile zip) throws IOException {
+		int written = 0;
+		for (JsonElement element : array("compose")) {
+			JsonObject compose = element.getAsJsonObject();
+			BufferedImage out;
+			if (compose.has("base")) {
+				BufferedImage base = read(zip, compose.get("base").getAsString());
+				if (base == null) {
+					continue;
+				}
+				out = crop(base, 0, 0, base.getWidth(), base.getHeight());
+			} else {
+				JsonArray size = compose.getAsJsonArray("size");
+				out = new BufferedImage(size.get(0).getAsInt(), size.get(1).getAsInt(), BufferedImage.TYPE_INT_ARGB);
+			}
+			Graphics2D g = out.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+			boolean complete = true;
+			for (JsonElement partElement : compose.getAsJsonArray("parts")) {
+				JsonObject part = partElement.getAsJsonObject();
+				JsonArray dst = part.getAsJsonArray("dst");
+				int dx = dst.get(0).getAsInt();
+				int dy = dst.get(1).getAsInt();
+				if (part.has("fill")) {
+					g.setComposite(AlphaComposite.Src);
+					g.setColor(new java.awt.Color((int) Long.parseLong(part.get("fill").getAsString(), 16), true));
+					g.fillRect(dx, dy, dst.get(2).getAsInt(), dst.get(3).getAsInt());
+					g.setComposite(AlphaComposite.SrcOver);
+					continue;
+				}
+				BufferedImage source = read(zip, part.has("file") ? part.get("file").getAsString() : "terrain.png");
+				if (source == null) {
+					complete = false;
+					break;
+				}
+				JsonArray src = part.getAsJsonArray("src");
+				int sx = src.get(0).getAsInt();
+				int sy = src.get(1).getAsInt();
+				if (part.has("tile")) {
+					int tile = source.getWidth() / 16;
+					int index = part.get("tile").getAsInt();
+					sx += (index % 16) * tile;
+					sy += (index / 16) * tile;
+				}
+				BufferedImage piece = crop(source, sx, sy, src.get(2).getAsInt(), src.get(3).getAsInt());
+				if (part.has("shade")) {
+					piece = shade(piece, part.get("shade").getAsFloat());
+				}
+				int dw = dst.size() > 2 ? dst.get(2).getAsInt() : piece.getWidth();
+				int dh = dst.size() > 3 ? dst.get(3).getAsInt() : piece.getHeight();
+				g.setComposite(AlphaComposite.Src);
+				g.drawImage(piece, dx, dy, dx + dw, dy + dh, 0, 0, piece.getWidth(), piece.getHeight(), null);
+				g.setComposite(AlphaComposite.SrcOver);
+			}
+			g.dispose();
+			if (complete) {
+				written += writeAll(out, compose.getAsJsonArray("to"));
+			}
+		}
+		return written;
+	}
+
+	private static BufferedImage shade(BufferedImage image, float factor) {
+		BufferedImage out = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		for (int x = 0; x < image.getWidth(); x++) {
+			for (int y = 0; y < image.getHeight(); y++) {
+				int argb = image.getRGB(x, y);
+				int r = (int) ((argb >> 16 & 255) * factor);
+				int gr = (int) ((argb >> 8 & 255) * factor);
+				int b = (int) ((argb & 255) * factor);
+				out.setRGB(x, y, argb & 0xFF000000 | Math.min(r, 255) << 16 | Math.min(gr, 255) << 8 | Math.min(b, 255));
+			}
+		}
+		return out;
+	}
+
+	/** Writes the animations old versions drew with code (water, lava, fire, the portal), see LegacyTextureEffects. */
+	private int writeEffects() throws IOException {
+		int written = 0;
+		for (JsonElement element : array("effects")) {
+			JsonObject effect = element.getAsJsonObject();
+			BufferedImage strip = LegacyTextureEffects.strip(effect.get("effect").getAsString(), effect.get("frames").getAsInt(),
+					effect.has("seed") ? effect.get("seed").getAsLong() : 0L);
+			int scale = effect.has("scale") ? effect.get("scale").getAsInt() : 1;
+			if (scale != 1) {
+				strip = scale(strip, scale);
+			}
+			JsonArray targets = effect.getAsJsonArray("to");
+			written += writeAll(strip, targets);
+			for (JsonElement target : targets) {
+				Files.writeString(packDir.resolve("assets/minecraft/textures/" + path(target.getAsString()) + ".png.mcmeta"),
+						"{\"animation\": {\"frametime\": 1}}\n");
+			}
+		}
+		return written;
 	}
 
 	private static BufferedImage crop(BufferedImage image, int x, int y, int w, int h) {

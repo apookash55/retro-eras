@@ -213,5 +213,13 @@
     { "from": "gui/icons.png", "x": 34, "y": 9, "w": 9, "h": 9, "to": ["gui/sprites/hud/armor_full"] },
     { "from": "gui/icons.png", "x": 16, "y": 18, "w": 9, "h": 9, "to": ["gui/sprites/hud/air"] },
     { "from": "gui/icons.png", "x": 25, "y": 18, "w": 9, "h": 9, "to": ["gui/sprites/hud/air_bursting"] }
+  ],
+  "effects": [
+    { "effect": "water_still", "frames": 64, "to": ["block/water_still|untint:3F76E4"] },
+    { "effect": "water_flow", "frames": 64, "scale": 2, "to": ["block/water_flow|untint:3F76E4"] },
+    { "effect": "lava_still", "frames": 64, "to": ["block/lava_still"] },
+    { "effect": "lava_flow", "frames": 48, "scale": 2, "to": ["block/lava_flow"] },
+    { "effect": "fire", "frames": 64, "seed": 0, "to": ["block/fire_0"] },
+    { "effect": "fire", "frames": 64, "seed": 1, "to": ["block/fire_1"] }
   ]
 }

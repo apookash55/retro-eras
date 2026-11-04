@@ -51,7 +51,7 @@ public class EraScreenshotClientTest implements FabricClientGameTest {
 
 	/** Stands on dry land near {@code spot} in {@code dimension}, waits for chunks and textures, and takes two shots. */
 	private static void shoot(ClientGameTestContext context, TestSingleplayerContext world, String dimension, String name, int[] spot) {
-		world.getServer().runCommand("execute in " + dimension + " run tp @a " + spot[0] + " 200 " + spot[1] + " 135 0");
+		world.getServer().runCommand("execute in " + dimension + " run tp @a " + spot[0] + " 60 " + spot[1] + " 135 0");
 		context.waitFor(client -> inDimension(client, dimension) && client.gui.overlay() == null, 1200);
 		context.waitTicks(60);
 		// spreadplayers only lands on dry ground, so every shot starts on land rather than in an ocean or a cave.
