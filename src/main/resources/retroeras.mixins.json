@@ -4,6 +4,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"AbstractFurnaceBlockEntityMixin",
+		"AnimalMixin",
 		"BlockBehaviourMixin",
 		"CraftingMenuMixin",
 		"EnderEyeItemMixin",
@@ -14,7 +15,8 @@
 		"ItemEntityMixin",
 		"LivingEntityMixin",
 		"PlayerCombatMixin",
-		"SaplingBlockMixin"
+		"SaplingBlockMixin",
+		"VanillaPortalMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

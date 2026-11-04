@@ -7,6 +7,15 @@ import org.jspecify.annotations.Nullable;
 import dev.retroeras.Era;
 import dev.retroeras.RetroEras;
 import dev.retroeras.player.EraItems;
+import dev.retroeras.client.EraFog;
+import dev.retroeras.client.EraSettingsScreen;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.options.OptionsScreen;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.input.MouseButtonInfo;
 
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
@@ -25,6 +34,9 @@ import dev.retroeras.worldgen.release.structure.ReleaseStructures;
 import dev.retroeras.worldgen.release.structure.Village;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.entity.animal.cow.Cow;
+import net.minecraft.world.entity.animal.sheep.Sheep;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -71,6 +83,13 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkCaveGame(context, server);
 			checkStructures(context, server);
 			checkLayers(context, server);
+			checkVanillaPortals(context, server);
+			checkSettingsScreen(context);
+			checkSheep(context, server);
+			nightScreenshot(context, server, Era.BETA);
+			nightScreenshot(context, server, null);
+			checkBreeding(context, server, Era.BETA, false);
+			checkBreeding(context, server, Era.OLD_RELEASE, true);
 		}
 	}
 
@@ -246,6 +265,111 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		check(frames == 12, "The stronghold portal room should have 12 portal frames, found " + frames);
 	}
 
+	/** Nether and End portals inside an era lead nowhere, rather than out to the modern Nether and End. */
+	private static void checkVanillaPortals(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		BlockPos feet = server.computeOnServer(s -> {
+			ServerPlayer player = player(s);
+			BlockPos pos = player.blockPosition();
+			player.level().setBlock(pos, Blocks.END_PORTAL.defaultBlockState(), 2);
+			return pos;
+		});
+		context.waitTicks(20);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().dimension() == Era.OLD_RELEASE.getDimension(), "An End portal in Old Release should not lead out, player is in " + player.level().dimension());
+			player.level().setBlock(feet, Blocks.NETHER_PORTAL.defaultBlockState(), 2);
+			player.level().setBlock(feet.above(), Blocks.NETHER_PORTAL.defaultBlockState(), 2);
+		});
+		context.waitTicks(120);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().dimension() == Era.OLD_RELEASE.getDimension(), "A Nether portal in Old Release should not lead out, player is in " + player.level().dimension());
+			player.level().setBlock(feet, Blocks.AIR.defaultBlockState(), 2);
+			player.level().setBlock(feet.above(), Blocks.AIR.defaultBlockState(), 2);
+		});
+	}
+
+	/** Options has a "Retro Eras..." button opening the settings screen, and changing the fog there takes effect. */
+	private static void checkSettingsScreen(ClientGameTestContext context) {
+		EraFog.Distance before = EraFog.distance(Era.BETA);
+		context.setScreen(() -> new OptionsScreen(null, Minecraft.getInstance().options));
+		takeScreenshot(context, "options");
+		context.clickScreenButton("retroeras.settings.button");
+		context.waitForScreen(EraSettingsScreen.class);
+		takeScreenshot(context, "settings");
+		// The fog buttons sit inside the options list, where clickScreenButton does not look.
+		boolean pressed = context.computeOnClient(client -> pressCycleButton(client.gui.screen(), "Beta 1.7.3"));
+		check(pressed, "The settings screen should have a Beta 1.7.3 fog button");
+		check(EraFog.distance(Era.BETA) != before, "Clicking Beta's fog button should change its fog from " + before);
+		context.runOnClient(client -> EraFog.setDistance(Era.BETA, before));
+		context.setScreen(() -> null);
+	}
+
+	/** A torch-lit spot at midnight, to compare Beta's grey lightmap with 26.3's warm and blue one. */
+	private static void nightScreenshot(ClientGameTestContext context, TestServerContext server, @Nullable Era era) {
+		go(context, server, era);
+		server.runCommand("time set midnight");
+		server.runCommand("execute as @a at @s run setblock ^ ^ ^3 minecraft:torch");
+		server.runCommand("execute as @a at @s run setblock ^2 ^ ^5 minecraft:torch");
+		context.waitTicks(40);
+		takeScreenshot(context, (era == null ? "overworld" : era.getName()) + "_night");
+		server.runCommand("time set noon");
+	}
+
+	/** Presses the first cycle button under {@code parent} whose label starts with {@code name}. */
+	private static boolean pressCycleButton(GuiEventListener parent, String name) {
+		if (parent instanceof CycleButton<?> button && button.getMessage().getString().startsWith(name)) {
+			button.onPress(new MouseButtonInfo(0, 0));
+			return true;
+		}
+		if (parent instanceof ContainerEventHandler container) {
+			for (GuiEventListener child : container.children()) {
+				if (pressCycleButton(child, name)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/** Alpha's sheep are all white, and hitting one knocks one to three wool off it. */
+	private static void checkSheep(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.ALPHA);
+		server.runCommand("execute as @a at @s run summon minecraft:sheep ~2 ~ ~ {NoAI:1b,Color:14b,Tags:[\"retroeras_target\"]}");
+		context.waitTicks(5);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+			Sheep sheep = player.level().getEntitiesOfClass(Sheep.class, player.getBoundingBox().inflate(6)).getFirst();
+			check(sheep.getColor() == DyeColor.WHITE, "Alpha sheep should be white, this one is " + sheep.getColor());
+			player.attack(sheep);
+			check(sheep.isSheared(), "Hitting an Alpha sheep should knock its wool off");
+			int wool = player.level().getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(6)).stream()
+					.filter(item -> item.getItem().is(Items.WOOL.pick(DyeColor.WHITE))).mapToInt(item -> item.getItem().getCount()).sum();
+			check(wool >= 1 && wool <= 3, "Hitting an Alpha sheep should drop 1 to 3 white wool, dropped " + wool);
+		});
+		server.runCommand("kill @e[tag=retroeras_target]");
+		server.runCommand("kill @e[type=minecraft:item]");
+	}
+
+	/** Breeding came in Beta 1.8: a Beta cow ignores wheat, a 1.6.4 cow falls in love. */
+	private static void checkBreeding(ClientGameTestContext context, TestServerContext server, Era era, boolean breeds) {
+		go(context, server, era);
+		server.runCommand("execute as @a at @s run summon minecraft:cow ~2 ~ ~ {NoAI:1b,Tags:[\"retroeras_target\"]}");
+		context.waitTicks(5);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WHEAT, 4));
+			Cow cow = player.level().getEntitiesOfClass(Cow.class, player.getBoundingBox().inflate(6)).getFirst();
+			cow.mobInteract(player, InteractionHand.MAIN_HAND);
+			check(cow.isInLove() == breeds, "A " + era.getName() + " cow " + (breeds ? "should" : "should not") + " fall in love with wheat");
+			check(player.getMainHandItem().getCount() == (breeds ? 3 : 4), "Wheat used in " + era.getName() + ": " + (4 - player.getMainHandItem().getCount()));
+			player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+		});
+		server.runCommand("kill @e[tag=retroeras_target]");
+	}
+
 	private static void takeScreenshot(ClientGameTestContext context, String name) {
 		RetroEras.LOGGER.info("Saved screenshot {}", context.takeScreenshot(name).toAbsolutePath());
 	}
@@ -274,6 +398,8 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			float dealt = server.computeOnServer(s -> {
 				ServerPlayer player = player(s);
 				IronGolem golem = player.level().getEntitiesOfClass(IronGolem.class, player.getBoundingBox().inflate(6)).getFirst();
+				// Forget any suffocation or fall damage the golem took where it was summoned, so it cannot shorten this hit.
+				golem.setInvulnerableTime(0);
 				float before = golem.getHealth();
 				player.attack(golem);
 				return before - golem.getHealth();

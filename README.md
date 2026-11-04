@@ -56,12 +56,27 @@ The eras are stacked on top of each other, newest at the top: the overworld, the
 - **Sword blocking in Old Release.** Holding right-click with a sword raises it, as from Beta 1.8 to 1.8.9, and cuts damage that armour could stop to (1 + damage) / 2.
 - **Furnaces** in an era do not smelt anything into an item the era did not have.
 - **1.6.4 hunger.** Old Release has no fast healing from saturation (added in 1.11). You heal half a heart every 4 seconds while your hunger bar is at 18 or more, which costs 3 exhaustion as it did in 1.6.4.
+- **No breeding before Beta 1.8.** In Beta, Alpha and Infdev, holding wheat or seeds out to an animal does nothing. Wolves still take bones and heal from meat. Breeding works in Old Release.
+- **Punching sheep.** Shears came in Beta 1.7, so in Alpha and Infdev hitting a sheep knocks one to three wool off it. Dyes came in Beta 1.2, so every sheep there is white.
+- **Nether and End portals lead nowhere** inside an era, until the eras get their own Nether (see Future plans). Fire already cannot light a Nether portal in an era, and the End portal in a 1.6.4 stronghold does not take you out to the modern End.
 
 ## Fog
 
 The eras have the fog of the versions they come from (`EraFog`): it starts a quarter of the way out and closes in completely at the old render distance, Far (256 blocks), Normal (128), Short (64) or Tiny (32). The older the era, the closer the fog: 1.6.4 starts on Far, Beta on Normal, Infdev on Short and Alpha on Tiny. Cave game had almost no fog, so it starts on Far. Press **R** (the "Render Distance (in eras)" key, which you can rebind under Controls) to cycle it, as F did in Beta; Shift+R goes back. "Modern" turns the old fog off. Each era remembers its own setting in `config/retroeras.properties` (`fog.beta=normal`, and so on).
 
 Leaves in the eras are still, too: no falling leaves, dripping water or rustling, which old versions did not have.
+
+## Settings
+
+**Options > Retro Eras...** sets each era's fog and turns the version text on or off. Changes are saved straight away to `config/retroeras.properties`, which also takes `<era>.jar=<path>` by hand (see below).
+
+## Lighting
+
+Infdev, Alpha and Beta lit the world differently from 26.3 (`EraLightmap`). A block took the brighter of its sky light and its block light and shaded it in plain grey, rather than adding the two together with warm torchlight and blue nights. Daylight fell in whole steps from noon to night, a little more in rain and thunder, rather than fading smoothly. The era packs carry a replacement lightmap shader that does this, and smooth lighting is off there, as it was by default. 1.6.4 already had the coloured lightmap, so it keeps 26.3's. The Brightness option still works.
+
+## The Far Lands
+
+The terrain ports keep the original integer overflow, so about 12,550,821 blocks out from the centre the Beta, Alpha and Infdev worlds break into the Far Lands' walls of stone (`FarLandsTest` checks this). The 1.6.4 port wraps its noise coordinates, so its world carries on normally that far out.
 
 ## Old textures and sounds
 
@@ -81,10 +96,10 @@ If the sound files are missing (the launcher downloads them the first time you p
 - `src/main/java/dev/retroeras/Era.java`: the list of eras and their dimension keys.
 - `src/main/java/dev/retroeras/portal/`: era portals (frame detection, lighting, linking and travel).
 - `src/main/java/dev/retroeras/player/EraInventories.java`: the separate inventory, ender chest and XP for each era.
-- `src/main/java/dev/retroeras/player/EraRules.java`, `EraCombat.java` and `EraItems.java`: hunger, combat and the item lists.
+- `src/main/java/dev/retroeras/player/EraRules.java`, `EraCombat.java`, `EraItems.java` and `EraMobs.java`: hunger, combat, the item lists and mob rules.
 - `src/main/java/dev/retroeras/player/EraLayers.java`: the stack of eras you dig down and climb up through.
 - `src/client/java/dev/retroeras/client/texture/`: builds each era's texture pack from the old jar and switches it on and off.
-- `src/client/java/dev/retroeras/client/EraFog.java` and `EraHud.java`: the old fog and the version text in the corner.
+- `src/client/java/dev/retroeras/client/`: the old fog (`EraFog`), lighting (`EraLightmap`), version text (`EraHud`) and the settings screen (`EraSettingsScreen`, saved by `EraConfig`).
 - `src/main/java/dev/retroeras/worldgen/`: each era's terrain generator.
 - `src/main/java/dev/retroeras/entity/`: Cave game's zombies.
 - `src/main/resources/data/retroeras/`: each era's dimension, dimension type, biomes and features.
@@ -134,11 +149,11 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 ## Known gaps
 
-- Nether portals still work inside the eras and lead to the modern Nether.
 - Witches only spawn once per hut; 1.6.4 also kept spawning them inside it.
 - Villages trade as 26.3 villagers do, rather than with 1.6.4's trade lists.
 - Beta's trees, ores and plants come from feature lists, so they differ from Beta 1.7.3 in detail.
 - The mod is built and tested for single player only.
+- The settings screen is under Options, not Mod Menu, so the mod needs no extra dependency.
 
 ## Future plans
 
@@ -146,11 +161,8 @@ Roughly in the order they are planned, with a rough size for each:
 
 | Plan | Size | What it involves |
 | --- | --- | --- |
-| Block Nether portals in eras | Small | Nether portals do not light inside an era, until each era has its own Nether. |
-| Far Lands check | Small | Visit about 12.5 million blocks out in the Beta, Alpha and Infdev eras, and make sure the noise overflows as it did. |
-| Settings screen | Small | A Mod Menu screen for the fog and the jar paths, saved to `config/retroeras.properties`. |
-| Old lighting and sky | Small–Medium | The old brightness curve, stars, sunrise colours and cloud speed. |
-| Old mob behaviour | Medium, in stages | Punching sheep for wool, no breeding, and the old wandering AI. |
+| Old sky | Small | Beta's stars and cloud speed. Old lighting is done. |
+| Old mob AI | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
 | Classic (0.30) era | Medium–Large | A finite Classic world, with its textures and sounds. |
 | Old Nether | Large | Ports of the Alpha, Beta and 1.6.4 Nether generators, with 1.6.4's nether fortresses, and portals that lead to the era's own Nether. |
 | Indev era | Large | Indev's finite worlds, with the size and shape picked when the world is made. |

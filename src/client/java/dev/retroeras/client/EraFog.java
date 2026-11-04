@@ -1,10 +1,5 @@
 package dev.retroeras.client;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
@@ -17,7 +12,6 @@ import dev.retroeras.RetroEras;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import net.fabricmc.loader.api.FabricLoader;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
@@ -47,12 +41,12 @@ public final class EraFog {
 			return all[(ordinal() + (backwards ? all.length - 1 : 1)) % all.length];
 		}
 
-		String label() {
+		public String label() {
 			return name().charAt(0) + name().substring(1).toLowerCase(Locale.ROOT);
 		}
 	}
 
-	private static final String CONFIG = "retroeras.properties";
+
 	private static final Map<Era, Distance> DISTANCES = new EnumMap<>(Era.class);
 	private static final KeyMapping CYCLE = new KeyMapping("key.retroeras.render_distance", InputConstants.KEY_R,
 			KeyMapping.Category.register(RetroEras.id("retroeras")));
@@ -120,25 +114,14 @@ public final class EraFog {
 		fog.cloudEnd = Math.min(fog.cloudEnd, end);
 	}
 
-	private static Path configFile() {
-		return FabricLoader.getInstance().getConfigDir().resolve(CONFIG);
-	}
-
-	private static Properties readProperties() {
-		Properties properties = new Properties();
-		Path file = configFile();
-		if (Files.isRegularFile(file)) {
-			try (Reader reader = Files.newBufferedReader(file)) {
-				properties.load(reader);
-			} catch (IOException e) {
-				RetroEras.LOGGER.warn("Could not read config/{}", CONFIG, e);
-			}
-		}
-		return properties;
+	/** Sets the era's fog and saves it, as the settings screen does. */
+	public static void setDistance(Era era, Distance distance) {
+		DISTANCES.put(era, distance);
+		save();
 	}
 
 	private static void load() {
-		Properties properties = readProperties();
+		Properties properties = EraConfig.read();
 		for (Era era : Era.values()) {
 			String value = properties.getProperty("fog." + era.getName());
 			if (value == null) {
@@ -147,23 +130,16 @@ public final class EraFog {
 			try {
 				DISTANCES.put(era, Distance.valueOf(value.trim().toUpperCase(Locale.ROOT)));
 			} catch (IllegalArgumentException e) {
-				RetroEras.LOGGER.warn("Unknown fog.{} value '{}' in config/{}; use far, normal, short, tiny or modern", era.getName(), value, CONFIG);
+				RetroEras.LOGGER.warn("Unknown fog.{} value '{}' in config/{}; use far, normal, short, tiny or modern", era.getName(), value, EraConfig.FILE);
 			}
 		}
 	}
 
 	private static void save() {
-		Properties properties = readProperties();
-		for (Map.Entry<Era, Distance> entry : DISTANCES.entrySet()) {
-			properties.setProperty("fog." + entry.getKey().getName(), entry.getValue().name().toLowerCase(Locale.ROOT));
-		}
-		try {
-			Files.createDirectories(configFile().getParent());
-			try (Writer writer = Files.newBufferedWriter(configFile())) {
-				properties.store(writer, "Retro Eras. fog.<era> is far, normal, short, tiny or modern; <era>.jar points at an old client jar.");
+		EraConfig.update(properties -> {
+			for (Map.Entry<Era, Distance> entry : DISTANCES.entrySet()) {
+				properties.setProperty("fog." + entry.getKey().getName(), entry.getValue().name().toLowerCase(Locale.ROOT));
 			}
-		} catch (IOException e) {
-			RetroEras.LOGGER.warn("Could not save config/{}", CONFIG, e);
-		}
+		});
 	}
 }

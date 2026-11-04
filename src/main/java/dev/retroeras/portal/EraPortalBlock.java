@@ -11,7 +11,6 @@ import dev.retroeras.block.ModBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -212,7 +211,7 @@ public class EraPortalBlock extends Block implements Portal {
 				z = pos.getZ() + 0.5 + 0.25 * flip;
 				za = random.nextFloat() * 2.0F * flip;
 			}
-			level.addParticle(ParticleTypes.PORTAL, x, y, z, xa, ya, za);
+			level.addParticle(ModBlocks.portalParticle(era), x, y, z, xa, ya, za);
 		}
 	}
 

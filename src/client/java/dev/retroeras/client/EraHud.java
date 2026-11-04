@@ -18,10 +18,23 @@ import net.minecraft.resources.Identifier;
  * 1.8, and the hearts, armor and air bars in eras without survival. Shows the version name where old versions did.
  */
 public final class EraHud {
+	/** Whether the version name is shown, saved as hud.version in config/retroeras.properties. */
+	private static boolean showVersion = true;
+
 	private EraHud() {
 	}
 
+	public static boolean showsVersion() {
+		return showVersion;
+	}
+
+	public static void setShowVersion(boolean show) {
+		showVersion = show;
+		EraConfig.update(properties -> properties.setProperty("hud.version", Boolean.toString(show)));
+	}
+
 	public static void init() {
+		showVersion = !"false".equalsIgnoreCase(EraConfig.read().getProperty("hud.version", "true").trim());
 		hideWhen(VanillaHudElements.FOOD_BAR, era -> !era.hasHunger());
 		hideWhen(VanillaHudElements.EXPERIENCE_LEVEL, era -> !era.hasHunger());
 		hideWhen(VanillaHudElements.INFO_BAR, era -> !era.hasHunger());
@@ -31,7 +44,7 @@ public final class EraHud {
 		HudElementRegistry.addLast(RetroEras.id("version"), (graphics, delta) -> {
 			Minecraft client = Minecraft.getInstance();
 			Era era = currentEra();
-			String text = era == null ? null : versionText(era);
+			String text = era == null || !showVersion ? null : versionText(era);
 			if (text != null && !client.getDebugOverlay().showDebugScreen()) {
 				graphics.text(client.font, text, 2, 2, 0xFFFFFFFF, true);
 			}

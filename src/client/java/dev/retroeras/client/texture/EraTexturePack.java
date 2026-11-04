@@ -32,6 +32,7 @@ import com.google.gson.JsonParser;
 
 import dev.retroeras.Era;
 import dev.retroeras.RetroEras;
+import dev.retroeras.client.EraLightmap;
 
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -82,11 +83,31 @@ public final class EraTexturePack {
 		EraTexturePack pack = new EraTexturePack(era, mapping, readMapping("era_sounds", era), FabricLoader.getInstance().getGameDir().resolve("resourcepacks").resolve("retroeras_" + era.getName()));
 		try {
 			pack.generateIfStale(jar);
+			pack.writeShaders();
 		} catch (IOException e) {
 			RetroEras.LOGGER.error("Could not build the {} texture pack from {}", era.getName(), jar, e);
 			return Optional.empty();
 		}
 		return Optional.of(pack);
+	}
+
+	/**
+	 * Copies the era's replacement core shaders into the pack: the grey, max-of-sky-and-block lightmap of the eras before
+	 * Beta 1.8. Written on every start rather than only when the pack is rebuilt, so shader changes in the mod apply.
+	 */
+	private void writeShaders() throws IOException {
+		Path target = packDir.resolve("assets/minecraft/shaders/core/lightmap.fsh");
+		if (!EraLightmap.usesOldLightmap(era)) {
+			Files.deleteIfExists(target);
+			return;
+		}
+		try (InputStream in = EraTexturePack.class.getResourceAsStream("/assets/" + RetroEras.MOD_ID + "/era_shaders/lightmap.fsh")) {
+			if (in == null) {
+				throw new IOException("The mod's era_shaders/lightmap.fsh is missing");
+			}
+			Files.createDirectories(target.getParent());
+			Files.copy(in, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+		}
 	}
 
 	private static @Nullable JsonObject readMapping(String folder, Era era) {

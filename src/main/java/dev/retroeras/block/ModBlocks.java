@@ -8,7 +8,10 @@ import dev.retroeras.Era;
 import dev.retroeras.RetroEras;
 import dev.retroeras.portal.EraPortalBlock;
 
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -22,6 +25,7 @@ import net.minecraft.world.level.material.PushReaction;
 public final class ModBlocks {
 	private static final Map<Era, EraPortalBlock> PORTALS = new EnumMap<>(Era.class);
 	private static final Map<Era, ResourceKey<PoiType>> PORTAL_POIS = new EnumMap<>(Era.class);
+	private static final Map<Era, SimpleParticleType> PORTAL_PARTICLES = new EnumMap<>(Era.class);
 
 	private ModBlocks() {
 	}
@@ -44,11 +48,18 @@ public final class ModBlocks {
 			ResourceKey<PoiType> poi = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, RetroEras.id(name));
 			PoiTypes.register(BuiltInRegistries.POINT_OF_INTEREST_TYPE, poi, Set.copyOf(portal.getStateDefinition().getPossibleStates()), 0, 1);
 			PORTAL_POIS.put(era, poi);
+
+			// Each portal gives off particles in its own colour rather than the nether portal's purple.
+			PORTAL_PARTICLES.put(era, Registry.register(BuiltInRegistries.PARTICLE_TYPE, RetroEras.id(name), FabricParticleTypes.simple()));
 		}
 	}
 
 	public static EraPortalBlock portal(Era era) {
 		return PORTALS.get(era);
+	}
+
+	public static SimpleParticleType portalParticle(Era era) {
+		return PORTAL_PARTICLES.get(era);
 	}
 
 	public static ResourceKey<PoiType> portalPoi(Era era) {

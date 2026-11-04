@@ -14,6 +14,7 @@ public class RetroErasClient implements ClientModInitializer {
 		EraHud.init();
 		EraLighting.init();
 		EraFog.init();
+		dev.retroeras.client.particle.EraPortalParticle.init();
 		EntityRendererRegistry.register(ModEntities.CAVE_ZOMBIE, CaveZombieRenderer::new);
 	}
 }
