@@ -1,17 +1,16 @@
 {
-  "_comment": "Maps textures in the player's own Cave game rd-161348 jar onto 26.3 texture paths (under assets/minecraft/textures/). Cave game's grass already has its colour drawn in, so the grass overlay is cleared and the biome tints grass white. Its water and lava tiles are left out: the world has neither, and modern water expects a grey texture to tint.",
+  "_comment": "Maps textures in the player's own Cave game rd-161348 jar onto 26.3 texture paths (under assets/minecraft/textures/). Cave game's grass already has its colour drawn in, so the grass overlay is cleared and the biome tints grass white. Its water and lava tiles are left out: the world has neither, and modern water expects a grey texture to tint. Rock uses the cobblestone tile, the classic look of the first Cave game build (rd-132211), rather than rd-161348's later smooth rock tile.",
   "jar": "rd-161348",
   "atlases": [
     {
       "file": "terrain.png",
       "tiles": {
         "0": ["block/grass_block_top"],
-        "1": ["block/stone"],
         "2": ["block/dirt"],
         "3": ["block/grass_block_side"],
         "4": ["block/oak_planks"],
         "15": ["block/oak_sapling"],
-        "16": ["block/cobblestone"],
+        "16": ["block/stone", "block/cobblestone"],
         "17": ["block/bedrock"]
       }
     }

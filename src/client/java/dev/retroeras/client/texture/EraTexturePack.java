@@ -23,6 +23,8 @@ import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
 
+import org.jspecify.annotations.Nullable;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -47,11 +49,13 @@ public final class EraTexturePack {
 
 	private final Era era;
 	private final JsonObject mapping;
+	private final @Nullable JsonObject sounds;
 	private final Path packDir;
 
-	private EraTexturePack(Era era, JsonObject mapping, Path packDir) {
+	private EraTexturePack(Era era, JsonObject mapping, @Nullable JsonObject sounds, Path packDir) {
 		this.era = era;
 		this.mapping = mapping;
+		this.sounds = sounds;
 		this.packDir = packDir;
 	}
 
@@ -62,7 +66,7 @@ public final class EraTexturePack {
 
 	/** Loads the mapping for {@code era} and makes sure its pack is generated. Empty if the era has no mapping or no jar. */
 	public static Optional<EraTexturePack> prepare(Era era) {
-		JsonObject mapping = readMapping(era);
+		JsonObject mapping = readMapping("era_textures", era);
 		if (mapping == null) {
 			return Optional.empty();
 		}
@@ -75,7 +79,7 @@ public final class EraTexturePack {
 			return Optional.empty();
 		}
 
-		EraTexturePack pack = new EraTexturePack(era, mapping, FabricLoader.getInstance().getGameDir().resolve("resourcepacks").resolve("retroeras_" + era.getName()));
+		EraTexturePack pack = new EraTexturePack(era, mapping, readMapping("era_sounds", era), FabricLoader.getInstance().getGameDir().resolve("resourcepacks").resolve("retroeras_" + era.getName()));
 		try {
 			pack.generateIfStale(jar);
 		} catch (IOException e) {
@@ -85,8 +89,8 @@ public final class EraTexturePack {
 		return Optional.of(pack);
 	}
 
-	private static JsonObject readMapping(Era era) {
-		String path = "/assets/" + RetroEras.MOD_ID + "/era_textures/" + era.getName() + ".json";
+	private static @Nullable JsonObject readMapping(String folder, Era era) {
+		String path = "/assets/" + RetroEras.MOD_ID + "/" + folder + "/" + era.getName() + ".json";
 		try (InputStream in = EraTexturePack.class.getResourceAsStream(path)) {
 			if (in == null) {
 				return null;
@@ -95,7 +99,7 @@ public final class EraTexturePack {
 				return JsonParser.parseReader(reader).getAsJsonObject();
 			}
 		} catch (IOException e) {
-			RetroEras.LOGGER.error("Could not read texture mapping {}", path, e);
+			RetroEras.LOGGER.error("Could not read mapping {}", path, e);
 			return null;
 		}
 	}
@@ -134,8 +138,9 @@ public final class EraTexturePack {
 	}
 
 	private void generateIfStale(Path jar) throws IOException {
+		Path assets = sounds == null ? null : EraSoundWriter.findAssets(sounds, List.of(FabricLoader.getInstance().getGameDir(), launcherDir()));
 		String source = jar.toAbsolutePath() + "|" + Files.size(jar) + "|" + Files.getLastModifiedTime(jar).toMillis() + "|" + mapping.hashCode()
-				+ "|" + SharedConstants.RESOURCE_PACK_FORMAT_MAJOR;
+				+ "|" + (sounds == null ? 0 : sounds.hashCode()) + "|" + assets + "|" + SharedConstants.RESOURCE_PACK_FORMAT_MAJOR;
 		Path marker = packDir.resolve(MARKER);
 		if (Files.isRegularFile(marker) && Files.readString(marker).equals(source)) {
 			return;
@@ -158,14 +163,21 @@ public final class EraTexturePack {
 		Files.writeString(packDir.resolve("pack.mcmeta"), """
 				{
 				  "pack": {
-				    "description": "Retro Eras: %s textures from your own %s jar. Switched on automatically in that era.",
+				    "description": "Retro Eras: %s textures and sounds from your own %s. Switched on automatically in that era.",
 				    "min_format": %d,
 				    "max_format": %d
 				  }
 				}
 				""".formatted(era.getName(), mapping.get("jar").getAsString(), format, format));
+		int soundFiles = 0;
+		if (sounds != null && assets != null) {
+			soundFiles = EraSoundWriter.write(sounds, assets, packDir);
+		} else if (sounds != null) {
+			RetroEras.LOGGER.warn("No '{}' sound assets found, so the {} era will use modern sounds. Play {} once in the launcher to download them",
+					sounds.get("index").getAsString(), era.getName(), mapping.get("jar").getAsString());
+		}
 		Files.writeString(marker, source);
-		RetroEras.LOGGER.info("Built {} era texture pack with {} textures from {}", era.getName(), written, jar);
+		RetroEras.LOGGER.info("Built {} era pack with {} textures and {} sounds from {}", era.getName(), written, soundFiles, jar);
 	}
 
 	private int writeAtlases(ZipFile zip) throws IOException {
