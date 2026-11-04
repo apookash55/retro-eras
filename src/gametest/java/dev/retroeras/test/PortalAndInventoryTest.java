@@ -29,12 +29,20 @@ public class PortalAndInventoryTest {
 
 	@GameTest
 	public void betaFrameLightsAndBreaks(GameTestHelper helper) {
-		Era era = Era.BETA;
+		frameLightsAndBreaks(helper, Era.BETA);
+	}
+
+	@GameTest
+	public void cavegameFrameLightsAndBreaks(GameTestHelper helper) {
+		frameLightsAndBreaks(helper, Era.CAVEGAME);
+	}
+
+	private static void frameLightsAndBreaks(GameTestHelper helper, Era era) {
 		Block portal = ModBlocks.portal(era);
 		buildFrame(helper, era.getFrame());
 
 		var shape = EraPortalShape.findEmpty(helper.getLevel(), helper.absolutePos(new BlockPos(2, 2, 3)), era.getFrame(), portal, Direction.Axis.X);
-		helper.assertTrue(shape.isPresent(), "A complete mossy cobblestone frame should be lightable");
+		helper.assertTrue(shape.isPresent(), "A complete " + era.getName() + " frame should be lightable");
 		shape.get().createPortalBlocks(helper.getLevel());
 		for (int x = 2; x <= 3; x++) {
 			for (int y = 2; y <= 4; y++) {
@@ -59,6 +67,15 @@ public class PortalAndInventoryTest {
 		var shape = EraPortalShape.findEmpty(helper.getLevel(), helper.absolutePos(new BlockPos(2, 2, 3)),
 				Era.BETA.getFrame(), ModBlocks.portal(Era.BETA), Direction.Axis.X);
 		helper.assertTrue(shape.isEmpty(), "An obsidian frame must not light a Beta portal");
+		helper.succeed();
+	}
+
+	@GameTest
+	public void eraFramesOnlyLightTheirOwnPortal(GameTestHelper helper) {
+		buildFrame(helper, Era.BETA.getFrame());
+		var shape = EraPortalShape.findEmpty(helper.getLevel(), helper.absolutePos(new BlockPos(2, 2, 3)),
+				Era.CAVEGAME.getFrame(), ModBlocks.portal(Era.CAVEGAME), Direction.Axis.X);
+		helper.assertTrue(shape.isEmpty(), "A Beta frame must not light a Cave game portal");
 		helper.succeed();
 	}
 

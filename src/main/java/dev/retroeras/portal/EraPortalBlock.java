@@ -104,6 +104,10 @@ public class EraPortalBlock extends Block implements Portal {
 		}
 
 		BlockPos approximateExit = newLevel.getWorldBorder().clampToBounds(entity.getX(), entity.getY(), entity.getZ());
+		if (!leavingEra) {
+			// Finite eras only exist near the origin; arrive inside them rather than above the void.
+			approximateExit = era.clampToWorld(approximateExit);
+		}
 		Direction.Axis entryAxis = currentLevel.getBlockState(portalEntryPos).getOptionalValue(AXIS).orElse(Direction.Axis.X);
 
 		BlockPos exitPos = findExitPortal(newLevel, approximateExit).orElse(null);

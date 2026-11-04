@@ -20,6 +20,8 @@ import net.minecraft.world.level.Level;
 public class EraScreenshotClientTest implements FabricClientGameTest {
 	/** Spot centres far enough apart to land in different biomes. */
 	private static final int[][] SPOTS = {{40, 40}, {1500, -800}, {-2200, 1300}};
+	/** Spots for finite eras, which only exist between 0 and their world size. */
+	private static final int[][] FINITE_SPOTS = {{64, 64}, {128, 128}, {192, 192}};
 
 	@Override
 	public void runTest(ClientGameTestContext context) {
@@ -37,8 +39,9 @@ public class EraScreenshotClientTest implements FabricClientGameTest {
 			shoot(context, world, overworld, "overworld", SPOTS[0]);
 			for (Era era : Era.values()) {
 				String dimension = era.getDimension().identifier().toString();
-				for (int i = 0; i < SPOTS.length; i++) {
-					shoot(context, world, dimension, era.getName() + "_" + i, SPOTS[i]);
+				int[][] spots = era.getWorldSize() > 0 ? FINITE_SPOTS : SPOTS;
+				for (int i = 0; i < spots.length; i++) {
+					shoot(context, world, dimension, era.getName() + "_" + i, spots[i]);
 				}
 				thirdPerson(context, era.getName());
 			}
@@ -52,7 +55,7 @@ public class EraScreenshotClientTest implements FabricClientGameTest {
 		context.waitFor(client -> inDimension(client, dimension) && client.gui.overlay() == null, 1200);
 		context.waitTicks(60);
 		// spreadplayers only lands on dry ground, so every shot starts on land rather than in an ocean or a cave.
-		world.getServer().runCommand("execute in " + dimension + " run spreadplayers " + spot[0] + " " + spot[1] + " 0 300 false @a");
+		world.getServer().runCommand("execute in " + dimension + " run spreadplayers " + spot[0] + " " + spot[1] + " 0 40 false @a");
 		context.waitTicks(20);
 		world.getServer().runCommand("execute in " + dimension + " as @a at @s run tp @s ~ ~ ~ 135 0");
 		context.waitTicks(120);

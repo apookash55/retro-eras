@@ -145,7 +145,7 @@ public final class EraTexturePack {
 		Files.createDirectories(packDir);
 		int written;
 		try (ZipFile zip = new ZipFile(jar.toFile())) {
-			written = writeAtlases(zip) + writeFiles(zip) + writeRegions(zip);
+			written = writeAtlases(zip) + writeFiles(zip) + writeRegions(zip) + writeCleared();
 			ZipEntry icon = zip.getEntry("pack.png");
 			if (icon != null) {
 				try (InputStream in = zip.getInputStream(icon)) {
@@ -291,6 +291,11 @@ public final class EraTexturePack {
 			written += writeAll(sub, region.getAsJsonArray("to"));
 		}
 		return written;
+	}
+
+	/** Writes fully transparent textures, for modern layers the era's textures already include (e.g. a grass overlay). */
+	private int writeCleared() throws IOException {
+		return writeAll(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), array("clear"));
 	}
 
 	private JsonArray array(String key) {

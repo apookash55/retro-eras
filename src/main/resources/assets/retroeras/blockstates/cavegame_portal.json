@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "axis=x": { "model": "retroeras:block/cavegame_portal_ns" },
+    "axis=z": { "model": "retroeras:block/cavegame_portal_ew" }
+  }
+}

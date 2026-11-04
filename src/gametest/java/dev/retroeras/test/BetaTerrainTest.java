@@ -1,14 +1,8 @@
 package dev.retroeras.test;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.mojang.serialization.JsonOps;
 
 import dev.retroeras.Era;
 import dev.retroeras.RetroEras;
@@ -18,23 +12,16 @@ import dev.retroeras.worldgen.beta.BetaTerrain;
 
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.dimension.LevelStem;
 
-/**
- * The game-test server builds its own fixed set of levels and ignores datapack dimensions, so instead of visiting the
- * Beta level this decodes its dimension file and runs the Beta generator directly over a large area.
- */
+/** Runs the Beta 1.7.3 generator over a large area and checks the result looks like Beta. */
 public class BetaTerrainTest {
 	private static final long SEED = 404L;
 
 	@GameTest(maxTicks = 2400)
 	public void betaTerrainGenerates(GameTestHelper helper) {
-		RegistryAccess registries = helper.getLevel().registryAccess();
-		LevelStem stem = loadStem(helper, registries);
+		LevelStem stem = TestDimensions.load(helper, Era.BETA);
 		helper.assertTrue(stem.type().value().minY() == 0 && stem.type().value().height() == 128, "Beta dimension should span y=0..127");
 		helper.assertTrue(stem.generator() instanceof BetaChunkGenerator, "Beta should use the Beta 1.7.3 generator, not " + stem.generator());
 		BetaTerrain terrain = ((BetaChunkGenerator) stem.generator()).terrain(SEED);
@@ -102,17 +89,5 @@ public class BetaTerrainTest {
 			}
 		}
 		return 0;
-	}
-
-	/** Decodes data/retroeras/dimension/beta.json with the same codec the game uses when it loads the world. */
-	private static LevelStem loadStem(GameTestHelper helper, RegistryAccess registries) {
-		Identifier file = Era.BETA.getDimension().identifier().withPath(path -> "dimension/" + path + ".json");
-		try (Reader reader = helper.getLevel().getServer().getResourceManager().openAsReader(file)) {
-			JsonElement json = JsonParser.parseReader(reader);
-			return LevelStem.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registries), json)
-					.getOrThrow(error -> helper.assertionException("Invalid " + file + ": " + error));
-		} catch (IOException e) {
-			throw helper.assertionException("Could not read " + file + ": " + e);
-		}
 	}
 }
