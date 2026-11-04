@@ -1,0 +1,123 @@
+{
+  "attributes": {
+    "minecraft:gameplay/natural_mob_spawns": {
+      "modifier": "overlay",
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "creature": [
+            {
+              "type": "minecraft:sheep",
+              "weight": 12,
+              "count": 4
+            },
+            {
+              "type": "minecraft:pig",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:chicken",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:cow",
+              "weight": 8,
+              "count": 4
+            }
+          ],
+          "monster": [
+            {
+              "type": "minecraft:spider",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:zombie",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:skeleton",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:creeper",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:slime",
+              "weight": 10,
+              "count": 4
+            }
+          ],
+          "water_creature": [
+            {
+              "type": "minecraft:squid",
+              "weight": 10,
+              "count": 4
+            }
+          ]
+        }
+      }
+    },
+    "minecraft:visual/sky_color": "#77a9ff"
+  },
+  "carvers": [
+    "minecraft:cave"
+  ],
+  "downfall": 0.7,
+  "effects": {
+    "water_color": "#3f76e4",
+    "grass_color": "#6bc63e",
+    "foliage_color": "#46b70d"
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_underground",
+      "minecraft:lake_lava_surface"
+    ],
+    [],
+    [
+      "minecraft:monster_room"
+    ],
+    [],
+    [],
+    [
+      "retroeras:beta/ore_dirt",
+      "retroeras:beta/ore_gravel",
+      "retroeras:beta/ore_coal",
+      "retroeras:beta/ore_iron",
+      "retroeras:beta/ore_gold",
+      "retroeras:beta/ore_redstone",
+      "retroeras:beta/ore_diamond",
+      "retroeras:beta/ore_lapis",
+      "minecraft:disk_sand",
+      "minecraft:disk_clay",
+      "minecraft:disk_gravel"
+    ],
+    [],
+    [
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
+    ],
+    [
+      "retroeras:beta/trees_seasonal",
+      "minecraft:flower_default",
+      "minecraft:patch_grass_forest",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
+      "minecraft:patch_sugar_cane",
+      "minecraft:patch_pumpkin"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
+  "has_precipitation": true,
+  "temperature": 0.9
+}

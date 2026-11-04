@@ -1,0 +1,21 @@
+{
+  "type": "retroeras:beta",
+  "generator": {
+    "type": "retroeras:beta",
+    "biome_source": {
+      "type": "retroeras:beta",
+      "biomes": {
+        "tundra": "retroeras:beta/tundra",
+        "taiga": "retroeras:beta/taiga",
+        "swampland": "retroeras:beta/swampland",
+        "forest": "retroeras:beta/forest",
+        "shrubland": "retroeras:beta/shrubland",
+        "savanna": "retroeras:beta/savanna",
+        "plains": "retroeras:beta/plains",
+        "seasonal_forest": "retroeras:beta/seasonal_forest",
+        "rainforest": "retroeras:beta/rainforest",
+        "desert": "retroeras:beta/desert"
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "feature": "retroeras:beta/cactus",
+  "placement": [
+    {
+      "chance": 6,
+      "type": "minecraft:rarity_filter"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "heightmap": "MOTION_BLOCKING",
+      "type": "minecraft:heightmap"
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "count": 10,
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:offset",
+      "z": {
+        "type": "minecraft:trapezoid",
+        "plateau": 0,
+        "min": -7,
+        "max": 7
+      },
+      "y": {
+        "type": "minecraft:trapezoid",
+        "plateau": 0,
+        "min": -3,
+        "max": 3
+      },
+      "x": {
+        "type": "minecraft:trapezoid",
+        "plateau": 0,
+        "min": -7,
+        "max": 7
+      }
+    },
+    {
+      "predicate": {
+        "predicates": [
+          {
+            "tag": "minecraft:air",
+            "type": "minecraft:matching_block_tag"
+          },
+          {
+            "type": "minecraft:would_survive",
+            "state": "minecraft:cactus"
+          }
+        ],
+        "type": "minecraft:all_of"
+      },
+      "type": "minecraft:block_predicate_filter"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "retroeras",
+	"version": "${version}",
+	"name": "Retro Eras",
+	"description": "Visit dimensions that recreate Minecraft's historical eras: Old Release, Beta/Alpha, Pre-Alpha and Cavegame.",
+	"authors": [
+		"Apoorv Kashyap"
+	],
+	"license": "CC0-1.0",
+	"icon": "assets/retroeras/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.retroeras.RetroEras"
+		],
+		"client": [
+			"dev.retroeras.client.RetroErasClient"
+		]
+	},
+	"mixins": [
+		"retroeras.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.20.1",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

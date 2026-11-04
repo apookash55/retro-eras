@@ -1,0 +1,19 @@
+{
+	"schemaVersion": 1,
+	"id": "retroeras-test",
+	"version": "${version}",
+	"name": "Retro Eras Game Tests",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-gametest": [
+			"dev.retroeras.test.BetaTerrainTest",
+			"dev.retroeras.test.PortalAndInventoryTest"
+		],
+		"fabric-client-gametest": [
+			"dev.retroeras.test.EraScreenshotClientTest"
+		]
+	},
+	"depends": {
+		"retroeras": "*"
+	}
+}
