@@ -8,7 +8,9 @@ import java.util.concurrent.CompletableFuture;
 import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -47,14 +49,20 @@ public final class BetaChunkGenerator extends ChunkGenerator {
 					? DataResult.success(beta)
 					: DataResult.error(() -> "The Beta chunk generator needs a retroeras:beta biome source"),
 			source -> source).fieldOf("biome_source");
-	public static final MapCodec<BetaChunkGenerator> CODEC = BETA_BIOME_SOURCE.xmap(BetaChunkGenerator::new, generator -> generator.betaBiomes);
+	/** {@code sandstone: false} is Alpha 1.2.6, whose generator was the same apart from Beta 1.2's sandstone under sand. */
+	public static final MapCodec<BetaChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+			BETA_BIOME_SOURCE.forGetter(generator -> generator.betaBiomes),
+			Codec.BOOL.optionalFieldOf("sandstone", true).forGetter(generator -> generator.sandstone)
+	).apply(instance, BetaChunkGenerator::new));
 
 	private final BetaBiomeSource betaBiomes;
+	private final boolean sandstone;
 	private volatile @Nullable BetaTerrain terrain;
 
-	public BetaChunkGenerator(BetaBiomeSource biomeSource) {
+	public BetaChunkGenerator(BetaBiomeSource biomeSource, boolean sandstone) {
 		super(biomeSource);
 		this.betaBiomes = biomeSource;
+		this.sandstone = sandstone;
 	}
 
 	/** Terrain for the world seed, created on first use. Also seeds the biome source. */
@@ -64,7 +72,7 @@ public final class BetaChunkGenerator extends ChunkGenerator {
 			synchronized (this) {
 				current = terrain;
 				if (current == null || current.seed() != seed) {
-					current = new BetaTerrain(seed);
+					current = new BetaTerrain(seed, sandstone);
 					terrain = current;
 				}
 			}

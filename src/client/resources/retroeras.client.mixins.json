@@ -3,6 +3,7 @@
 	"package": "dev.retroeras.client.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+		"FogRendererMixin",
 		"SoundEngineMixin"
 	],
 	"injectors": {

@@ -7,6 +7,7 @@
 	"entrypoints": {
 		"fabric-gametest": [
 			"dev.retroeras.test.BetaTerrainTest",
+			"dev.retroeras.test.AlphaTerrainTest",
 			"dev.retroeras.test.CavegameTerrainTest",
 			"dev.retroeras.test.InfdevTerrainTest",
 			"dev.retroeras.test.ReleaseTerrainTest",

@@ -13,6 +13,7 @@ public class RetroErasClient implements ClientModInitializer {
 		EraTextureSwitcher.init();
 		EraHud.init();
 		EraLighting.init();
+		EraFog.init();
 		EntityRendererRegistry.register(ModEntities.CAVE_ZOMBIE, CaveZombieRenderer::new);
 	}
 }

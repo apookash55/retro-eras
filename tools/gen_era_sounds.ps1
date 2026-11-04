@@ -194,7 +194,8 @@ function Build($name, $index, $prefix, [bool]$digSounds, $events, [string[]]$tra
   $problems | ForEach-Object { Write-Host "  $_" }
 }
 
-# Infdev only had the first three Minecraft tracks; Beta 1.7.3 and 1.6.4 had all of Volume Alpha's game music.
+# Infdev only had the first three Minecraft tracks; Alpha 1.2.6, Beta 1.7.3 and 1.6.4 had all of Volume Alpha's game music.
 Build 'beta' 'pre-1.6' 'newsound/' $false $preReleaseCommon $music $attackSounds
+Build 'alpha' 'pre-1.6' 'newsound/' $false $preReleaseCommon $music $attackSounds
 Build 'pre_alpha' 'pre-1.6' 'newsound/' $false $preReleaseCommon @($music | Select-Object -First 3) $attackSounds
 Build 'old_release' 'legacy' 'sound/' $true $releaseEvents $music $attackSounds

@@ -1,0 +1,114 @@
+{
+  "attributes": {
+    "minecraft:gameplay/natural_mob_spawns": {
+      "modifier": "overlay",
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "creature": [
+            {
+              "type": "minecraft:sheep",
+              "weight": 12,
+              "count": 4
+            },
+            {
+              "type": "minecraft:pig",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:chicken",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:cow",
+              "weight": 8,
+              "count": 4
+            }
+          ],
+          "monster": [
+            {
+              "type": "minecraft:spider",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:zombie",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:skeleton",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:creeper",
+              "weight": 10,
+              "count": 4
+            },
+            {
+              "type": "minecraft:slime",
+              "weight": 10,
+              "count": 4
+            }
+          ]
+        }
+      }
+    },
+    "minecraft:visual/sky_color": "#79a7ff"
+  },
+  "carvers": [
+    "minecraft:cave"
+  ],
+  "downfall": 0.1,
+  "effects": {
+    "water_color": "#3f76e4",
+    "grass_color": "#a6b866",
+    "foliage_color": "#8fa541"
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_underground",
+      "minecraft:lake_lava_surface"
+    ],
+    [],
+    [
+      "minecraft:monster_room"
+    ],
+    [],
+    [],
+    [
+      "retroeras:alpha/ore_dirt",
+      "retroeras:alpha/ore_gravel",
+      "retroeras:alpha/ore_coal",
+      "retroeras:alpha/ore_iron",
+      "retroeras:alpha/ore_gold",
+      "retroeras:alpha/ore_redstone",
+      "retroeras:alpha/ore_diamond",
+      "minecraft:disk_sand",
+      "minecraft:disk_clay",
+      "minecraft:disk_gravel"
+    ],
+    [],
+    [
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
+    ],
+    [
+      "retroeras:alpha/trees_sparse",
+      "minecraft:flower_default",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
+      "minecraft:patch_sugar_cane",
+      "minecraft:patch_pumpkin"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
+  "has_precipitation": true,
+  "temperature": 0.9
+}

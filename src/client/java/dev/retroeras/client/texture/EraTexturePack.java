@@ -343,7 +343,7 @@ public final class EraTexturePack {
 
 	/**
 	 * Writes {@code image} to every target. A target may end in |-separated adjustments applied to that copy only:
-	 * flipx, rot90, rot180, rot270 (clockwise), or untint:RRGGBB, which divides out a colour 26.3 multiplies the texture by
+	 * flipx, rot90, rot180, rot270 (clockwise), grey, or untint:RRGGBB, which divides out a colour 26.3 multiplies the texture by
 	 * (old leather and water had their colour drawn in; 26.3 draws them grey and tints them).
 	 */
 	private int writeAll(BufferedImage image, JsonArray targets) throws IOException {
@@ -374,6 +374,18 @@ public final class EraTexturePack {
 				for (int y = 0; y < image.getHeight(); y++) {
 					int argb = image.getRGB(x, y);
 					out.setRGB(x, y, argb & 0xFF000000 | untint(argb >> 16, tint >> 16) << 16 | untint(argb >> 8, tint >> 8) << 8 | untint(argb, tint));
+				}
+			}
+			return out;
+		}
+		if (adjustment.equals("grey")) {
+			// Brightest channel as grey, so a texture drawn in one colour can be tinted (Alpha's red redstone dust).
+			BufferedImage out = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			for (int x = 0; x < image.getWidth(); x++) {
+				for (int y = 0; y < image.getHeight(); y++) {
+					int argb = image.getRGB(x, y);
+					int v = Math.max(argb >> 16 & 255, Math.max(argb >> 8 & 255, argb & 255));
+					out.setRGB(x, y, argb & 0xFF000000 | v << 16 | v << 8 | v);
 				}
 			}
 			return out;

@@ -57,6 +57,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 
 			// Beta swords dealt 4 + 2 per tier, 1.6.4's 4 + 1, and axes 3 + tier everywhere; 26.3's stone axe deals 9.
 			checkHits(context, server, Era.BETA, Items.DIAMOND_SWORD, 10.0F);
+			checkHits(context, server, Era.ALPHA, Items.STONE_SWORD, 6.0F);
 			checkHits(context, server, Era.PRE_ALPHA, Items.IRON_SWORD, 8.0F);
 			checkHits(context, server, Era.OLD_RELEASE, Items.IRON_SWORD, 6.0F);
 			checkHits(context, server, Era.OLD_RELEASE, Items.STONE_AXE, 4.0F);
@@ -75,7 +76,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 
 	/**
 	 * The eras are stacked: only the very lowest bedrock can be mined, with a diamond pickaxe; falling out of the bottom of
-	 * Beta lands in Pre-Alpha's sky, and climbing out of the top of Pre-Alpha comes up just above Beta's bedrock.
+	 * Beta lands in Alpha's sky, and climbing out of the top of Alpha comes up just above Beta's bedrock.
 	 */
 	private static void checkLayers(ClientGameTestContext context, TestServerContext server) {
 		go(context, server, Era.BETA);
@@ -93,27 +94,27 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		});
 
 		server.runCommand("execute in " + Era.BETA.getDimension().identifier() + " run tp @a 40 -30 40");
-		String preAlpha = Era.PRE_ALPHA.getDimension().identifier().toString();
-		context.waitFor(client -> client.level != null && client.level.dimension().identifier().toString().equals(preAlpha), 200);
+		String alpha = Era.ALPHA.getDimension().identifier().toString();
+		context.waitFor(client -> client.level != null && client.level.dimension().identifier().toString().equals(alpha), 200);
 		server.runOnServer(s -> {
 			ServerPlayer player = player(s);
-			check(player.level().dimension() == Era.PRE_ALPHA.getDimension(), "Falling out of Beta should land in Pre-Alpha");
-			check(player.getY() > 64 && EraLayers.isFallingIn(player), "Should arrive in Pre-Alpha's sky with a soft landing, at y=" + player.getY());
+			check(player.level().dimension() == Era.ALPHA.getDimension(), "Falling out of Beta should land in Alpha");
+			check(player.getY() > 64 && EraLayers.isFallingIn(player), "Should arrive in Alpha's sky with a soft landing, at y=" + player.getY());
 		});
 		context.waitFor(client -> client.player != null && client.player.onGround(), 1200);
 		context.waitTicks(10);
 		server.runOnServer(s -> check(!EraLayers.isFallingIn(player(s)), "The soft landing should be used up once on the ground"));
 
-		server.runCommand("execute in " + preAlpha + " run tp @a 40 135 40");
+		server.runCommand("execute in " + alpha + " run tp @a 40 135 40");
 		String beta = Era.BETA.getDimension().identifier().toString();
 		context.waitFor(client -> client.level != null && client.level.dimension().identifier().toString().equals(beta), 200);
 		server.runOnServer(s -> {
 			ServerPlayer player = player(s);
-			check(player.level().dimension() == Era.BETA.getDimension(), "Climbing out of Pre-Alpha should come up in Beta");
+			check(player.level().dimension() == Era.BETA.getDimension(), "Climbing out of Alpha should come up in Beta");
 			BlockPos feet = player.blockPosition();
 			check(feet.getY() < 40, "Should come up near Beta's bedrock, at " + feet);
 			check(player.level().getBlockState(feet).isAir() && player.level().getBlockState(feet.above()).isAir(), "Should come up in an air pocket at " + feet);
-			RetroEras.LOGGER.info("Came up from Pre-Alpha into Beta at {}", feet);
+			RetroEras.LOGGER.info("Came up from Alpha into Beta at {}", feet);
 		});
 	}
 

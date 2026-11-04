@@ -18,6 +18,8 @@ public enum Era {
 	/** Old Release: Minecraft 1.6.4, the last version before 1.7's biome overhaul. Hunger, sprinting and XP are back. */
 	OLD_RELEASE("old_release", Blocks.STONE_BRICKS, 0, true, true),
 	BETA("beta", Blocks.MOSSY_COBBLESTONE, 0, true, false),
+	/** Alpha 1.2.6, the last Alpha: Beta's terrain without sandstone, and only oak trees. Pumpkins came with its Halloween Update. */
+	ALPHA("alpha", Blocks.PUMPKIN, 0, true, false),
 	/** Pre-Alpha: Infdev 20100618, the last Infdev build. Bricks recall Infdev's brick pyramids. */
 	PRE_ALPHA("pre_alpha", Blocks.BRICKS, 0, true, false),
 	/** Pre-classic "Cave game" (rd-161348): a finite 256x256 world where you build without health or survival. */

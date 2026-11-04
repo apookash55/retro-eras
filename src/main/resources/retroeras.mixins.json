@@ -10,6 +10,7 @@
 		"FoodDataMixin",
 		"FoodPropertiesMixin",
 		"ItemMixin",
+		"LeavesBlockMixin",
 		"ItemEntityMixin",
 		"LivingEntityMixin",
 		"PlayerCombatMixin",

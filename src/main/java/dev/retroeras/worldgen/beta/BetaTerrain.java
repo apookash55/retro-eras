@@ -35,9 +35,16 @@ public final class BetaTerrain {
 	private final BetaOctaveNoise depthNoise;
 	private final BetaClimate climate;
 	private final BetaCaves caves;
+	private final boolean sandstone;
 
 	public BetaTerrain(long seed) {
+		this(seed, true);
+	}
+
+	/** {@code sandstone} false generates Alpha 1.2.6's terrain, which had no sandstone under its sand. */
+	public BetaTerrain(long seed, boolean sandstone) {
 		this.seed = seed;
+		this.sandstone = sandstone;
 		// Same construction order as Beta, since every generator draws from the one Random.
 		Random random = new Random(seed);
 		minLimitNoise = new BetaOctaveNoise(random, 16);
@@ -282,7 +289,7 @@ public final class BetaTerrain {
 					if (remaining > 0) {
 						remaining--;
 						blocks[index] = filler;
-						if (remaining == 0 && filler == SAND) {
+						if (sandstone && remaining == 0 && filler == SAND) {
 							remaining = random.nextInt(4);
 							filler = SANDSTONE;
 						}

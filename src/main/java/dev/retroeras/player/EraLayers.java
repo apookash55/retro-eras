@@ -30,13 +30,13 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * Stacks the eras on top of each other, newest at the top: the overworld, then Old Release, Beta, Pre-Alpha and Cave
- * game at the bottom. Falling out of the bottom of one drops you into the sky of the next older one; climbing above the
+ * game at the bottom (Alpha sits between Beta and Pre-Alpha). Falling out of the bottom of one drops you into the sky of the next older one; climbing above the
  * top of an older one brings you up just over the bedrock of the next newer one. To fall through, the very lowest
  * bedrock layer can be mined, slowly, with a diamond pickaxe.
  */
 public final class EraLayers {
 	/** Newest first. */
-	private static final List<ResourceKey<Level>> STACK = List.of(Level.OVERWORLD, Era.OLD_RELEASE.getDimension(), Era.BETA.getDimension(),
+	private static final List<ResourceKey<Level>> STACK = List.of(Level.OVERWORLD, Era.OLD_RELEASE.getDimension(), Era.BETA.getDimension(), Era.ALPHA.getDimension(),
 			Era.PRE_ALPHA.getDimension(), Era.CAVEGAME.getDimension());
 	/** How far below the world a player falls before going down a layer. */
 	private static final int FALL_MARGIN = 16;
