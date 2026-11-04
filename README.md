@@ -10,11 +10,9 @@ A Fabric mod for Minecraft 26.3 that adds a dimension for each historical era of
 | Pre-Alpha (Infdev 20100618) | `retroeras:pre_alpha` | **playable** |
 | Cave game (rd-161348) | `retroeras:cavegame` | **playable** |
 
-## Playing the prototype
+All five eras can be played in single player. The latest release is **v0.1.0**, on the GitHub Releases page of `apookash55/retro-eras`.
 
-```
-./gradlew runClient
-```
+## Getting to an era
 
 Build a nether-portal-shaped frame out of **mossy cobblestone** (at least 4 wide and 5 tall) and light it with flint and steel. Walking through takes you to the Beta dimension, where a matching portal is built for the trip back. Each era keeps its own inventory, ender chest and XP: what you carry in the overworld stays there.
 
@@ -36,6 +34,8 @@ Retro Eras is a Fabric mod for Minecraft 26.3. It needs Fabric Loader 0.20.1 or 
 
 Ready-made jars are on the GitHub Releases page. To publish a new one, set `version` in `gradle.properties`, commit, and push a matching tag (`git tag v0.2.0` then `git push origin v0.2.0`): GitHub Actions builds the mod and attaches the jar to a new release, with the install steps from `.github/release-notes.md`.
 
+For development, `./gradlew runClient` starts the game with the mod from source.
+
 On this machine there is a **Retro Eras** profile in the Minecraft launcher with its own game folder, `.minecraft/profiles/retro-eras`, so its worlds and settings are kept apart from your normal ones. After changing the mod, `./gradlew installMod` copies the new jar into that profile (`-PmodsDir=<folder>` points it somewhere else).
 
 ## Digging down through the eras
@@ -48,8 +48,8 @@ The eras are stacked on top of each other, newest at the top: the overworld, the
 ## Gameplay in every era
 
 - **Combat is pre-1.9.** There is no attack cooldown, so every click is a full-strength hit and the attack indicator never shows. There are no sweep attacks and no offhand: anything put in the offhand goes back into your inventory. Critical hits arrived in Beta 1.8, so only Old Release has them.
-- **Weapons deal their era's damage.** In Beta and Infdev, swords dealt 4 + 2 per tier (wood and gold 4, stone 6, iron 8, diamond 10). In 1.6.4 they dealt 4 + 1 per tier (4, 5, 6, 7). Axes, pickaxes and shovels dealt 3, 2 and 1 plus their tier in all of them, and everything else 1. Strength and weakness still apply on top.
-- **Only the era's items.** Each era has a list of the items it had, in `src/main/resources/data/retroeras/era_items/`: about 120 for Infdev, 220 for Beta and 410 for 1.6.4 (including creative-only blocks and its spawn eggs). In an era:
+- **Weapons deal their era's damage.** In Alpha, Beta and Infdev, swords dealt 4 + 2 per tier (wood and gold 4, stone 6, iron 8, diamond 10). In 1.6.4 they dealt 4 + 1 per tier (4, 5, 6, 7). Axes, pickaxes and shovels dealt 3, 2 and 1 plus their tier in all of them, and everything else 1. Strength and weakness still apply on top.
+- **Only the era's items.** Each era has a list of the items it had, in `src/main/resources/data/retroeras/era_items/`: about 120 for Infdev, 155 for Alpha, 220 for Beta and 410 for 1.6.4 (including creative-only blocks and its spawn eggs). In an era:
   - Crafting gives nothing for a newer item, and newer items on the ground cannot be picked up.
   - Drops follow the era. Iron and gold ore drop themselves rather than raw ore, Beta and Infdev zombies drop feathers, and anything the era did not have (like raw beef in Beta) is not dropped. This applies to chest loot too.
   - Anything newer that still gets into your inventory, from a furnace, a command or the creative menu, is taken away with a message. Survival items are kept for you and come back the next time you are in the modern world; creative-menu items are just removed.
@@ -82,11 +82,14 @@ If the sound files are missing (the launcher downloads them the first time you p
 - `src/main/java/dev/retroeras/portal/`: era portals (frame detection, lighting, linking and travel).
 - `src/main/java/dev/retroeras/player/EraInventories.java`: the separate inventory, ender chest and XP for each era.
 - `src/main/java/dev/retroeras/player/EraRules.java`, `EraCombat.java` and `EraItems.java`: hunger, combat and the item lists.
+- `src/main/java/dev/retroeras/player/EraLayers.java`: the stack of eras you dig down and climb up through.
 - `src/client/java/dev/retroeras/client/texture/`: builds each era's texture pack from the old jar and switches it on and off.
+- `src/client/java/dev/retroeras/client/EraFog.java` and `EraHud.java`: the old fog and the version text in the corner.
 - `src/main/java/dev/retroeras/worldgen/`: each era's terrain generator.
 - `src/main/java/dev/retroeras/entity/`: Cave game's zombies.
 - `src/main/resources/data/retroeras/`: each era's dimension, dimension type, biomes and features.
-- `tools/`: scripts that generate the Beta and 1.6.4 biome files, the 1.6.4 texture mapping and the portal textures.
+- `tools/`: scripts that generate the Beta, Alpha and 1.6.4 biome files, the 1.6.4 and Alpha texture mappings, the sound mappings and the portal textures.
+- `.github/workflows/build.yml`: builds every push, and publishes a release for every `v*` tag.
 - `src/gametest/`: tests. `./gradlew runGameTest` runs the headless server tests. `./gradlew runClientGameTest` opens the game, visits each era and saves screenshots to `build/run/clientGameTest/screenshots/`.
 
 ## Old Release (1.6.4)
@@ -98,7 +101,7 @@ If the sound files are missing (the launcher downloads them the first time you p
 - Structures are a port of 1.6.4's own (`src/main/java/dev/retroeras/worldgen/release/structure/`): mineshafts, villages in plains and deserts, desert pyramids, jungle temples, witch huts and the three strongholds. They are laid out from the seed exactly as 1.6.4 laid them out, and built with its blocks, chest loot, villagers, witch and spawners while the chunks generate. Eyes of ender lead to these strongholds. 1.6.4 bugs are kept: strongholds never have right turns, and desert village wells stay cobblestone.
 - Villagers keep 1.6.4's five professions (farmer, librarian, priest, blacksmith and butcher, as farmer, librarian, cleric, armorer and butcher) but trade as 26.3 villagers do.
 
-## Beta prototype
+## Beta (1.7.3)
 
 - The world runs from y=0 to 127, with sea level at 64 and clouds at about y=108.
 - Terrain is a port of Beta 1.7.3's own generator (`src/main/java/dev/retroeras/worldgen/beta/`): its Perlin and simplex noise, density field, climate and biome lookup, sand and gravel beaches, and caves. A seed gives the same landscape it gave in Beta 1.7.3. Trees, ores and plants still come from the biomes' feature lists, so they differ from Beta in detail.
@@ -129,7 +132,27 @@ If the sound files are missing (the launcher downloads them the first time you p
 - Saplings never grow, and vanish if they are not in sunlight on dirt or grass, as rd-161348's did.
 - As in Cave game, there is no health, no hunger and nothing to survive. Only falling off the edge hurts. Blocks break instantly and drop nothing, and your hotbar always holds 64 each of the five blocks Cave game let you place (stone, dirt, cobblestone, planks and saplings). No other mobs spawn.
 
-## Next steps
+## Known gaps
 
+- Nether portals still work inside the eras and lead to the modern Nether.
 - Witches only spawn once per hut; 1.6.4 also kept spawning them inside it.
 - Villages trade as 26.3 villagers do, rather than with 1.6.4's trade lists.
+- Beta's trees, ores and plants come from feature lists, so they differ from Beta 1.7.3 in detail.
+- The mod is built and tested for single player only.
+
+## Future plans
+
+Roughly in the order they are planned, with a rough size for each:
+
+| Plan | Size | What it involves |
+| --- | --- | --- |
+| Block Nether portals in eras | Small | Nether portals do not light inside an era, until each era has its own Nether. |
+| Far Lands check | Small | Visit about 12.5 million blocks out in the Beta, Alpha and Infdev eras, and make sure the noise overflows as it did. |
+| Settings screen | Small | A Mod Menu screen for the fog and the jar paths, saved to `config/retroeras.properties`. |
+| Old lighting and sky | Small–Medium | The old brightness curve, stars, sunrise colours and cloud speed. |
+| Old mob behaviour | Medium, in stages | Punching sheep for wool, no breeding, and the old wandering AI. |
+| Classic (0.30) era | Medium–Large | A finite Classic world, with its textures and sounds. |
+| Old Nether | Large | Ports of the Alpha, Beta and 1.6.4 Nether generators, with 1.6.4's nether fortresses, and portals that lead to the era's own Nether. |
+| Indev era | Large | Indev's finite worlds, with the size and shape picked when the world is made. |
+
+Multiplayer is out of scope for now.
