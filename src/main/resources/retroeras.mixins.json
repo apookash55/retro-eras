@@ -3,11 +3,16 @@
 	"package": "dev.retroeras.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"AbstractFurnaceBlockEntityMixin",
 		"CraftingMenuMixin",
+		"EnderEyeItemMixin",
 		"FoodDataMixin",
 		"FoodPropertiesMixin",
+		"ItemMixin",
 		"ItemEntityMixin",
-		"PlayerCombatMixin"
+		"LivingEntityMixin",
+		"PlayerCombatMixin",
+		"SaplingBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

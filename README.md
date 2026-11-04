@@ -31,6 +31,8 @@ For Cave game, build the same frame out of **cobblestone**. You arrive inside it
   - Crafting gives nothing for a newer item, and newer items on the ground cannot be picked up.
   - Drops follow the era. Iron and gold ore drop themselves rather than raw ore, Beta and Infdev zombies drop feathers, and anything the era did not have (like raw beef in Beta) is not dropped. This applies to chest loot too.
   - Anything newer that still gets into your inventory, from a furnace, a command or the creative menu, is taken away with a message. Survival items are kept for you and come back the next time you are in the modern world; creative-menu items are just removed.
+- **Sword blocking in Old Release.** Holding right-click with a sword raises it, as from Beta 1.8 to 1.8.9, and cuts damage that armour could stop to (1 + damage) / 2.
+- **Furnaces** in an era do not smelt anything into an item the era did not have.
 - **1.6.4 hunger.** Old Release has no fast healing from saturation (added in 1.11). You heal half a heart every 4 seconds while your hunger bar is at 18 or more, which costs 3 exhaustion as it did in 1.6.4.
 
 ## Old textures and sounds
@@ -54,6 +56,7 @@ If the sound files are missing (the launcher downloads them the first time you p
 - `src/main/java/dev/retroeras/player/EraRules.java`, `EraCombat.java` and `EraItems.java`: hunger, combat and the item lists.
 - `src/client/java/dev/retroeras/client/texture/`: builds each era's texture pack from the old jar and switches it on and off.
 - `src/main/java/dev/retroeras/worldgen/`: each era's terrain generator.
+- `src/main/java/dev/retroeras/entity/`: Cave game's zombies.
 - `src/main/resources/data/retroeras/`: each era's dimension, dimension type, biomes and features.
 - `tools/`: scripts that generate the Beta and 1.6.4 biome files, the 1.6.4 texture mapping and the portal textures.
 - `src/gametest/`: tests. `./gradlew runGameTest` runs the headless server tests. `./gradlew runClientGameTest` opens the game, visits each era and saves screenshots to `build/run/clientGameTest/screenshots/`.
@@ -64,7 +67,8 @@ If the sound files are missing (the launcher downloads them the first time you p
 - It has 1.6.4's 21 overworld biomes, from oceans and rivers to jungles, extreme hills and mushroom islands. Their grass, leaf and sky colours come from 1.6.4's colormaps and sky formula (swamps mixed the way 1.6 did). Trees, flowers, grass, reeds, cacti, mushrooms, lily pads, melons and vines follow 1.6.4's decorator, with emeralds and silverfish stone in Extreme Hills, water and lava lakes, and dungeons. The biome files come from `tools/gen_release_worldgen.ps1`.
 - Mobs follow 1.6.4's lists: the farm animals, horses on plains, wolves in forests and taigas, ocelots in jungles, mooshrooms on mushroom islands, bats, and the usual monsters including endermen.
 - Hunger, sprinting, XP and smooth lighting are all back, as in 1.6.4. Inventories are still kept separate from your modern ones.
-- Not ported yet: villages, desert and jungle temples, witch huts, strongholds and mineshafts.
+- Structures are a port of 1.6.4's own (`src/main/java/dev/retroeras/worldgen/release/structure/`): mineshafts, villages in plains and deserts, desert pyramids, jungle temples, witch huts and the three strongholds. They are laid out from the seed exactly as 1.6.4 laid them out, and built with its blocks, chest loot, villagers, witch and spawners while the chunks generate. Eyes of ender lead to these strongholds. 1.6.4 bugs are kept: strongholds never have right turns, and desert village wells stay cobblestone.
+- Villagers keep 1.6.4's five professions (farmer, librarian, priest, blacksmith and butcher, as farmer, librarian, cleric, armorer and butcher) but trade as 26.3 villagers do.
 
 ## Beta prototype
 
@@ -85,12 +89,11 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 - The world is a port of rd-161348's level generator: two diamond-square height maps give hills of grass over dirt over rock. It is 256×256 blocks and 64 tall, with void past the edges, just like the original. The original made a new random map on every launch; here it is seeded from your world seed.
 - The sky is the pale blue (#80CCFF) and the fog the near-white (#FEFBFA) of the original. The sun never moves, there is no rain and there are no clouds.
-- As in Cave game, there is no health, no hunger and nothing to survive. Only falling off the edge hurts. Blocks break instantly and drop nothing, and your hotbar always holds 64 each of the five blocks Cave game let you place (stone, dirt, cobblestone, planks and saplings). No mobs spawn.
+- Ten of Cave game's zombies wander the map in slowly drifting circles, hopping now and then. As in rd-161348 they wear its player texture (char.png), and nothing can hurt them except falling off the edge; new ones drop in from above to keep there being ten.
+- Saplings never grow, and vanish if they are not in sunlight on dirt or grass, as rd-161348's did.
+- As in Cave game, there is no health, no hunger and nothing to survive. Only falling off the edge hurts. Blocks break instantly and drop nothing, and your hotbar always holds 64 each of the five blocks Cave game let you place (stone, dirt, cobblestone, planks and saplings). No other mobs spawn.
 
 ## Next steps
 
-- Port 1.6.4's structures (villages, temples, witch huts, strongholds, mineshafts) for the Old Release era.
-- Cave game's wandering zombies, and stopping its saplings from growing into modern trees.
-- Sword blocking in Old Release (holding right-click halved damage in 1.6.4).
-- 1.6.4's critical hits added a random 0 to 50% plus 1 instead of 26.3's flat 50%.
-- Furnaces still smelt newer items (the result is taken away when you pick it up).
+- Witches only spawn once per hut; 1.6.4 also kept spawning them inside it.
+- Villages trade as 26.3 villagers do, rather than with 1.6.4's trade lists.

@@ -5,6 +5,7 @@
   "retroeras.era.cavegame": "Cave game",
   "retroeras.item.too_new": "%s is too new for %s: it will be back in your modern inventory",
   "retroeras.item.too_new.creative": "%s is too new for %s",
+  "entity.retroeras.cave_zombie": "Zombie",
   "block.retroeras.beta_portal": "Beta Portal",
   "block.retroeras.cavegame_portal": "Cave Game Portal",
   "block.retroeras.old_release_portal": "Old Release Portal",

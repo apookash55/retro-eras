@@ -12,6 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Prediction;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -56,6 +57,11 @@ public final class EraCombat {
 	/** Whether this player is in an era, so 1.9's combat rules (sweeps, cooldowns) do not apply. */
 	public static boolean usesOldCombat(Player player) {
 		return eraOf(player) != null;
+	}
+
+	/** Sword blocking came with Beta 1.8 and went with 1.9, so of the eras only Old Release has it. */
+	public static boolean canSwordBlock(Player player, ItemStack stack) {
+		return stack.is(ItemTags.SWORDS) && eraOf(player) == Era.OLD_RELEASE;
 	}
 
 	/** Critical hits were added in Beta 1.8. */

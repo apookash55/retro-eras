@@ -10,6 +10,8 @@ import org.jspecify.annotations.Nullable;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 
+import dev.retroeras.worldgen.release.structure.ReleaseStructures;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -21,6 +23,7 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
@@ -52,6 +55,7 @@ public final class ReleaseChunkGenerator extends ChunkGenerator {
 
 	private final ReleaseBiomeSource releaseBiomes;
 	private volatile @Nullable ReleaseTerrain terrain;
+	private volatile @Nullable ReleaseStructures structures;
 
 	public ReleaseChunkGenerator(ReleaseBiomeSource biomeSource) {
 		super(biomeSource);
@@ -176,6 +180,29 @@ public final class ReleaseChunkGenerator extends ChunkGenerator {
 	@Override
 	public void addDebugScreenInfo(List<String> result, RandomState randomState, BlockPos feetPos, SamplerContext samplerContext) {
 		result.add("Minecraft 1.6.4 terrain, seed " + randomState.seed());
+	}
+
+	/** 1.6.4's structures go in before the biome features, as in its populate step. */
+	@Override
+	public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
+		ChunkPos pos = chunk.getPos();
+		structures(level.getSeed()).populate(level, pos.x(), pos.z());
+		super.applyBiomeDecoration(level, chunk, structureManager);
+	}
+
+	/** Structures for the world seed, created on first use. */
+	public ReleaseStructures structures(long seed) {
+		ReleaseStructures current = structures;
+		if (current == null || current.seed() != seed) {
+			synchronized (this) {
+				current = structures;
+				if (current == null || current.seed() != seed) {
+					current = new ReleaseStructures(terrain(seed));
+					structures = current;
+				}
+			}
+		}
+		return current;
 	}
 
 	@Override

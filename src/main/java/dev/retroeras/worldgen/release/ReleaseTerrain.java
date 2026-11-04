@@ -72,6 +72,41 @@ public final class ReleaseTerrain {
 		return ReleaseBiome.byIdOrOcean(layers.blockBiomes(x, z, 1, 1)[0]);
 	}
 
+	/** 1.6.4's WorldChunkManager.areBiomesViable: whether every quarter-resolution biome within {@code radius} is allowed. */
+	public boolean areBiomesViable(int x, int z, int radius, java.util.Set<ReleaseBiome> allowed) {
+		int minX = x - radius >> 2;
+		int minZ = z - radius >> 2;
+		int width = (x + radius >> 2) - minX + 1;
+		int height = (z + radius >> 2) - minZ + 1;
+		int[] biomes = layers.generationBiomes(minX, minZ, width, height);
+		for (int i = 0; i < width * height; i++) {
+			if (!allowed.contains(ReleaseBiome.byIdOrOcean(biomes[i]))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/** 1.6.4's WorldChunkManager.findBiomePosition: a random allowed spot within {@code range}, as {x, z}, or null. */
+	public int @org.jspecify.annotations.Nullable [] findBiomePosition(int x, int z, int range, java.util.Set<ReleaseBiome> allowed, Random random) {
+		int minX = x - range >> 2;
+		int minZ = z - range >> 2;
+		int width = (x + range >> 2) - minX + 1;
+		int height = (z + range >> 2) - minZ + 1;
+		int[] biomes = layers.generationBiomes(minX, minZ, width, height);
+		int[] found = null;
+		int count = 0;
+		for (int i = 0; i < width * height; i++) {
+			int bx = minX + i % width << 2;
+			int bz = minZ + i / width << 2;
+			if (allowed.contains(ReleaseBiome.byIdOrOcean(biomes[i])) && (found == null || random.nextInt(count + 1) == 0)) {
+				found = new int[] {bx, bz};
+				count++;
+			}
+		}
+		return found;
+	}
+
 	/** Block-resolution biome ids for a 16x16 chunk, indexed {@code x + z * 16}. */
 	public int[] chunkBiomes(int chunkX, int chunkZ) {
 		return layers.blockBiomes(chunkX * 16, chunkZ * 16, 16, 16);

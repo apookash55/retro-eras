@@ -10,6 +10,7 @@
 			"dev.retroeras.test.CavegameTerrainTest",
 			"dev.retroeras.test.InfdevTerrainTest",
 			"dev.retroeras.test.ReleaseTerrainTest",
+			"dev.retroeras.test.ReleaseStructuresTest",
 			"dev.retroeras.test.PortalAndInventoryTest"
 		],
 		"fabric-client-gametest": [

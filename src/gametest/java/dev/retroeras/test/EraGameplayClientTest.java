@@ -13,7 +13,23 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestServerContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
 
+import java.util.Optional;
+
+import dev.retroeras.entity.ModEntities;
+import dev.retroeras.worldgen.release.ReleaseChunkGenerator;
+import dev.retroeras.worldgen.release.structure.LegacyBox;
+import dev.retroeras.worldgen.release.structure.LegacyStart;
+import dev.retroeras.worldgen.release.structure.LegacyStructureFeature;
+import dev.retroeras.worldgen.release.structure.ReleaseStructures;
+import dev.retroeras.worldgen.release.structure.Village;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -48,7 +64,143 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			check(EraItems.unknownIds().isEmpty(), "Unknown ids in the era item lists: " + EraItems.unknownIds());
 			checkNewerItems(context, server);
 			checkOreDrops(context, server);
+			checkSwordBlocking(context, server);
+			checkFurnace(context, server);
+			checkCaveGame(context, server);
+			checkStructures(context, server);
 		}
+	}
+
+	/** In Old Release, a raised sword cuts a 6-point hit to (1 + 6) / 2. */
+	private static void checkSwordBlocking(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		server.runCommand("effect clear @a minecraft:resistance");
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_SWORD));
+			player.startUsingItem(InteractionHand.MAIN_HAND);
+			check(player.isUsingItem(), "Right-clicking a sword in Old Release should raise it");
+			player.setHealth(20.0F);
+			player.hurtServer(player.level(), player.damageSources().cactus(), 6.0F);
+			check(Math.abs(player.getHealth() - 16.5F) < 0.01F, "A blocked 6-point hit should cost 3.5, health is " + player.getHealth());
+			player.stopUsingItem();
+		});
+		server.runCommand("effect give @a minecraft:resistance infinite 255 true");
+	}
+
+	/** A Beta furnace will not smelt stone into smooth stone, which Beta did not have. */
+	private static void checkFurnace(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.BETA);
+		BlockPos furnace = server.computeOnServer(s -> {
+			ServerPlayer player = player(s);
+			BlockPos pos = player.blockPosition().above(3);
+			player.level().setBlockAndUpdate(pos, Blocks.FURNACE.defaultBlockState());
+			if (player.level().getBlockEntity(pos) instanceof AbstractFurnaceBlockEntity entity) {
+				entity.setItem(0, new ItemStack(Items.STONE));
+				entity.setItem(1, new ItemStack(Items.COAL));
+			}
+			return pos;
+		});
+		context.waitTicks(260);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().getBlockEntity(furnace) instanceof AbstractFurnaceBlockEntity entity && entity.getItem(2).isEmpty()
+					&& entity.getItem(0).is(Items.STONE), "A Beta furnace should leave the stone alone");
+		});
+	}
+
+	/** Cave game keeps ten zombies wandering, and its saplings never grow into trees. */
+	private static void checkCaveGame(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.CAVEGAME);
+		context.waitTicks(220);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			ServerLevel level = player.level();
+			int zombies = level.getEntities(ModEntities.CAVE_ZOMBIE, zombie -> true).size();
+			check(zombies >= 1, "Cave game should spawn its zombies, found " + zombies);
+			BlockPos pos = player.blockPosition();
+			level.setBlockAndUpdate(pos.below(), Blocks.GRASS_BLOCK.defaultBlockState());
+			level.setBlockAndUpdate(pos, Blocks.OAK_SAPLING.defaultBlockState());
+			((SaplingBlock) Blocks.OAK_SAPLING).advanceTree(level, pos, level.getBlockState(pos), level.getRandom());
+			check(level.getBlockState(pos).is(Blocks.OAK_SAPLING), "A Cave game sapling should never grow");
+			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+		});
+	}
+
+	/** Visits a 1.6.4 village and stronghold where the generator says they are, checks they were built, and takes pictures. */
+	private static void checkStructures(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		BlockPos[] targets = server.computeOnServer(s -> {
+			ServerLevel level = s.getLevel(Era.OLD_RELEASE.getDimension());
+			ReleaseStructures structures = ((ReleaseChunkGenerator) level.getChunkSource().getGenerator()).structures(level.getSeed());
+			BlockPos village = null;
+			for (LegacyStructureFeature feature : structures.features()) {
+				if (!(feature instanceof Village)) {
+					continue;
+				}
+				search:
+				for (int radius = 0; radius <= 64; radius++) {
+					for (int chunkX = -radius; chunkX <= radius; chunkX++) {
+						for (int chunkZ = -radius; chunkZ <= radius; chunkZ++) {
+							if (Math.max(Math.abs(chunkX), Math.abs(chunkZ)) != radius) {
+								continue;
+							}
+							Optional<LegacyStart> start = feature.startAt(chunkX, chunkZ);
+							if (start.isPresent() && start.get().isValid()) {
+								LegacyBox box = start.get().pieces().getFirst().box();
+								village = new BlockPos(box.centerX(), 0, box.centerZ());
+								break search;
+							}
+						}
+					}
+				}
+			}
+			return new BlockPos[] {village, structures.stronghold().nearest(BlockPos.ZERO)};
+		});
+		check(targets[0] != null, "No 1.6.4 village within 64 chunks of the origin");
+		check(targets[1] != null, "No 1.6.4 stronghold");
+
+		String dimension = Era.OLD_RELEASE.getDimension().identifier().toString();
+		BlockPos village = targets[0];
+		server.runCommand("execute in " + dimension + " run tp @a " + village.getX() + " 120 " + village.getZ() + " 45 50");
+		context.waitTicks(200);
+		int[] found = server.computeOnServer(s -> {
+			ServerLevel level = s.getLevel(Era.OLD_RELEASE.getDimension());
+			int villagers = level.getEntitiesOfClass(Villager.class, new AABB(village).inflate(96, 128, 96)).size();
+			int built = 0;
+			for (BlockPos pos : BlockPos.betweenClosed(village.offset(-24, 50, -24), village.offset(24, 110, 24))) {
+				BlockState state = level.getBlockState(pos);
+				if (state.is(Blocks.GLASS_PANE) || state.is(Blocks.OAK_DOOR) || state.is(Blocks.GRAVEL) || state.is(Blocks.WATER) && pos.getY() > 63) {
+					built++;
+				}
+			}
+			return new int[] {villagers, built};
+		});
+		RetroEras.LOGGER.info("1.6.4 village at {}: {} villagers, {} village blocks", village, found[0], found[1]);
+		takeScreenshot(context, "retroeras_old_release_village");
+		check(found[0] > 0, "The village at " + village + " should have villagers");
+		check(found[1] > 20, "The village at " + village + " should have roads, doors and windows, found " + found[1]);
+
+		BlockPos portal = targets[1];
+		server.runCommand("execute in " + dimension + " run tp @a " + portal.getX() + " " + (portal.getY() + 1) + " " + portal.getZ());
+		context.waitTicks(200);
+		int frames = server.computeOnServer(s -> {
+			ServerLevel level = s.getLevel(Era.OLD_RELEASE.getDimension());
+			int count = 0;
+			for (BlockPos pos : BlockPos.betweenClosed(portal.offset(-12, -8, -12), portal.offset(12, 8, 12))) {
+				if (level.getBlockState(pos).is(Blocks.END_PORTAL_FRAME)) {
+					count++;
+				}
+			}
+			return count;
+		});
+		RetroEras.LOGGER.info("1.6.4 stronghold portal room at {}: {} portal frames", portal, frames);
+		takeScreenshot(context, "retroeras_old_release_stronghold");
+		check(frames == 12, "The stronghold portal room should have 12 portal frames, found " + frames);
+	}
+
+	private static void takeScreenshot(ClientGameTestContext context, String name) {
+		RetroEras.LOGGER.info("Saved screenshot {}", context.takeScreenshot(name).toAbsolutePath());
 	}
 
 	private static void go(ClientGameTestContext context, TestServerContext server, @Nullable Era era) {
