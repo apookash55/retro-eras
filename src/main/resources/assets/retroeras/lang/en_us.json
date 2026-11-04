@@ -1,6 +1,8 @@
 {
   "block.retroeras.beta_portal": "Beta Portal",
   "block.retroeras.cavegame_portal": "Cave Game Portal",
+  "block.retroeras.pre_alpha_portal": "Pre-Alpha Portal",
+  "biome.retroeras.pre_alpha.infdev": "Infdev",
   "biome.retroeras.cavegame.world": "Cave Game",
   "biome.retroeras.beta.plains": "Plains (Beta)",
   "biome.retroeras.beta.forest": "Forest (Beta)",

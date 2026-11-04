@@ -39,6 +39,11 @@ public class PortalAndInventoryTest {
 		frameLightsAndBreaks(helper, Era.CAVEGAME);
 	}
 
+	@GameTest
+	public void preAlphaFrameLightsAndBreaks(GameTestHelper helper) {
+		frameLightsAndBreaks(helper, Era.PRE_ALPHA);
+	}
+
 	private static void frameLightsAndBreaks(GameTestHelper helper, Era era) {
 		Block portal = ModBlocks.portal(era);
 		buildFrame(helper, era.getFrame());

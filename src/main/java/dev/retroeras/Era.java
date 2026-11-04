@@ -16,6 +16,8 @@ import net.minecraft.world.level.block.Blocks;
  */
 public enum Era {
 	BETA("beta", Blocks.MOSSY_COBBLESTONE, 0, true),
+	/** Pre-Alpha: Infdev 20100618, the last Infdev build. Bricks recall Infdev's brick pyramids. */
+	PRE_ALPHA("pre_alpha", Blocks.BRICKS, 0, true),
 	/** Pre-classic "Cave game" (rd-161348): a finite 256x256 world where you build without health or survival. */
 	CAVEGAME("cavegame", Blocks.COBBLESTONE, 256, false);
 

@@ -1,0 +1,10 @@
+{
+  "type": "retroeras:pre_alpha",
+  "generator": {
+    "type": "retroeras:infdev",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "retroeras:pre_alpha/infdev"
+    }
+  }
+}
