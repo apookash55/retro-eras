@@ -1,7 +1,6 @@
 package dev.retroeras.test;
 
 import dev.retroeras.Era;
-import dev.retroeras.RetroEras;
 import dev.retroeras.worldgen.cavegame.CavegameChunkGenerator;
 import dev.retroeras.worldgen.cavegame.CavegameTerrain;
 
@@ -11,7 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.dimension.LevelStem;
 
-/** Checks the Cave game world: a finite 256x256 map of grass over dirt over rock, with only void outside. */
+/** Checks the Cave game world of rd-132211: a flat 256x256 slab, grass on top of rock up to y = 42, void outside. */
 public class CavegameTerrainTest {
 	private static final long SEED = 404L;
 
@@ -23,38 +22,19 @@ public class CavegameTerrainTest {
 		helper.assertTrue(stem.generator() instanceof CavegameChunkGenerator, "Cave game should use its own generator, not " + stem.generator());
 		CavegameTerrain terrain = ((CavegameChunkGenerator) stem.generator()).terrain(SEED);
 
-		int min = Integer.MAX_VALUE;
-		int max = Integer.MIN_VALUE;
+		helper.assertTrue(CavegameTerrain.SURFACE == 42, "rd-132211's level was solid up to two thirds of 64, y = 42");
 		for (int x = 0; x < CavegameTerrain.SIZE; x++) {
 			for (int z = 0; z < CavegameTerrain.SIZE; z++) {
-				int grass = -1;
-				for (int y = CavegameTerrain.HEIGHT - 1; y >= 0; y--) {
-					if (terrain.get(x, y, z) != CavegameTerrain.AIR) {
-						grass = y;
-						break;
-					}
+				helper.assertTrue(terrain.get(x, CavegameTerrain.SURFACE, z) == CavegameTerrain.GRASS, "The top layer should be grass at " + x + "," + z);
+				helper.assertTrue(terrain.get(x, CavegameTerrain.SURFACE + 1, z) == CavegameTerrain.AIR, "Nothing should stand on the slab at " + x + "," + z);
+				for (int y = 0; y < CavegameTerrain.SURFACE; y++) {
+					helper.assertTrue(terrain.get(x, y, z) == CavegameTerrain.ROCK, "Everything under the grass should be rock at " + x + "," + y + "," + z);
 				}
-				helper.assertTrue(grass > 0, "Hole in the world at " + x + "," + z);
-				helper.assertTrue(terrain.get(x, grass, z) == CavegameTerrain.GRASS || terrain.get(x, grass, z) == CavegameTerrain.ROCK,
-						"Top of " + x + "," + z + " should be grass or bare rock");
-				helper.assertTrue(terrain.get(x, 0, z) == CavegameTerrain.ROCK, "Rock should reach the bottom at " + x + "," + z);
-				min = Math.min(min, grass);
-				max = Math.max(max, grass);
 			}
 		}
-		RetroEras.LOGGER.info("Cave game terrain (seed {}): surface between y={} and y={}", SEED, min, max);
-		helper.assertTrue(max - min >= 4, "Cave game rd-161348 terrain should be hilly, got " + min + ".." + max);
 
 		for (BlockPos outside : new BlockPos[] {new BlockPos(-1, 30, 10), new BlockPos(256, 30, 10), new BlockPos(10, 30, 300), new BlockPos(-500, 30, -500)}) {
 			helper.assertTrue(terrain.get(outside.getX(), outside.getY(), outside.getZ()) == CavegameTerrain.AIR, "Expected void outside the world at " + outside);
-		}
-
-		CavegameTerrain again = new CavegameTerrain(SEED);
-		for (int i = 0; i < 1000; i++) {
-			int x = (i * 37) % CavegameTerrain.SIZE;
-			int z = (i * 101) % CavegameTerrain.SIZE;
-			int y = i % CavegameTerrain.HEIGHT;
-			helper.assertTrue(again.get(x, y, z) == terrain.get(x, y, z), "Cave game generation is not deterministic");
 		}
 		helper.succeed();
 	}

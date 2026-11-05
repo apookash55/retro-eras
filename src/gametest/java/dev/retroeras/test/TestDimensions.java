@@ -24,7 +24,11 @@ final class TestDimensions {
 
 	/** Decodes data/retroeras/dimension/&lt;era&gt;.json with the same codec the game uses when it loads the world. */
 	static LevelStem load(GameTestHelper helper, Era era) {
-		Identifier file = era.getDimension().identifier().withPath(path -> "dimension/" + path + ".json");
+		return load(helper, era.getDimension().identifier().withPath(path -> "dimension/" + path + ".json"));
+	}
+
+	/** Decodes one dimension file, such as an era's Nether. */
+	static LevelStem load(GameTestHelper helper, Identifier file) {
 		try (Reader reader = helper.getLevel().getServer().getResourceManager().openAsReader(file)) {
 			JsonElement json = JsonParser.parseReader(reader);
 			return LevelStem.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess()), json)

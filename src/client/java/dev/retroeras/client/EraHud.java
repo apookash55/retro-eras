@@ -52,13 +52,14 @@ public final class EraHud {
 	}
 
 	/**
-	 * The version name old Minecraft kept in the top left corner. Alpha and Infdev always showed it; Beta 1.7.3 and 1.6.4
+	 * The version name old Minecraft kept in the top left corner. Classic, Alpha and Infdev always showed it; Beta 1.7.3 and 1.6.4
 	 * only showed it on the F3 screen, and Cave game showed nothing.
 	 */
 	private static @Nullable String versionText(Era era) {
 		return switch (era) {
 			case ALPHA -> "Minecraft Alpha v1.2.6";
 			case PRE_ALPHA -> "Minecraft Infdev";
+			case CLASSIC -> "0.30";
 			default -> null;
 		};
 	}

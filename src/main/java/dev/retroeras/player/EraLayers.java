@@ -37,7 +37,7 @@ import net.minecraft.world.phys.Vec3;
 public final class EraLayers {
 	/** Newest first. */
 	private static final List<ResourceKey<Level>> STACK = List.of(Level.OVERWORLD, Era.OLD_RELEASE.getDimension(), Era.BETA.getDimension(), Era.ALPHA.getDimension(),
-			Era.PRE_ALPHA.getDimension(), Era.CAVEGAME.getDimension());
+			Era.PRE_ALPHA.getDimension(), Era.CLASSIC.getDimension(), Era.CAVEGAME.getDimension());
 	/** How far below the world a player falls before going down a layer. */
 	private static final int FALL_MARGIN = 16;
 	/** How far above the build limit a player must get before going up a layer: a jump from the top block is enough. */

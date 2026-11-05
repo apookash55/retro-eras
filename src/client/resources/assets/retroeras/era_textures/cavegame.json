@@ -1,32 +1,14 @@
 {
-  "_comment": "Maps textures in the player's own Cave game rd-161348 jar onto 26.3 texture paths (under assets/minecraft/textures/). Cave game's grass already has its colour drawn in, so the grass overlay is cleared and the biome tints grass white. Its water and lava tiles are left out: the world has neither, and modern water expects a grey texture to tint.",
-  "jar": "rd-161348",
+  "_comment": "Maps textures in the player's own Cave game rd-132211 jar onto 26.3 texture paths (under assets/minecraft/textures/). rd-132211 had two tiles: grass, drawn on every face of the top layer (so the grass block's sides and its dirt bottom get it too), and rock. Its grass already has its colour drawn in, so the grass overlay is cleared and the biome tints grass white. It had no player or mob textures.",
+  "jar": "rd-132211",
   "atlases": [
     {
       "file": "terrain.png",
       "tiles": {
-        "0": ["block/grass_block_top"],
-        "1": ["block/stone"],
-        "2": ["block/dirt"],
-        "3": ["block/grass_block_side"],
-        "4": ["block/oak_planks"],
-        "15": ["block/oak_sapling"],
-        "16": ["block/cobblestone"],
-        "17": ["block/bedrock"]
+        "0": ["block/grass_block_top", "block/grass_block_side", "block/dirt"],
+        "1": ["block/stone", "block/cobblestone"]
       }
     }
   ],
-  "clear": ["block/grass_block_side_overlay"],
-  "files": [
-    {
-      "from": "char.png",
-      "transform": "legacy_skin",
-      "to": [
-        "entity/player/wide/steve", "entity/player/wide/alex", "entity/player/wide/ari", "entity/player/wide/efe", "entity/player/wide/kai",
-        "entity/player/wide/makena", "entity/player/wide/noor", "entity/player/wide/sunny", "entity/player/wide/zuri",
-        "entity/player/slim/steve", "entity/player/slim/alex", "entity/player/slim/ari", "entity/player/slim/efe", "entity/player/slim/kai",
-        "entity/player/slim/makena", "entity/player/slim/noor", "entity/player/slim/sunny", "entity/player/slim/zuri"
-      ]
-    }
-  ]
+  "clear": ["block/grass_block_side_overlay"]
 }

@@ -5,6 +5,7 @@
 	"mixins": [
 		"AbstractFurnaceBlockEntityMixin",
 		"AnimalMixin",
+		"BaseFireBlockMixin",
 		"BlockBehaviourMixin",
 		"CraftingMenuMixin",
 		"EnderEyeItemMixin",
@@ -14,8 +15,8 @@
 		"LeavesBlockMixin",
 		"ItemEntityMixin",
 		"LivingEntityMixin",
+		"NetherPortalBlockMixin",
 		"PlayerCombatMixin",
-		"SaplingBlockMixin",
 		"VanillaPortalMixin"
 	],
 	"injectors": {

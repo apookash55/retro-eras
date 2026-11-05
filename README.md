@@ -8,9 +8,12 @@ A Fabric mod for Minecraft 26.3 that adds a dimension for each historical era of
 | Beta (1.7.3) | `retroeras:beta` | **playable** |
 | Alpha (1.2.6) | `retroeras:alpha` | **playable** |
 | Pre-Alpha (Infdev 20100618) | `retroeras:pre_alpha` | **playable** |
-| Cave game (rd-161348) | `retroeras:cavegame` | **playable** |
+| Classic (0.30) | `retroeras:classic` | **playable** |
+| Cave game (rd-132211) | `retroeras:cavegame` | **playable** |
 
-All five eras can be played in single player. The latest release is **v0.2.0**, on the GitHub Releases page of `apookash55/retro-eras`.
+1.6.4, Beta and Alpha each have their own Nether too: `retroeras:old_release_nether`, `retroeras:beta_nether` and `retroeras:alpha_nether`.
+
+All six eras can be played in single player. The latest release is **v0.2.0**, on the GitHub Releases page of `apookash55/retro-eras`.
 
 ## Getting to an era
 
@@ -22,6 +25,8 @@ For Alpha (1.2.6), build it out of **pumpkins**, a nod to Alpha 1.2's Halloween 
 
 For Pre-Alpha (Infdev), build it out of **bricks**, a nod to Infdev's brick pyramids.
 
+For Classic (0.30), build it out of **sponge**, a block Classic added. Like Cave game, you arrive inside its 256×256 level.
+
 For Cave game, build the same frame out of **cobblestone**. You arrive inside its 256×256 world wherever you light the portal.
 
 ## Installing in your own game
@@ -30,7 +35,7 @@ Retro Eras is a Fabric mod for Minecraft 26.3. It needs Fabric Loader 0.20.1 or 
 
 1. Build it with `./gradlew build`. The mod is `build/libs/retroeras-<version>.jar`.
 2. Install Fabric for 26.3 (the Fabric installer from fabricmc.net, or the version profile from `meta.fabricmc.net`), and put the mod and Fabric API in that profile's `mods` folder.
-3. Play each old version once in the launcher (Beta 1.7.3, Alpha 1.2.6, Infdev 20100618, rd-161348 and 1.6.4) so its jar and sounds are on your computer. The mod reads its textures and sounds from them, and an era whose jar is missing keeps modern textures.
+3. Play each old version once in the launcher (Beta 1.7.3, Alpha 1.2.6, Infdev 20100618, Classic c0.30_01c, rd-132211 and 1.6.4) so its jar and sounds are on your computer. The mod reads its textures and sounds from them, and an era whose jar is missing keeps modern textures.
 
 Ready-made jars are on the GitHub Releases page. To publish a new one, set `version` in `gradle.properties`, commit, and push a matching tag (`git tag v0.3.0` then `git push origin v0.3.0`): GitHub Actions builds the mod and attaches the jar to a new release, with the install steps from `.github/release-notes.md`.
 
@@ -40,8 +45,8 @@ On this machine there is a **Retro Eras** profile in the Minecraft launcher with
 
 ## Digging down through the eras
 
-The eras are stacked on top of each other, newest at the top: the overworld, then Old Release, Beta, Alpha, Pre-Alpha and Cave game at the bottom (`EraLayers`).
-- **Going down:** the very lowest layer of bedrock can be mined, slowly (as long as obsidian takes), with a diamond pickaxe or better. The rest of the bedrock stays unbreakable, so you have to find a spot where the layers above it have gaps. Fall through and you drop into the sky of the next older era over the same spot (inside the map, for Cave game). That landing does not hurt. Infdev's bedrock already has holes, so you can fall from Pre-Alpha into Cave game without digging.
+The eras are stacked on top of each other, newest at the top: the overworld, then Old Release, Beta, Alpha, Pre-Alpha, Classic and Cave game at the bottom (`EraLayers`). The Nethers are not part of the stack.
+- **Going down:** the very lowest layer of bedrock can be mined, slowly (as long as obsidian takes), with a diamond pickaxe or better. The rest of the bedrock stays unbreakable, so you have to find a spot where the layers above it have gaps. Fall through and you drop into the sky of the next older era over the same spot (inside the map, for Classic and Cave game). That landing does not hurt. Infdev's bedrock already has holes, so you can fall from Pre-Alpha into Classic without digging. Classic's own level sits on lava, as it did, so the way down to Cave game is through the bedrock under the sea past the edge of its map.
 - **Going up:** get above the top of an older era's world (pillar up to the build limit and jump, or fly) and you come up in the next newer era just above its bedrock. If the rock is solid there, a small pocket is dug for you.
 - Your inventory changes with the era, just as it does through a portal.
 
@@ -58,11 +63,11 @@ The eras are stacked on top of each other, newest at the top: the overworld, the
 - **1.6.4 hunger.** Old Release has no fast healing from saturation (added in 1.11). You heal half a heart every 4 seconds while your hunger bar is at 18 or more, which costs 3 exhaustion as it did in 1.6.4.
 - **No breeding before Beta 1.8.** In Beta, Alpha and Infdev, holding wheat or seeds out to an animal does nothing. Wolves still take bones and heal from meat. Breeding works in Old Release.
 - **Punching sheep.** Shears came in Beta 1.7, so in Alpha and Infdev hitting a sheep knocks one to three wool off it. Dyes came in Beta 1.2, so every sheep there is white.
-- **Nether and End portals lead nowhere** inside an era, until the eras get their own Nether (see Future plans). Fire already cannot light a Nether portal in an era, and the End portal in a 1.6.4 stronghold does not take you out to the modern End.
+- **Each era's own Nether.** An obsidian portal lit in 1.6.4, Beta or Alpha leads to that era's Nether, and back to the era; your era inventory comes with you. In Beta and Alpha, zombie pigmen drop cooked porkchops, as they did until Beta 1.8. Infdev, Classic and Cave game had no Nether, so a Nether portal there leads nowhere, and so does the End portal in a 1.6.4 stronghold, rather than taking you to the modern End.
 
 ## Fog
 
-The eras have the fog of the versions they come from (`EraFog`): it starts a quarter of the way out and closes in completely at the old render distance, Far (256 blocks), Normal (128), Short (64) or Tiny (32). The older the era, the closer the fog: 1.6.4 starts on Far, Beta on Normal, Infdev on Short and Alpha on Tiny. Cave game had almost no fog, so it starts on Far. Press **R** (the "Render Distance (in eras)" key, which you can rebind under Controls) to cycle it, as F did in Beta; Shift+R goes back. "Modern" turns the old fog off. Each era remembers its own setting in `config/retroeras.properties` (`fog.beta=normal`, and so on).
+The eras have the fog of the versions they come from (`EraFog`): it starts a quarter of the way out and closes in completely at the old render distance, Far (256 blocks), Normal (128), Short (64) or Tiny (32). The older the era, the closer the fog: 1.6.4 starts on Far, Beta and Classic on Normal, Infdev on Short and Alpha on Tiny. Cave game had almost no fog, so it starts on Far. Press **R** (the "Render Distance (in eras)" key, which you can rebind under Controls) to cycle it, as F did in Beta; Shift+R goes back. "Modern" turns the old fog off. Each era remembers its own setting in `config/retroeras.properties` (`fog.beta=normal`, and so on).
 
 Leaves in the eras are still, too: no falling leaves, dripping water or rustling, which old versions did not have.
 
@@ -80,7 +85,7 @@ The terrain ports keep the original integer overflow, so about 12,550,821 blocks
 
 ## Old textures and sounds
 
-The mod never ships Mojang's old textures. On startup it reads them from your own copies of the old client jars, which the launcher stores under `.minecraft/versions/`: `1.6.4`, `b1.7.3`, `a1.2.6`, `inf-20100618` and `rd-161348`. It cuts them into resource packs at `resourcepacks/retroeras_<era>/` and turns each pack on only while you are in that era. You can point it at another jar with `<era>.jar=<path>` (for example `beta.jar=...`) in `config/retroeras.properties`. If a jar is missing, that era keeps modern textures.
+The mod never ships Mojang's old textures. On startup it reads them from your own copies of the old client jars, which the launcher stores under `.minecraft/versions/`: `1.6.4`, `b1.7.3`, `a1.2.6`, `inf-20100618`, `c0.30_01c` and `rd-132211`. It cuts them into resource packs at `resourcepacks/retroeras_<era>/` and turns each pack on only while you are in that era. You can point it at another jar with `<era>.jar=<path>` (for example `beta.jar=...`) in `config/retroeras.properties`. If a jar is missing, that era keeps modern textures.
 
 The tile-to-texture mappings live in `src/client/resources/assets/retroeras/era_textures/`. For Beta, it covers about 300 blocks, items, mobs, HUD icons, the font, sky and colormaps. The player skin, pig, cow, chicken, sheep, wolf and zombie are converted too. Textures whose layout changed after Beta are rebuilt from Beta's own: chests and double chests are painted onto 26.3's chest model from Beta's chest tiles, beds and redstone dust are turned to fit 26.3's faces, leather armour and water have the colour 26.3 tints them with divided out, and the inventory screen is Beta's with its crafting grid moved to where 26.3 puts it (and no offhand slot or recipe book button). Beta and Infdev drew water, lava, fire and the nether portal with code each tick; the mod runs ports of that code (`LegacyTextureEffects`) and records the animations into the pack. 1.6.4 already stores one file per texture, so its mapping (about 490 textures plus HUD regions) is generated by `tools/gen_release_texture_map.ps1` through the 1.13 renames; animated textures keep their `.mcmeta`.
 
@@ -88,6 +93,7 @@ Sounds come the same way, from your own copies of the old sound files, which the
 - **Beta and Infdev** use the old `newsound` set: footsteps, the original "oof" hurt sound, the old mob noises, chests, doors, fire, water, portals and cave ambience. As in those versions, breaking and placing a block plays its footstep sound.
 - **1.6.4** uses its own set, with separate dig sounds, per-mob sounds, horses, bats, villagers, fireworks and anvils.
 - Sounds that did not exist yet, like the 1.9 combat swings, are silent. Music is limited to the era's tracks: Infdev had only the first three, and Beta and 1.6.4 the twelve game tracks of Volume Alpha.
+- **Classic** had Infdev's footsteps but no music, so its music is silent.
 - **Cave game** had no sound at all, so everything is silent while you are there.
 If the sound files are missing (the launcher downloads them the first time you play that version), the era keeps modern sounds.
 
@@ -100,8 +106,8 @@ If the sound files are missing (the launcher downloads them the first time you p
 - `src/main/java/dev/retroeras/player/EraLayers.java`: the stack of eras you dig down and climb up through.
 - `src/client/java/dev/retroeras/client/texture/`: builds each era's texture pack from the old jar and switches it on and off.
 - `src/client/java/dev/retroeras/client/`: the old fog (`EraFog`), lighting (`EraLightmap`), version text (`EraHud`) and the settings screen (`EraSettingsScreen`, saved by `EraConfig`).
-- `src/main/java/dev/retroeras/worldgen/`: each era's terrain generator.
-- `src/main/java/dev/retroeras/entity/`: Cave game's zombies.
+- `src/main/java/dev/retroeras/worldgen/`: each era's terrain generator, with the eras' Nether in `nether/` and Classic in `classic/`.
+- `src/main/java/dev/retroeras/entity/`: rd-161348's cave zombies, kept only so worlds from 0.2.0 still load.
 - `src/main/resources/data/retroeras/`: each era's dimension, dimension type, biomes and features.
 - `tools/`: scripts that generate the Beta, Alpha and 1.6.4 biome files, the 1.6.4 and Alpha texture mappings, the sound mappings and the portal textures.
 - `.github/workflows/build.yml`: builds every push, and publishes a release for every `v*` tag.
@@ -139,13 +145,27 @@ If the sound files are missing (the launcher downloads them the first time you p
 - Mobs are Infdev's six: pigs and sheep, plus zombies, skeletons, creepers and spiders. The sky is Infdev's #88BBFF.
 - Rules are the same as Beta: health but no hunger, sprinting or natural healing. "Minecraft Infdev" sits in the top left corner, as it did.
 
-## Cave game
+## The Nether (1.6.4, Beta and Alpha)
 
-- The world is a port of rd-161348's level generator: two diamond-square height maps give hills of grass over dirt over rock. It is 256×256 blocks and 64 tall, with void past the edges, just like the original. The original made a new random map on every launch; here it is seeded from your world seed.
-- The sky is the pale blue (#80CCFF) and the fog the near-white (#FEFBFA) of the original. The sun never moves, there is no rain and there are no clouds.
-- Ten of Cave game's zombies wander the map in slowly drifting circles, hopping now and then. As in rd-161348 they wear its player texture (char.png), and nothing can hurt them except falling off the edge; new ones drop in from above to keep there being ten.
-- Saplings never grow, and vanish if they are not in sunlight on dirt or grass, as rd-161348's did.
-- As in Cave game, there is no health, no hunger and nothing to survive. Only falling off the edge hurts. Blocks break instantly and drop nothing, and your hotbar always holds 64 each of the five blocks Cave game let you place (stone, dirt, cobblestone, planks and saplings). No other mobs spawn.
+- Terrain is a port of ChunkProviderHell (`src/main/java/dev/retroeras/worldgen/nether/`) from Beta 1.7.3, which Alpha 1.2's Halloween Update had already used, and from 1.6.4. It is 128 high and closed in by bedrock at both ends, with a lava sea below y = 32, soul sand and gravel shelves around y = 64 and the Nether's own wider, flatter caves. A seed gives the same Nether it did. Gravel shelves came out very rare in both versions; the ports sample the gravel noise the way the originals did, which seems to be why.
+- Decoration follows the old Nether's: lava springs, fire on netherrack, glowstone clusters and mushrooms, and in 1.6.4 nether quartz and hidden lava pockets. The originals drew these from whatever the generator's random was left at, so they were never the same twice; here each chunk is seeded.
+- 1.6.4's Nether has its nether fortresses (`Fortress`), laid out from the seed as 1.6.4 laid them out: bridges, castle corridors, nether wart rooms, blaze spawners and chests with 1.6.4's loot. Blazes, wither skeletons, zombie pigmen and magma cubes spawn in them.
+- Mobs: ghasts and zombie pigmen, plus magma cubes in 1.6.4. Inventories stay the era's own: the Beta Nether is part of Beta.
+
+## Classic (0.30)
+
+- The level is a port of Classic 0.30's own generator (`src/main/java/dev/retroeras/worldgen/classic/`), with all the steps its loading screen named: raising the land from distorted noise, eroding, soiling, carving caves and coal, iron and gold veins, flooding the sea in from the edges, pouring lava pools, growing sand and gravel beaches and grass, and planting flowers, mushrooms and trees. It is 256×256 and 64 high, with flowing lava on the bottom layer as Classic had. Classic made a new level from the clock each time; here it is seeded from your world seed.
+- Past the edge of the map lies what Classic drew there: bedrock up to two blocks below sea level, and still water over it.
+- The sky is Classic's #99CCFF with white fog and clouds. The sun never moves and it never rains. No mobs spawn.
+- As in Classic 0.30's building mode there is no health or hunger, blocks break instantly and drop nothing, and your inventory is kept stocked with 36 of Classic's 42 blocks, its default hotbar first. Its spring green and violet cloth have no modern wool. "0.30" sits in the top left corner, as it did.
+- Textures come from your own `c0.30_01c` jar, with its animated water and lava.
+
+## Cave game (rd-132211)
+
+- This is the very first build of Minecraft the launcher offers, from 13 May 2009 (`src/main/java/dev/retroeras/worldgen/cavegame/`). Its world is a flat slab 256×256 blocks wide, solid from the bottom up to y = 42, two thirds of its 64-block height. The top layer is grass and everything under it rock. There are no hills, dirt, caves, water or trees yet, and void past the edges. Every rd-132211 world was the same, so the seed changes nothing.
+- It had two textures: grass, drawn on every face of the top layer, and a cobble-like rock. Both come from your own `rd-132211` jar.
+- The sky is the pale blue (#80CCFF) of the original. The sun never moves, there is no rain and there are no clouds.
+- There is no health, no hunger and nothing to survive. Only falling off the edge hurts. Blocks break instantly and drop nothing, and your hotbar always holds 64 of the one block rd-132211 let you place, its rock. No mobs spawn; the zombies came a build later.
 
 ## Known gaps
 
@@ -163,8 +183,7 @@ Roughly in the order they are planned, with a rough size for each:
 | --- | --- | --- |
 | Old sky | Small | Beta's stars and cloud speed. Old lighting is done. |
 | Old mob AI | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
-| Classic (0.30) era | Medium–Large | A finite Classic world, with its textures and sounds. |
-| Old Nether | Large | Ports of the Alpha, Beta and 1.6.4 Nether generators, with 1.6.4's nether fortresses, and portals that lead to the era's own Nether. |
-| Indev era | Large | Indev's finite worlds, with the size and shape picked when the world is made. |
+
+The Old Nether and the Classic era are done. An Indev era is on hold: Mojang's launcher offers no Indev builds, so there is no jar of the player's own to port it from or take its textures from.
 
 Multiplayer is out of scope for now.

@@ -17,16 +17,16 @@ import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.portal.TeleportTransition;
 
 /**
- * Nether and End portals inside an era lead nowhere until the eras have their own Nether and End. Without this, a
- * portal placed by command, or the End portal of a 1.6.4 stronghold, would carry you to the modern dimensions and out of
- * the era. Fire already cannot light a Nether portal in an era, since vanilla only allows that in the overworld and Nether.
+ * End portals inside an era, and Nether portals in Infdev and Cave game, which had no Nether, lead nowhere. Without this,
+ * the End portal of a 1.6.4 stronghold, or a portal placed by command, would carry you to the modern dimensions and out of
+ * the era. Nether portals in Alpha, Beta and 1.6.4 go to the era's own Nether (see NetherPortalBlockMixin).
  */
 @Mixin({NetherPortalBlock.class, EndPortalBlock.class})
 abstract class VanillaPortalMixin {
 	@Inject(method = "getPortalDestination", at = @At("HEAD"), cancellable = true)
 	private void retroeras$noModernDimensions(ServerLevel level, Entity entity, BlockPos pos, CallbackInfoReturnable<TeleportTransition> cir) {
 		Era era = Era.fromDimension(level.dimension());
-		if (era != null) {
+		if (era != null && !((Object) this instanceof NetherPortalBlock && era.getNether() != null)) {
 			if (entity instanceof ServerPlayer player) {
 				player.sendOverlayMessage(Component.translatable("retroeras.portal.closed", Component.translatable("retroeras.era." + era.getName())));
 			}

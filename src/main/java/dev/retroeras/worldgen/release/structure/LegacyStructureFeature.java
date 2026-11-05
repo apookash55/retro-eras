@@ -17,6 +17,10 @@ public abstract class LegacyStructureFeature {
 	private final long zScale;
 	private final ConcurrentHashMap<Long, Optional<LegacyStart>> starts = new ConcurrentHashMap<>();
 
+	public long seed() {
+		return seed;
+	}
+
 	protected LegacyStructureFeature(long seed) {
 		this.seed = seed;
 		Random random = new Random(seed);

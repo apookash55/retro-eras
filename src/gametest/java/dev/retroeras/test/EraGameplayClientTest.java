@@ -32,6 +32,9 @@ import dev.retroeras.worldgen.release.structure.LegacyStart;
 import dev.retroeras.worldgen.release.structure.LegacyStructureFeature;
 import dev.retroeras.worldgen.release.structure.ReleaseStructures;
 import dev.retroeras.worldgen.release.structure.Village;
+import dev.retroeras.worldgen.nether.NetherChunkGenerator;
+import dev.retroeras.worldgen.release.structure.Fortress;
+import net.minecraft.resources.ResourceKey;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
@@ -85,6 +88,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkLayers(context, server);
 			checkVanillaPortals(context, server);
 			checkSettingsScreen(context);
+			checkEraNether(context, server);
 			checkSheep(context, server);
 			nightScreenshot(context, server, Era.BETA);
 			nightScreenshot(context, server, null);
@@ -175,7 +179,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		});
 	}
 
-	/** Cave game keeps ten zombies wandering, and its saplings never grow into trees. */
+	/** rd-132211's Cave game: you stand on its flat grass at y = 42, with no zombies, holding its one block. */
 	private static void checkCaveGame(ClientGameTestContext context, TestServerContext server) {
 		go(context, server, Era.CAVEGAME);
 		context.waitTicks(220);
@@ -183,13 +187,11 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			ServerPlayer player = player(s);
 			ServerLevel level = player.level();
 			int zombies = level.getEntities(ModEntities.CAVE_ZOMBIE, zombie -> true).size();
-			check(zombies >= 1, "Cave game should spawn its zombies, found " + zombies);
-			BlockPos pos = player.blockPosition();
-			level.setBlockAndUpdate(pos.below(), Blocks.GRASS_BLOCK.defaultBlockState());
-			level.setBlockAndUpdate(pos, Blocks.OAK_SAPLING.defaultBlockState());
-			((SaplingBlock) Blocks.OAK_SAPLING).advanceTree(level, pos, level.getBlockState(pos), level.getRandom());
-			check(level.getBlockState(pos).is(Blocks.OAK_SAPLING), "A Cave game sapling should never grow");
-			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+			check(zombies == 0, "rd-132211 had no zombies, found " + zombies);
+			check(player.blockPosition().getY() == 43, "The player should stand on the flat grass at y = 42, is at " + player.blockPosition());
+			check(level.getBlockState(player.blockPosition().below()).is(Blocks.GRASS_BLOCK), "The top of the Cave game slab should be grass");
+			check(player.getInventory().getItem(0).is(Items.STONE) && player.getInventory().getItem(1).isEmpty(),
+					"Cave game should hand out its one block, stone, and nothing else");
 		});
 	}
 
@@ -265,7 +267,10 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		check(frames == 12, "The stronghold portal room should have 12 portal frames, found " + frames);
 	}
 
-	/** Nether and End portals inside an era lead nowhere, rather than out to the modern Nether and End. */
+	/**
+	 * End portals inside an era lead nowhere, rather than out to the modern End, and so do Nether portals in Infdev,
+	 * which had no Nether.
+	 */
 	private static void checkVanillaPortals(ClientGameTestContext context, TestServerContext server) {
 		go(context, server, Era.OLD_RELEASE);
 		BlockPos feet = server.computeOnServer(s -> {
@@ -278,16 +283,92 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		server.runOnServer(s -> {
 			ServerPlayer player = player(s);
 			check(player.level().dimension() == Era.OLD_RELEASE.getDimension(), "An End portal in Old Release should not lead out, player is in " + player.level().dimension());
-			player.level().setBlock(feet, Blocks.NETHER_PORTAL.defaultBlockState(), 2);
-			player.level().setBlock(feet.above(), Blocks.NETHER_PORTAL.defaultBlockState(), 2);
+			player.level().setBlock(feet, Blocks.AIR.defaultBlockState(), 2);
+		});
+
+		go(context, server, Era.PRE_ALPHA);
+		BlockPos infdevFeet = server.computeOnServer(s -> {
+			ServerPlayer player = player(s);
+			BlockPos pos = player.blockPosition();
+			player.level().setBlock(pos, Blocks.NETHER_PORTAL.defaultBlockState(), 2);
+			player.level().setBlock(pos.above(), Blocks.NETHER_PORTAL.defaultBlockState(), 2);
+			return pos;
 		});
 		context.waitTicks(120);
 		server.runOnServer(s -> {
 			ServerPlayer player = player(s);
-			check(player.level().dimension() == Era.OLD_RELEASE.getDimension(), "A Nether portal in Old Release should not lead out, player is in " + player.level().dimension());
-			player.level().setBlock(feet, Blocks.AIR.defaultBlockState(), 2);
-			player.level().setBlock(feet.above(), Blocks.AIR.defaultBlockState(), 2);
+			check(player.level().dimension() == Era.PRE_ALPHA.getDimension(), "A Nether portal in Infdev should not lead out, player is in " + player.level().dimension());
+			player.level().setBlock(infdevFeet, Blocks.AIR.defaultBlockState(), 2);
+			player.level().setBlock(infdevFeet.above(), Blocks.AIR.defaultBlockState(), 2);
 		});
+	}
+
+	/**
+	 * Fire lights an obsidian portal in Beta, and it leads to Beta's own Nether, where the Beta inventory comes along. Then
+	 * a look inside a 1.6.4 nether fortress.
+	 */
+	private static void checkEraNether(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.BETA);
+		BlockPos inside = server.computeOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.getInventory().clearContent();
+			player.getInventory().add(new ItemStack(Items.GLOWSTONE_DUST, 7));
+			BlockPos base = player.blockPosition().offset(2, 0, 0);
+			ServerLevel level = (ServerLevel) player.level();
+			for (int dz = -1; dz <= 2; dz++) {
+				for (int dy = -1; dy <= 3; dy++) {
+					boolean frame = dz == -1 || dz == 2 || dy == -1 || dy == 3;
+					level.setBlockAndUpdate(base.offset(0, dy, dz), frame ? Blocks.OBSIDIAN.defaultBlockState() : Blocks.AIR.defaultBlockState());
+				}
+			}
+			level.setBlockAndUpdate(base, Blocks.FIRE.defaultBlockState());
+			check(level.getBlockState(base).is(Blocks.NETHER_PORTAL), "Fire in an obsidian frame should light a Nether portal in Beta");
+			return base;
+		});
+		server.runOnServer(s -> player(s).teleportTo(inside.getX() + 0.5, inside.getY(), inside.getZ() + 0.5));
+		ResourceKey<Level> betaNether = Era.BETA.getNether();
+		context.waitFor(client -> client.level != null && client.level.dimension() == betaNether, 400);
+		context.waitTicks(40);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().dimension() == betaNether, "A Beta portal should lead to Beta's Nether, player is in " + player.level().dimension());
+			check(player.getInventory().countItem(Items.GLOWSTONE_DUST) == 7, "The Beta inventory should come along to Beta's Nether");
+			check(player.level().getChunkSource().getGenerator() instanceof NetherChunkGenerator, "Beta's Nether should use the old Nether generator");
+		});
+		takeScreenshot(context, "beta_nether");
+
+		// Stand on a 1.6.4 fortress, high in the air so the camera sees it from above.
+		ServerLevel releaseNether = server.computeOnServer(s -> s.getLevel(Era.OLD_RELEASE.getNether()));
+		BlockPos fortress = server.computeOnServer(s -> {
+			Fortress fortresses = ((NetherChunkGenerator) releaseNether.getChunkSource().getGenerator()).fortress(releaseNether.getSeed());
+			for (int radius = 0; radius < 64; radius++) {
+				for (int chunkX = -radius; chunkX <= radius; chunkX++) {
+					for (int chunkZ = -radius; chunkZ <= radius; chunkZ++) {
+						Optional<LegacyStart> start = fortresses.startAt(chunkX, chunkZ);
+						if (start.isPresent()) {
+							LegacyBox box = start.get().pieces().getFirst().box();
+							return new BlockPos(box.centerX(), box.maxY + 1, box.centerZ());
+						}
+					}
+				}
+			}
+			throw new AssertionError("No 1.6.4 fortress within 64 chunks");
+		});
+		server.runCommand("execute in " + Era.OLD_RELEASE.getNether().identifier() + " run tp @a " + fortress.getX() + " " + fortress.getY() + " " + fortress.getZ()
+				+ " 30 40");
+		context.waitFor(client -> client.level != null && client.level.dimension() == Era.OLD_RELEASE.getNether() && client.gui.overlay() == null, 1200);
+		context.waitTicks(100);
+		server.runOnServer(s -> {
+			ServerLevel level = s.getLevel(Era.OLD_RELEASE.getNether());
+			int bricks = 0;
+			for (BlockPos pos : BlockPos.betweenClosed(fortress.offset(-12, -6, -12), fortress.offset(12, 2, 12))) {
+				if (level.getBlockState(pos).is(Blocks.NETHER_BRICKS)) {
+					bricks++;
+				}
+			}
+			check(bricks > 100, "A 1.6.4 fortress should be built of nether brick, found " + bricks + " bricks around " + fortress);
+		});
+		takeScreenshot(context, "old_release_fortress");
 	}
 
 	/** Options has a "Retro Eras..." button opening the settings screen, and changing the fog there takes effect. */

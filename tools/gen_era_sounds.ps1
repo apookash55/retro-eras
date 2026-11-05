@@ -198,4 +198,6 @@ function Build($name, $index, $prefix, [bool]$digSounds, $events, [string[]]$tra
 Build 'beta' 'pre-1.6' 'newsound/' $false $preReleaseCommon $music $attackSounds
 Build 'alpha' 'pre-1.6' 'newsound/' $false $preReleaseCommon $music $attackSounds
 Build 'pre_alpha' 'pre-1.6' 'newsound/' $false $preReleaseCommon @($music | Select-Object -First 3) $attackSounds
+# Classic 0.30 had the same footsteps as Infdev and no music at all.
+Build 'classic' 'pre-1.6' 'newsound/' $false $preReleaseCommon @() $attackSounds
 Build 'old_release' 'legacy' 'sound/' $true $releaseEvents $music $attackSounds

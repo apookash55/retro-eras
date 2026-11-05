@@ -104,7 +104,12 @@ public final class LegacyBlocks {
 	public static final int FENCE_GATE = 107;
 	public static final int BRICK_STAIRS = 108;
 	public static final int STONE_BRICK_STAIRS = 109;
+	public static final int NETHERRACK = 87;
+	public static final int SOUL_SAND = 88;
+	public static final int NETHER_BRICKS = 112;
+	public static final int NETHER_BRICK_FENCE = 113;
 	public static final int NETHER_BRICK_STAIRS = 114;
+	public static final int NETHER_WART = 115;
 	public static final int CAULDRON = 118;
 	public static final int END_PORTAL_FRAME = 120;
 	public static final int SANDSTONE_STAIRS = 128;
@@ -127,7 +132,8 @@ public final class LegacyBlocks {
 			Blocks.POTTED_BROWN_MUSHROOM, Blocks.POTTED_CACTUS, Blocks.POTTED_DEAD_BUSH, Blocks.POTTED_FERN};
 
 	/** Reverse lookups for the blocks the structure code reads back. Anything else solid reads as stone. */
-	private static final Map<Block, Integer> IDS = Map.ofEntries(Map.entry(Blocks.STONE, STONE), Map.entry(Blocks.GRASS_BLOCK, GRASS),
+	private static final Map<Block, Integer> IDS = Map.ofEntries(Map.entry(Blocks.STONE, STONE), Map.entry(Blocks.NETHERRACK, NETHERRACK), Map.entry(Blocks.SOUL_SAND, SOUL_SAND),
+			Map.entry(Blocks.NETHER_BRICKS, NETHER_BRICKS), Map.entry(Blocks.NETHER_BRICK_FENCE, NETHER_BRICK_FENCE), Map.entry(Blocks.NETHER_WART, NETHER_WART), Map.entry(Blocks.GRASS_BLOCK, GRASS),
 			Map.entry(Blocks.DIRT, DIRT), Map.entry(Blocks.COBBLESTONE, COBBLESTONE), Map.entry(Blocks.OAK_PLANKS, PLANKS),
 			Map.entry(Blocks.SAND, SAND), Map.entry(Blocks.GRAVEL, GRAVEL), Map.entry(Blocks.OAK_LOG, LOG), Map.entry(Blocks.OAK_LEAVES, LEAVES),
 			Map.entry(Blocks.SANDSTONE, SANDSTONE), Map.entry(Blocks.CHEST, CHEST), Map.entry(Blocks.OAK_DOOR, OAK_DOOR),
@@ -205,6 +211,11 @@ public final class LegacyBlocks {
 			case BRICK_STAIRS -> stairs(Blocks.BRICK_STAIRS, meta);
 			case STONE_BRICK_STAIRS -> stairs(Blocks.STONE_BRICK_STAIRS, meta);
 			case NETHER_BRICK_STAIRS -> stairs(Blocks.NETHER_BRICK_STAIRS, meta);
+			case NETHERRACK -> Blocks.NETHERRACK.defaultBlockState();
+			case SOUL_SAND -> Blocks.SOUL_SAND.defaultBlockState();
+			case NETHER_BRICKS -> Blocks.NETHER_BRICKS.defaultBlockState();
+			case NETHER_BRICK_FENCE -> Blocks.NETHER_BRICK_FENCE.defaultBlockState();
+			case NETHER_WART -> Blocks.NETHER_WART.defaultBlockState().setValue(BlockStateProperties.AGE_3, Math.min(meta, 3));
 			case SANDSTONE_STAIRS -> stairs(Blocks.SANDSTONE_STAIRS, meta);
 			case SPRUCE_STAIRS -> stairs(Blocks.SPRUCE_STAIRS, meta);
 			case BIRCH_STAIRS -> stairs(Blocks.BIRCH_STAIRS, meta);
@@ -302,7 +313,7 @@ public final class LegacyBlocks {
 	/** Blocks whose shape depends on their neighbours, which 26.3 has to work out after the structure is placed. */
 	public static boolean needsShapeUpdate(int id) {
 		return switch (id) {
-			case FENCE, FENCE_GATE, GLASS_PANE, IRON_BARS, REDSTONE_WIRE, TRIPWIRE, OAK_STAIRS, COBBLESTONE_STAIRS, BRICK_STAIRS, STONE_BRICK_STAIRS,
+			case NETHER_BRICK_FENCE, FENCE, FENCE_GATE, GLASS_PANE, IRON_BARS, REDSTONE_WIRE, TRIPWIRE, OAK_STAIRS, COBBLESTONE_STAIRS, BRICK_STAIRS, STONE_BRICK_STAIRS,
 					NETHER_BRICK_STAIRS, SANDSTONE_STAIRS, SPRUCE_STAIRS, BIRCH_STAIRS, JUNGLE_STAIRS, CHEST -> true;
 			default -> false;
 		};

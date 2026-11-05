@@ -78,6 +78,7 @@ public final class EraFog {
 			case BETA -> Distance.NORMAL;
 			case ALPHA -> Distance.TINY;
 			case PRE_ALPHA -> Distance.SHORT;
+			case CLASSIC -> Distance.NORMAL;
 		};
 	}
 

@@ -16,28 +16,33 @@ import net.minecraft.world.level.block.Blocks;
  */
 public enum Era {
 	/** Old Release: Minecraft 1.6.4, the last version before 1.7's biome overhaul. Hunger, sprinting and XP are back. */
-	OLD_RELEASE("old_release", Blocks.STONE_BRICKS, 0, true, true),
-	BETA("beta", Blocks.MOSSY_COBBLESTONE, 0, true, false),
+	OLD_RELEASE("old_release", Blocks.STONE_BRICKS, 0, true, true, true),
+	BETA("beta", Blocks.MOSSY_COBBLESTONE, 0, true, false, true),
 	/** Alpha 1.2.6, the last Alpha: Beta's terrain without sandstone, and only oak trees. Pumpkins came with its Halloween Update. */
-	ALPHA("alpha", Blocks.PUMPKIN, 0, true, false),
+	ALPHA("alpha", Blocks.PUMPKIN, 0, true, false, true),
 	/** Pre-Alpha: Infdev 20100618, the last Infdev build. Bricks recall Infdev's brick pyramids. */
-	PRE_ALPHA("pre_alpha", Blocks.BRICKS, 0, true, false),
+	PRE_ALPHA("pre_alpha", Blocks.BRICKS, 0, true, false, false),
+	/** Classic 0.30, the last Classic: a finite 256x256 level to build in, with no health, hunger or mobs. Sponge came with Classic. */
+	CLASSIC("classic", Blocks.SPONGE, 256, false, false, false),
 	/** Pre-classic "Cave game" (rd-161348): a finite 256x256 world where you build without health or survival. */
-	CAVEGAME("cavegame", Blocks.COBBLESTONE, 256, false, false);
+	CAVEGAME("cavegame", Blocks.COBBLESTONE, 256, false, false, false);
 
 	/** Inventory group for every dimension that is not an era (overworld, nether, end, other mods). */
 	public static final String MODERN = "modern";
 
 	private final String name;
 	private final ResourceKey<Level> dimension;
+	/** The era's own Nether, reached through an obsidian portal: Alpha 1.2 to 1.6.4 had one, Infdev and Cave game did not. */
+	private final @Nullable ResourceKey<Level> nether;
 	private final Block frame;
 	private final int worldSize;
 	private final boolean survival;
 	private final boolean hunger;
 
-	Era(String name, Block frame, int worldSize, boolean survival, boolean hunger) {
+	Era(String name, Block frame, int worldSize, boolean survival, boolean hunger, boolean nether) {
 		this.name = name;
 		this.dimension = ResourceKey.create(Registries.DIMENSION, RetroEras.id(name));
+		this.nether = nether ? ResourceKey.create(Registries.DIMENSION, RetroEras.id(name + "_nether")) : null;
 		this.frame = frame;
 		this.worldSize = worldSize;
 		this.survival = survival;
@@ -50,6 +55,16 @@ public enum Era {
 
 	public ResourceKey<Level> getDimension() {
 		return dimension;
+	}
+
+	/** The era's Nether dimension, or null if the era had none. */
+	public @Nullable ResourceKey<Level> getNether() {
+		return nether;
+	}
+
+	/** Whether {@code dimension} is this era's Nether rather than its overworld. */
+	public boolean isNether(ResourceKey<Level> dimension) {
+		return nether != null && nether == dimension;
 	}
 
 	public Block getFrame() {
@@ -85,7 +100,7 @@ public enum Era {
 
 	public static @Nullable Era fromDimension(ResourceKey<Level> dimension) {
 		for (Era era : values()) {
-			if (era.dimension == dimension) {
+			if (era.dimension == dimension || era.nether == dimension) {
 				return era;
 			}
 		}

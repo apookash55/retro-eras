@@ -1,12 +1,8 @@
 {
-  "_comment": "Cave game had only its five placeable blocks.",
+  "_comment": "rd-132211 had two blocks: the grass of its top layer and the rock under it, which was also the one block you could place.",
   "replace": {},
   "items": [
     "stone",
-    "dirt",
-    "cobblestone",
-    "oak_planks",
-    "oak_sapling",
     "grass_block"
   ]
 }

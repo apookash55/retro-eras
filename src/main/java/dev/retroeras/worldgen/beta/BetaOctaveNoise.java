@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /** Beta 1.7.3's NoiseGeneratorOctaves: Perlin octaves that halve in frequency and double in amplitude. */
-final class BetaOctaveNoise {
+public final class BetaOctaveNoise {
 	private final BetaPerlinNoise[] octaves;
 
 	BetaOctaveNoise(Random random, int count) {
@@ -12,6 +12,11 @@ final class BetaOctaveNoise {
 		for (int i = 0; i < count; i++) {
 			octaves[i] = new BetaPerlinNoise(random);
 		}
+	}
+
+	/** The octaves as a {@link dev.retroeras.worldgen.LegacyOctaves}, for generators shared with other versions. */
+	public static dev.retroeras.worldgen.LegacyOctaves legacy(Random random, int count) {
+		return new BetaOctaveNoise(random, count)::sample;
 	}
 
 	double[] sample(double[] out, double x, double y, double z, int sizeX, int sizeY, int sizeZ, double scaleX, double scaleY, double scaleZ) {

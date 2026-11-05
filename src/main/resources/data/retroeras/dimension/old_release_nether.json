@@ -1,0 +1,11 @@
+{
+  "type": "retroeras:nether",
+  "generator": {
+    "type": "retroeras:nether",
+    "version": "release",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "retroeras:release/hell"
+    }
+  }
+}

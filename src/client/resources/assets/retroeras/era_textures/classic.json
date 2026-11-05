@@ -1,0 +1,103 @@
+{
+  "_comment": "Maps textures in the player's own Classic 0.30 jar (c0.30_01c) onto 26.3 texture paths (under assets/minecraft/textures/). Classic's grass and leaves have their colour drawn in, so the grass overlay is cleared and the biome tints them white. Iron and gold blocks had their own top, side and bottom tiles. Its cloth colours go to the nearest modern wool; spring green and violet had none. Tiles 240-249 are the block-breaking cracks. Water and lava were animated by code, ported in LegacyTextureEffects.",
+  "jar": "c0.30_01c",
+  "atlases": [
+    {
+      "file": "terrain.png",
+      "tiles": {
+        "0": ["block/grass_block_top"],
+        "1": ["block/stone"],
+        "2": ["block/dirt"],
+        "3": ["block/grass_block_side"],
+        "4": ["block/oak_planks"],
+        "5": ["block/smooth_stone_slab_side"],
+        "6": ["block/smooth_stone"],
+        "7": ["block/bricks"],
+        "8": ["block/tnt_side"],
+        "9": ["block/tnt_top"],
+        "10": ["block/tnt_bottom"],
+        "12": ["block/poppy"],
+        "13": ["block/dandelion"],
+        "15": ["block/oak_sapling"],
+        "16": ["block/cobblestone"],
+        "17": ["block/bedrock"],
+        "18": ["block/sand"],
+        "19": ["block/gravel"],
+        "20": ["block/oak_log"],
+        "21": ["block/oak_log_top"],
+        "22": ["block/oak_leaves"],
+        "23": ["block/iron_block"],
+        "24": ["block/gold_block"],
+        "28": ["block/red_mushroom"],
+        "29": ["block/brown_mushroom"],
+        "32": ["block/gold_ore"],
+        "33": ["block/iron_ore"],
+        "34": ["block/coal_ore"],
+        "35": ["block/bookshelf"],
+        "36": ["block/mossy_cobblestone"],
+        "37": ["block/obsidian"],
+        "48": ["block/sponge"],
+        "49": ["block/glass"],
+        "64": ["block/red_wool"],
+        "65": ["block/orange_wool"],
+        "66": ["block/yellow_wool"],
+        "67": ["block/lime_wool"],
+        "68": ["block/green_wool"],
+        "70": ["block/cyan_wool"],
+        "71": ["block/light_blue_wool"],
+        "72": ["block/blue_wool"],
+        "74": ["block/purple_wool"],
+        "75": ["block/magenta_wool"],
+        "76": ["block/pink_wool"],
+        "77": ["block/gray_wool"],
+        "78": ["block/light_gray_wool"],
+        "79": ["block/white_wool"],
+        "240": ["block/destroy_stage_0"],
+        "241": ["block/destroy_stage_1"],
+        "242": ["block/destroy_stage_2"],
+        "243": ["block/destroy_stage_3"],
+        "244": ["block/destroy_stage_4"],
+        "245": ["block/destroy_stage_5"],
+        "246": ["block/destroy_stage_6"],
+        "247": ["block/destroy_stage_7"],
+        "248": ["block/destroy_stage_8"],
+        "249": ["block/destroy_stage_9"]
+      }
+    }
+  ],
+  "clear": ["block/grass_block_side_overlay"],
+  "files": [
+    { "from": "mob/creeper.png", "to": ["entity/creeper/creeper"] },
+    { "from": "mob/skeleton.png", "to": ["entity/skeleton/skeleton"] },
+    { "from": "mob/spider.png", "to": ["entity/spider/spider"] },
+    { "from": "mob/sheep.png", "to": ["entity/sheep/sheep"] },
+    { "from": "mob/sheep_fur.png", "to": ["entity/sheep/sheep_wool"] },
+    { "from": "mob/pig.png", "to": ["entity/pig/pig_temperate"], "transform": "over_modern" },
+    { "from": "mob/zombie.png", "to": ["entity/zombie/zombie"], "transform": "over_modern" },
+    { "from": "clouds.png", "to": ["environment/clouds"] },
+    { "from": "rain.png", "to": ["environment/rain"] },
+    { "from": "water.png", "to": ["misc/underwater"] },
+    { "from": "default.png", "to": ["font/ascii"] },
+    {
+      "from": "char.png",
+      "transform": "legacy_skin",
+      "to": [
+        "entity/player/wide/steve", "entity/player/wide/alex", "entity/player/wide/ari", "entity/player/wide/efe", "entity/player/wide/kai",
+        "entity/player/wide/makena", "entity/player/wide/noor", "entity/player/wide/sunny", "entity/player/wide/zuri",
+        "entity/player/slim/steve", "entity/player/slim/alex", "entity/player/slim/ari", "entity/player/slim/efe", "entity/player/slim/kai",
+        "entity/player/slim/makena", "entity/player/slim/noor", "entity/player/slim/sunny", "entity/player/slim/zuri"
+      ]
+    }
+  ],
+  "regions": [
+    { "from": "gui/gui.png", "x": 0, "y": 0, "w": 182, "h": 22, "to": ["gui/sprites/hud/hotbar"] },
+    { "from": "gui/gui.png", "x": 0, "y": 22, "w": 24, "h": 23, "to": ["gui/sprites/hud/hotbar_selection"] },
+    { "from": "gui/icons.png", "x": 0, "y": 0, "w": 15, "h": 15, "to": ["gui/sprites/hud/crosshair"] }
+  ],
+  "effects": [
+    { "effect": "water_still", "frames": 64, "to": ["block/water_still|untint:3F76E4"] },
+    { "effect": "water_flow", "frames": 64, "scale": 2, "to": ["block/water_flow|untint:3F76E4"] },
+    { "effect": "lava_still", "frames": 64, "to": ["block/lava_still"] },
+    { "effect": "lava_flow", "frames": 48, "scale": 2, "to": ["block/lava_flow"] }
+  ]
+}

@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -39,8 +40,18 @@ public final class EraRules {
 	 */
 	private static final int HUNGERLESS_FOOD_LEVEL = 6;
 	private static final Identifier INSTANT_BREAK = RetroEras.id("instant_break");
-	/** Cave game's five placeable blocks, on number keys 1-5 just like rd-161348 (grass could not be placed). */
-	private static final List<Item> CAVEGAME_KIT = List.of(Items.STONE, Items.DIRT, Items.COBBLESTONE, Items.OAK_PLANKS, Items.OAK_SAPLING);
+	/** rd-132211 let you place one block, its rock. */
+	private static final List<Item> CAVEGAME_KIT = List.of(Items.STONE);
+	/**
+	 * Classic 0.30's block menu, as many of its 42 blocks as fit: its default hotbar first (stone, cobblestone, bricks, dirt,
+	 * planks, log, leaves, glass, slab), then the rest. Its spring green and violet cloth had no modern wool.
+	 */
+	private static final List<Item> CLASSIC_KIT = List.of(Items.STONE, Items.COBBLESTONE, Items.BRICKS, Items.DIRT, Items.OAK_PLANKS, Items.OAK_LOG,
+			Items.OAK_LEAVES, Items.GLASS, Items.SMOOTH_STONE_SLAB, Items.MOSSY_COBBLESTONE, Items.OAK_SAPLING, Items.DANDELION, Items.POPPY,
+			Items.BROWN_MUSHROOM, Items.RED_MUSHROOM, Items.SAND, Items.GRAVEL, Items.SPONGE, Items.COAL_ORE, Items.IRON_ORE, Items.GOLD_ORE,
+			Items.IRON_BLOCK, Items.GOLD_BLOCK, Items.BOOKSHELF, Items.TNT, Items.OBSIDIAN, Items.WOOL.pick(DyeColor.RED), Items.WOOL.pick(DyeColor.ORANGE),
+			Items.WOOL.pick(DyeColor.YELLOW), Items.WOOL.pick(DyeColor.LIME), Items.WOOL.pick(DyeColor.GREEN), Items.WOOL.pick(DyeColor.CYAN),
+			Items.WOOL.pick(DyeColor.BLUE), Items.WOOL.pick(DyeColor.PURPLE), Items.WOOL.pick(DyeColor.GRAY), Items.WOOL.pick(DyeColor.WHITE));
 
 	private EraRules() {
 	}
@@ -59,6 +70,8 @@ public final class EraRules {
 				}
 				if (era == Era.CAVEGAME && level.getGameTime() % 20 == 0) {
 					restockKit(player, CAVEGAME_KIT);
+				} else if (era == Era.CLASSIC && level.getGameTime() % 20 == 0) {
+					restockKit(player, CLASSIC_KIT);
 				}
 			}
 		});

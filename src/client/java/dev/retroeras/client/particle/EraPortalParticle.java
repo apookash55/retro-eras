@@ -29,6 +29,7 @@ public final class EraPortalParticle extends PortalParticle {
 			case BETA -> 0x77FF69;        // green
 			case ALPHA -> 0xFF950F;       // pumpkin orange
 			case PRE_ALPHA -> 0xFF7947;   // brick red
+			case CLASSIC -> 0xF0E85A;     // sponge yellow
 			case CAVEGAME -> 0x80BEFF;    // sky blue
 		};
 	}

@@ -8,7 +8,7 @@ import java.util.Random;
  * path and the Y-caching quirk); what changed is that the octave wrapper pre-scales the start coordinate and wraps it
  * to +-16777216, which keeps terrain intact far from the origin.
  */
-final class ReleaseNoise {
+public final class ReleaseNoise {
 	private final int[] permutations = new int[512];
 	private final double xCoord;
 	private final double yCoord;
@@ -127,6 +127,12 @@ final class ReleaseNoise {
 		double u = h < 8 ? x : y;
 		double v = h < 4 ? y : h != 12 && h != 14 ? z : x;
 		return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
+	}
+
+	/** 1.6.4 octaves as a {@link dev.retroeras.worldgen.LegacyOctaves}; 1.6.4 only ever passed whole-number coordinates. */
+	public static dev.retroeras.worldgen.LegacyOctaves legacy(Random random, int count) {
+		Octaves octaves = new Octaves(random, count);
+		return (out, x, y, z, sizeX, sizeY, sizeZ, scaleX, scaleY, scaleZ) -> octaves.sample((int) x, (int) y, (int) z, sizeX, sizeY, sizeZ, scaleX, scaleY, scaleZ);
 	}
 
 	/** 1.6.4's NoiseGeneratorOctaves. */

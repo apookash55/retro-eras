@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "axis=x": { "model": "retroeras:block/classic_portal_ns" },
+    "axis=z": { "model": "retroeras:block/classic_portal_ew" }
+  }
+}

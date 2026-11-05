@@ -77,6 +77,11 @@ public final class EraItems {
 		LootTableEvents.MODIFY_DROPS.register((table, context, drops) -> {
 			Era era = Era.fromDimension(context.getLevel().dimension());
 			if (era != null) {
+				// Zombie pigmen dropped cooked porkchops until Beta 1.8, which the general rotten flesh swap must not turn into feathers.
+				if (!era.hasHunger() && context.getOptional(net.minecraft.world.level.storage.loot.parameters.LootContextParams.THIS_ENTITY)
+						instanceof net.minecraft.world.entity.monster.zombie.ZombifiedPiglin) {
+					drops.replaceAll(stack -> stack.is(Items.ROTTEN_FLESH) ? new ItemStack(Items.COOKED_PORKCHOP, stack.getCount()) : stack);
+				}
 				filterDrops(era, drops);
 			}
 		});

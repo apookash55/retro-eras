@@ -40,6 +40,11 @@ public class PortalAndInventoryTest {
 	}
 
 	@GameTest
+	public void classicFrameLightsAndBreaks(GameTestHelper helper) {
+		frameLightsAndBreaks(helper, Era.CLASSIC);
+	}
+
+	@GameTest
 	public void preAlphaFrameLightsAndBreaks(GameTestHelper helper) {
 		frameLightsAndBreaks(helper, Era.PRE_ALPHA);
 	}

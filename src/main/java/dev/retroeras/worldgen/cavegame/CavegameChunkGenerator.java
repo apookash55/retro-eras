@@ -110,7 +110,6 @@ public final class CavegameChunkGenerator extends ChunkGenerator {
 		return switch (id) {
 			case CavegameTerrain.ROCK -> Blocks.STONE.defaultBlockState();
 			case CavegameTerrain.GRASS -> Blocks.GRASS_BLOCK.defaultBlockState();
-			case CavegameTerrain.DIRT -> Blocks.DIRT.defaultBlockState();
 			default -> Blocks.AIR.defaultBlockState();
 		};
 	}
@@ -138,7 +137,7 @@ public final class CavegameChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public void addDebugScreenInfo(List<String> result, RandomState randomState, BlockPos feetPos, SamplerContext samplerContext) {
-		result.add("Cave game rd-161348 terrain, seed " + randomState.seed());
+		result.add("Cave game rd-132211 level, seed " + randomState.seed());
 	}
 
 	@Override

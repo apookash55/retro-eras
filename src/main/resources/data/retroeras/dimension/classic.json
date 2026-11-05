@@ -1,0 +1,10 @@
+{
+  "type": "retroeras:classic",
+  "generator": {
+    "type": "retroeras:classic",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "retroeras:classic/world"
+    }
+  }
+}
