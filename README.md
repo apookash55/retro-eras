@@ -176,21 +176,52 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 ## Known gaps
 
-- Witches only spawn once per hut; 1.6.4 also kept spawning them inside it.
-- Villages trade as 26.3 villagers do, rather than with 1.6.4's trade lists.
-- Beta's trees, ores and plants come from feature lists, so they differ from Beta 1.7.3 in detail.
 - The mod is built and tested for single player only.
 - The settings screen is under Options, not Mod Menu, so the mod needs no extra dependency.
+- An Indev era is on hold: Mojang's launcher offers no Indev builds, so there is no jar of the player's own to port it from or take its textures from.
 
 ## Future plans
 
-Roughly in the order they are planned, with a rough size for each:
+The aim is for each era to be as close to the real version as possible. What still differs, roughly in the order it is planned, with a rough size for each:
 
-| Plan | Size | What it involves |
-| --- | --- | --- |
-| Old sky | Small | Beta's stars and cloud speed. Old lighting is done. |
-| Old mob AI | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
+**Next**
 
-The Old Nether and the Classic era are done. An Indev era is on hold: Mojang's launcher offers no Indev builds, so there is no jar of the player's own to port it from or take its textures from.
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| The 1.6.4 End | 1.6.4 | Large | A port of 1.6.4's End: the island, its obsidian pillars and crystals, the arrival platform, 1.6.4's own dragon AI and death, the exit portal and egg, and the End Poem on leaving. The stronghold's End portal would lead there, and "The End?" and "The End." become earnable. |
+
+**Small rules**
+
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| No rain before Beta 1.5 | Alpha, Infdev | Small | Their biomes still rain and snow. |
+| No experience before Beta 1.8 | Infdev, Alpha, Beta | Small | The XP bar is hidden, but mobs and ores still drop orbs. |
+| Instant bows | Infdev, Alpha, Beta | Small | Bows fired on click, without charging, until Beta 1.8. |
+| Old stack sizes | Infdev, Alpha, Beta | Small | Food, signs, buckets and others did not stack. |
+| No swimming or crawling | All eras | Small | The 1.13 swimming and crawling poses still happen. |
+| Old armour | Infdev, Alpha, Beta | Small | Armour protected less as it wore down, until 1.0. |
+| Witch huts | 1.6.4 | Small | 1.6.4 kept spawning witches in their huts; here each hut has one. |
+| Classic liquids | Classic | Small | Classic water spread without end. |
+
+**How it looks**
+
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| Old sky | Infdev, Alpha, Beta | Small | Beta's stars, cloud speed and sunrise. The old lighting is done. |
+| Flat dropped items | Cave game to Beta | Small | Dropped items were flat pictures that always faced you, not spinning models. |
+| Cave game and Classic lighting | Cave game, Classic | Small | Cave game's darker shade with black fog for blocks out of the sun, and Classic's lit-or-shadow shading. |
+| Old mob models | Alpha to 1.6.4 | Medium | 26.3 redesigned the cow, pig, sheep, chicken and wolf; the old textures are on the new shapes. |
+| Old first-person view | All eras | Medium | The held item, arm swing and view bobbing are 26.3's. |
+| Old screens | 1.6.4 and others | Medium | 1.6.4's inventory, the pause menu and the F3 screen are 26.3's. Beta's inventory is done. |
+| Old block shapes | Alpha to 1.6.4 | Medium | Some blocks changed shape since, such as fences and stairs. |
+
+**Bigger gameplay and generation**
+
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| Old recipes | Alpha, Beta | Small–Medium | Some recipes made different amounts, such as slabs and ladders. |
+| 1.6.4 villagers | 1.6.4 | Medium | 1.6.4's trade lists, and no sleeping, job blocks or gossip. Their outfits are done. |
+| Old mob AI | All eras | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
+| Beta's decorator | Beta, Alpha | Medium | Beta's own trees, ores, flowers and dungeons, ported like its terrain, instead of feature lists. |
 
 Multiplayer is out of scope for now.
