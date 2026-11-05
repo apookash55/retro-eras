@@ -189,50 +189,61 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 ## Future plans
 
-The aim is for each era to be as close to the real version as possible. What still differs, roughly in the order it is planned, with a rough size for each:
+The aim is for each era to be as close to the real version as possible. What still differs, grouped by what it touches, with the eras it affects and a rough size. Next up is the 1.6.4 End.
 
-**Next**
+### Worlds and dimensions
 
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
-| The 1.6.4 End | 1.6.4 | Large | A port of 1.6.4's End: the island, its obsidian pillars and crystals, the arrival platform, 1.6.4's own dragon AI and death, the exit portal and egg, and the End Poem on leaving. The stronghold's End portal would lead there, and "The End?" and "The End." become earnable. |
+| The 1.6.4 End (next) | 1.6.4 | Large | A port of 1.6.4's End: the island, its obsidian pillars and crystals, the arrival platform, 1.6.4's own dragon AI and death, the exit portal and egg, and the End Poem on leaving. The stronghold's End portal would lead there, and "The End?" and "The End." become earnable. |
+| Beta's decorator | Beta, Alpha | Medium | Beta's own trees, ores, flowers and dungeons, ported like its terrain, instead of feature lists. |
 
-**How it looks**
+### Mobs
+
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| 1.6.4 villagers | 1.6.4 | Medium | 1.6.4's trade lists, and no sleeping, job blocks or gossip. Their outfits are done. |
+| Old mob models | Alpha to 1.6.4 | Medium | 26.3 redesigned the cow, pig, sheep, chicken and wolf; the old textures are on the new shapes. |
+| Old mob AI | All eras | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
+
+### Gameplay rules
+
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| Armour against falls and fire | Infdev, Alpha, Beta | Small | Before 1.0, armour also softened falls, fire and drowning; here it only takes off the damage 26.3 lets armour reduce. |
+| Old recipes | Alpha, Beta | Small–Medium | Some recipes made different amounts, such as slabs and ladders. |
+
+### How the world is drawn
 
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
 | Old sky | Infdev, Alpha, Beta | Small | Beta's stars, cloud speed and sunrise. The old lighting is done. |
 | Flat dropped items | Cave game to Beta | Small | Dropped items were flat pictures that always faced you, not spinning models. |
 | Cave game and Classic lighting | Cave game, Classic | Small | Cave game's darker shade with black fog for blocks out of the sun, and Classic's lit-or-shadow shading. |
-| Old mob models | Alpha to 1.6.4 | Medium | 26.3 redesigned the cow, pig, sheep, chicken and wolf; the old textures are on the new shapes. |
 | Old first-person view | All eras | Medium | The held item, arm swing and view bobbing are 26.3's. |
-| Old screens | 1.6.4 and others | Medium | 1.6.4's inventory, the pause menu and the F3 screen are 26.3's. Beta's inventory is done. |
 | Old block shapes | Alpha to 1.6.4 | Medium | Some blocks changed shape since, such as fences and stairs. |
 
-**Textures still 26.3's**
+### Screens
+
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| Buttons and menu backgrounds | Infdev to 1.6.4 | Small | The pause, death and options screens use 26.3's buttons and backgrounds; the old ones are in each jar's gui.png and background.png. |
+| Map and status effect icons | Beta, 1.6.4 | Small | The map background and markers (misc/mapbg.png, mapicons.png), and 1.6.4's potion effect icons in the inventory. |
+| Old screens | 1.6.4 and others | Medium | 1.6.4's inventory (its crafting grid sat elsewhere), the pause menu and the F3 screen are 26.3's. Beta's inventory is done. |
+
+### Textures
 
 Block textures and item icons are nearly all old: Classic and Cave game are complete, and Infdev, Alpha and Beta lack only a handful. (Slabs, stairs, fences, buttons, pressure plates and carpets use their block's texture, so they already look old.) What is still 26.3's:
 
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
-| Particles | Infdev to 1.6.4 | Small–Medium | Smoke, explosions, bubbles, rain splashes, hearts and critical hits from each jar's particles.png. No era has its old particles yet. |
-| Buttons and menu backgrounds | Infdev to 1.6.4 | Small | The pause, death and options screens use 26.3's buttons and backgrounds; the old ones are in each jar's gui.png and background.png. |
+| Leftover items | Infdev, Beta, 1.6.4 | Small | Infdev's chest, leather armour and minecart icons; Beta's sticky piston and filled map; 1.6.4's spawn eggs (one tinted egg then, a picture per mob now) and enchanted golden apple. |
 | Worn armour | Infdev, 1.6.4 | Small | The armour drawn on players and mobs (armor/*_1.png and *_2.png). Alpha and Beta have it; Infdev and 1.6.4 do not. |
 | Paintings | Alpha to 1.6.4 | Small | The old paintings, all on one sheet (art/kz.png), cut into 26.3's separate pictures. |
+| Particles | Infdev to 1.6.4 | Small–Medium | Smoke, explosions, bubbles, rain splashes, hearts and critical hits from each jar's particles.png. No era has its old particles yet. |
 | Arrows, boats, minecarts and signs in the world | Infdev to 1.6.4 | Small–Medium | The entity textures for these (item/arrows.png, boat.png, cart.png, sign.png in Beta); 26.3's models changed shape, so some need rebuilding like the chests. |
 | Chests, beds and skulls in 1.6.4 | 1.6.4 | Small–Medium | 1.6.4's chest, ender chest, trapped chest, bed and mob head textures, rebuilt for 26.3's models, as was done for Beta's chests and beds. |
-| Leftover items | Infdev, Beta, 1.6.4 | Small | Infdev's chest, leather armour and minecart icons; Beta's sticky piston and filled map; 1.6.4's spawn eggs (one tinted egg then, a picture per mob now) and enchanted golden apple. |
 | Compass and clock | Alpha to 1.6.4 | Small–Medium | Both were drawn by code each tick in the old versions, like water and fire; they need ports of that code. |
-| Map and status effect icons | Beta, 1.6.4 | Small | The map background and markers (misc/mapbg.png, mapicons.png), and 1.6.4's potion effect icons in the inventory. |
-| 1.6.4 water, lava, horses and inventory | 1.6.4 | Medium | Left modern when 1.6.4's textures were mapped: its water and lava tint differently, horses changed model, and its inventory screen moved the crafting grid. |
-
-**Bigger gameplay and generation**
-
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| Old recipes | Alpha, Beta | Small–Medium | Some recipes made different amounts, such as slabs and ladders. |
-| 1.6.4 villagers | 1.6.4 | Medium | 1.6.4's trade lists, and no sleeping, job blocks or gossip. Their outfits are done. |
-| Old mob AI | All eras | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
-| Beta's decorator | Beta, Alpha | Medium | Beta's own trees, ores, flowers and dungeons, ported like its terrain, instead of feature lists. |
+| 1.6.4 water, lava and horses | 1.6.4 | Medium | Left modern when 1.6.4's textures were mapped: its water and lava tint differently, and horses changed model. |
 
 Multiplayer is out of scope for now.
