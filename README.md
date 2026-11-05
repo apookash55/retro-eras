@@ -61,6 +61,12 @@ The eras are stacked on top of each other, newest at the top: the overworld, the
 - **Sword blocking in Old Release.** Holding right-click with a sword raises it, as from Beta 1.8 to 1.8.9, and cuts damage that armour could stop to (1 + damage) / 2.
 - **Furnaces** in an era do not smelt anything into an item the era did not have.
 - **1.6.4 hunger.** Old Release has no fast healing from saturation (added in 1.11). You heal half a heart every 4 seconds while your hunger bar is at 18 or more, which costs 3 exhaustion as it did in 1.6.4.
+- **No experience before Beta 1.8.** In Beta, Alpha and Infdev no experience orbs appear, from mobs, ores or anything else.
+- **Bows before Beta 1.8** fire the moment you click, with no drawing back, and never wear out. Arrows leave at Beta's speed and hit for 4.
+- **Old armour.** Armour takes a flat 4% off a hit per point, with no toughness, so heavy blows are not let through. In 1.6.4 the points are each piece's. Before 1.0 any full set counted 20 points, whatever it was made of, and protected less as it wore down.
+- **Old stack sizes.** Before Beta 1.8, food that heals you (apples, bread, pork, fish, golden apples and stew) does not stack, cookies stack to 8, and signs and doors do not stack. Doors do not stack in 1.6.4 either.
+- **No swimming or crawling.** Both came in 1.13, so in the eras you never swim, even sprinting under water, and never drop to a crawl to fit through a gap.
+- **No rain before Beta 1.5.** Alpha and Infdev never rain or snow; cold biomes still have their snow cover.
 - **No breeding before Beta 1.8.** In Beta, Alpha and Infdev, holding wheat or seeds out to an animal does nothing. Wolves still take bones and heal from meat. Breeding works in Old Release.
 - **Punching sheep.** Shears came in Beta 1.7, so in Alpha and Infdev hitting a sheep knocks one to three wool off it. Dyes came in Beta 1.2, so every sheep there is white.
 - **Each era's own Nether.** An obsidian portal lit in 1.6.4, Beta or Alpha leads to that era's Nether, and back to the era; your era inventory comes with you. In Beta and Alpha, zombie pigmen drop cooked porkchops, as they did until Beta 1.8. Infdev, Classic and Cave game had no Nether, so a Nether portal there leads nowhere, and so does the End portal in a 1.6.4 stronghold, rather than taking you to the modern End.
@@ -126,7 +132,7 @@ If the sound files are missing (the launcher downloads them the first time you p
 - It has 1.6.4's 21 overworld biomes, from oceans and rivers to jungles, extreme hills and mushroom islands. Their grass, leaf and sky colours come from 1.6.4's colormaps and sky formula (swamps mixed the way 1.6 did). Trees, flowers, grass, reeds, cacti, mushrooms, lily pads, melons and vines follow 1.6.4's decorator, with emeralds and silverfish stone in Extreme Hills, water and lava lakes, and dungeons. The biome files come from `tools/gen_release_worldgen.ps1`.
 - Mobs follow 1.6.4's lists: the farm animals, horses on plains, wolves in forests and taigas, ocelots in jungles, mooshrooms on mushroom islands, bats, and the usual monsters including endermen.
 - Hunger, sprinting, XP and smooth lighting are all back, as in 1.6.4. Inventories are still kept separate from your modern ones.
-- Structures are a port of 1.6.4's own (`src/main/java/dev/retroeras/worldgen/release/structure/`): mineshafts, villages in plains and deserts, desert pyramids, jungle temples, witch huts and the three strongholds. They are laid out from the seed exactly as 1.6.4 laid them out, and built with its blocks, chest loot, villagers, witch and spawners while the chunks generate. Eyes of ender lead to these strongholds. 1.6.4 bugs are kept: strongholds never have right turns, and desert village wells stay cobblestone.
+- Structures are a port of 1.6.4's own (`src/main/java/dev/retroeras/worldgen/release/structure/`): mineshafts, villages in plains and deserts, desert pyramids, jungle temples, witch huts and the three strongholds. They are laid out from the seed exactly as 1.6.4 laid them out, and built with its blocks, chest loot, villagers, witch and spawners while the chunks generate. Eyes of ender lead to these strongholds. Only witches spawn inside a witch hut, and they keep spawning there, as in 1.6.4. 1.6.4 bugs are kept: strongholds never have right turns, and desert village wells stay cobblestone.
 - Villagers keep 1.6.4's five professions (farmer, librarian, priest, blacksmith and butcher, as farmer, librarian, cleric, armorer and butcher) but trade as 26.3 villagers do. They wear 1.6.4's outfits, one whole skin per job, with 26.3's biome outfits and level badges taken off; the jobs 26.3 split off later wear the outfit of the 1.6.4 job they came from (a fletcher dresses as a farmer, a toolsmith as a blacksmith). Babies are half-size adults in their job's outfit, as they were, rather than 26.3's big-headed baby model.
 
 ## Beta (1.7.3)
@@ -165,6 +171,7 @@ If the sound files are missing (the launcher downloads them the first time you p
 - Past the edge of the map lies what Classic drew there: bedrock up to two blocks below sea level, and still water over it.
 - The sky is Classic's #99CCFF with white fog and clouds. The sun never moves and it never rains. No mobs spawn.
 - As in Classic 0.30's building mode there is no health or hunger, blocks break instantly and drop nothing, and your inventory is kept stocked with 36 of Classic's 42 blocks, its default hotbar first. Its spring green and violet cloth have no modern wool. "0.30" sits in the top left corner, as it did.
+- Classic's water and lava spread into every open block beside and below them without ever thinning out, so one spring can flood a cave or run off across the land.
 - Textures come from your own `c0.30_01c` jar, with its animated water and lava.
 
 ## Cave game (rd-132211)
@@ -189,19 +196,6 @@ The aim is for each era to be as close to the real version as possible. What sti
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
 | The 1.6.4 End | 1.6.4 | Large | A port of 1.6.4's End: the island, its obsidian pillars and crystals, the arrival platform, 1.6.4's own dragon AI and death, the exit portal and egg, and the End Poem on leaving. The stronghold's End portal would lead there, and "The End?" and "The End." become earnable. |
-
-**Small rules**
-
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| No rain before Beta 1.5 | Alpha, Infdev | Small | Their biomes still rain and snow. |
-| No experience before Beta 1.8 | Infdev, Alpha, Beta | Small | The XP bar is hidden, but mobs and ores still drop orbs. |
-| Instant bows | Infdev, Alpha, Beta | Small | Bows fired on click, without charging, until Beta 1.8. |
-| Old stack sizes | Infdev, Alpha, Beta | Small | Food, signs, buckets and others did not stack. |
-| No swimming or crawling | All eras | Small | The 1.13 swimming and crawling poses still happen. |
-| Old armour | Infdev, Alpha, Beta | Small | Armour protected less as it wore down, until 1.0. |
-| Witch huts | 1.6.4 | Small | 1.6.4 kept spawning witches in their huts; here each hut has one. |
-| Classic liquids | Classic | Small | Classic water spread without end. |
 
 **How it looks**
 

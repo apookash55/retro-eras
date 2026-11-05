@@ -46,6 +46,8 @@ import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
  * lists. The world is 256 tall but, as in 1.6.4, terrain stops at y = 127.
  */
 public final class ReleaseChunkGenerator extends ChunkGenerator {
+	private static final net.minecraft.util.random.WeightedList<net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData> WITCHES = net.minecraft.util.random.WeightedList.of(
+			new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityTypes.WITCH, net.minecraft.util.valueproviders.ConstantInt.of(1)));
 	private static final MapCodec<ReleaseBiomeSource> RELEASE_BIOME_SOURCE = BiomeSource.CODEC.comapFlatMap(
 			source -> source instanceof ReleaseBiomeSource release
 					? DataResult.success(release)
@@ -188,6 +190,17 @@ public final class ReleaseChunkGenerator extends ChunkGenerator {
 		ChunkPos pos = chunk.getPos();
 		structures(level.getSeed()).populate(level, pos.x(), pos.z());
 		super.applyBiomeDecoration(level, chunk, structureManager);
+	}
+
+	/** ChunkProviderGenerate.getPossibleCreatures: only witches spawn inside a witch hut, and keep spawning there. */
+	@Override
+	public net.minecraft.util.random.WeightedList<net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData> getMobsAt(net.minecraft.world.level.Level level,
+			StructureManager structureManager, net.minecraft.world.entity.MobCategory category, BlockPos pos) {
+		if (category == net.minecraft.world.entity.MobCategory.MONSTER && level instanceof net.minecraft.server.level.ServerLevel server
+				&& structures(server.getSeed()).temple().inWitchHut(pos)) {
+			return WITCHES;
+		}
+		return super.getMobsAt(level, structureManager, category, pos);
 	}
 
 	/** Structures for the world seed, created on first use. */

@@ -94,6 +94,7 @@ public final class EraItems {
 				Era era = Era.fromDimension(player.level().dimension());
 				if (era != null) {
 					takeNewerItems(player, era);
+					EraStacks.apply(player, era);
 				}
 			}
 		});

@@ -52,6 +52,25 @@ public final class Temple extends LegacyStructureFeature {
 		return chunkX == startX && chunkZ == startZ && BIOMES.contains(terrain.biomeAt(chunkX * 16 + 8, chunkZ * 16 + 8));
 	}
 
+	/**
+	 * MapGenScatteredFeature.func_143030_a: whether {@code pos} is inside a witch hut, where 1.6.4 spawned only witches,
+	 * for as long as the hut stood.
+	 */
+	public boolean inWitchHut(net.minecraft.core.BlockPos pos) {
+		int chunkX = pos.getX() >> 4;
+		int chunkZ = pos.getZ() >> 4;
+		for (int cx = chunkX - 1; cx <= chunkX + 1; cx++) {
+			for (int cz = chunkZ - 1; cz <= chunkZ + 1; cz++) {
+				LegacyStart start = startAt(cx, cz).orElse(null);
+				if (start != null && start.isValid() && !start.pieces().isEmpty() && start.pieces().getFirst() instanceof WitchHut hut
+						&& hut.box().contains(pos.getX(), pos.getY(), pos.getZ())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	@Override
 	protected LegacyStart createStart(Random random, int chunkX, int chunkZ) {
 		ReleaseBiome biome = terrain.biomeAt(chunkX * 16 + 8, chunkZ * 16 + 8);

@@ -8,12 +8,14 @@ import dev.retroeras.Era;
 import dev.retroeras.RetroEras;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -28,7 +30,7 @@ import net.minecraft.world.item.Items;
  * Gameplay rules for the eras.
  * <ul>
  * <li>Eras before Beta 1.8 ({@link Era#hasHunger()} false) have no hunger, no sprinting and no natural regeneration;
- * food heals instantly instead (see FoodPropertiesMixin).</li>
+ * food heals instantly instead (see FoodPropertiesMixin). Experience came with Beta 1.8 too, so no experience orbs appear.</li>
  * <li>Eras without survival ({@link Era#isSurvival()}) also have no damage except falling into the void, break blocks
  * instantly without drops, and keep the player's hotbar stocked with that era's building blocks.</li>
  * </ul>
@@ -57,6 +59,14 @@ public final class EraRules {
 	}
 
 	public static void init() {
+		// Experience came in Beta 1.8: no orbs from mobs, ores, furnaces or breeding before it.
+		ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
+			Era era = Era.fromDimension(level.dimension());
+			if (entity instanceof ExperienceOrb && era != null && !era.hasHunger()) {
+				entity.discard();
+			}
+		});
+
 		ServerTickEvents.END_LEVEL_TICK.register(level -> {
 			Era era = Era.fromDimension(level.dimension());
 			if (era == null) {

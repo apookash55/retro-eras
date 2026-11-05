@@ -85,17 +85,18 @@ $vegetationOrder = @(
 )
 $common = @('minecraft:flower_default', 'minecraft:brown_mushroom_normal', 'minecraft:red_mushroom_normal', 'minecraft:patch_sugar_cane', 'minecraft:patch_pumpkin')
 
+# Rain and snowfall came in Beta 1.5, so no Alpha biome has precipitation; cold ones still get snow cover when generated.
 # name: modern temperature (controls snow and rain), downfall, precipitation, grass, foliage, sky, extra vegetation
 $biomes = [ordered]@{
-  tundra          = @(-0.5, 0.5, $true,  '#83b593', '#64a278', '#7fa2ff', @())
-  taiga           = @(-0.5, 0.4, $true,  '#8ab87c', '#6da55b', '#7da4ff', @('retroeras:alpha/trees_forest'))
-  swampland       = @(0.6,  0.9, $true,  '#83bd66', '#65ab3f', '#7aa6ff', @('retroeras:alpha/trees_sparse'))
-  forest          = @(0.7,  0.8, $true,  '#82bf54', '#63ae2a', '#79a7ff', @('retroeras:alpha/trees_forest'))
-  shrubland       = @(0.8,  0.3, $true,  '#99bb5b', '#81a932', '#79a7ff', @('retroeras:alpha/trees_sparse'))
-  savanna         = @(0.9,  0.1, $true,  '#a6b866', '#8fa541', '#79a7ff', @('retroeras:alpha/trees_sparse'))
-  plains          = @(0.9,  0.4, $true,  '#94bf49', '#7aae1d', '#77a9ff', @())
-  seasonal_forest = @(0.9,  0.7, $true,  '#6bc63e', '#46b70d', '#77a9ff', @('retroeras:alpha/trees_seasonal'))
-  rainforest      = @(0.95, 0.95, $true, '#4ccc35', '#21be02', '#77a9ff', @('retroeras:alpha/trees_rainforest'))
+  tundra          = @(-0.5, 0.5, $false, '#83b593', '#64a278', '#7fa2ff', @())
+  taiga           = @(-0.5, 0.4, $false, '#8ab87c', '#6da55b', '#7da4ff', @('retroeras:alpha/trees_forest'))
+  swampland       = @(0.6,  0.9, $false, '#83bd66', '#65ab3f', '#7aa6ff', @('retroeras:alpha/trees_sparse'))
+  forest          = @(0.7,  0.8, $false, '#82bf54', '#63ae2a', '#79a7ff', @('retroeras:alpha/trees_forest'))
+  shrubland       = @(0.8,  0.3, $false, '#99bb5b', '#81a932', '#79a7ff', @('retroeras:alpha/trees_sparse'))
+  savanna         = @(0.9,  0.1, $false, '#a6b866', '#8fa541', '#79a7ff', @('retroeras:alpha/trees_sparse'))
+  plains          = @(0.9,  0.4, $false, '#94bf49', '#7aae1d', '#77a9ff', @())
+  seasonal_forest = @(0.9,  0.7, $false, '#6bc63e', '#46b70d', '#77a9ff', @('retroeras:alpha/trees_seasonal'))
+  rainforest      = @(0.95, 0.95, $false,'#4ccc35', '#21be02', '#77a9ff', @('retroeras:alpha/trees_rainforest'))
   desert          = @(2.0,  0.0, $false, '#b2b952', '#9fa726', '#77a9ff', @('retroeras:beta/patch_cactus'))
 }
 

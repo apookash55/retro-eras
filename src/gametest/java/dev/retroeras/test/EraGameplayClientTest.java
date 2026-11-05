@@ -37,6 +37,11 @@ import dev.retroeras.worldgen.release.structure.Fortress;
 import net.minecraft.resources.ResourceKey;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import dev.retroeras.player.EraAchievements;
@@ -101,6 +106,9 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkBreeding(context, server, Era.OLD_RELEASE, true);
 			checkAchievements(context, server);
 			villagerScreenshot(context, server);
+			checkOldRules(context, server);
+			checkWitchHut(context, server);
+			checkClassicWater(context, server);
 		}
 	}
 
@@ -456,6 +464,138 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		server.runOnServer(s -> check(!done(s, "retroeras:old_release/open_inventory") && !done(s, "minecraft:story/root"),
 				"Nothing should be earned in Alpha, which had no achievements"));
 		server.runCommand("advancement revoke @a everything");
+	}
+
+	/**
+	 * Beta: no experience orbs, a bow that fires on click, bread that does not stack, and armour by the old rules; 1.6.4's
+	 * armour; and no rain in Alpha.
+	 */
+	private static void checkOldRules(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.BETA);
+		server.runCommand("effect clear @a minecraft:resistance");
+		server.runCommand("execute as @a at @s run summon minecraft:experience_orb ~ ~1 ~ {Value:10,Tags:[\"retroeras_target\"]}");
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.getInventory().clearContent();
+			player.getInventory().setItem(0, new ItemStack(Items.BOW));
+			player.getInventory().setItem(1, new ItemStack(Items.ARROW, 10));
+			player.getInventory().setItem(2, new ItemStack(Items.BREAD, 5));
+			player.getInventory().setSelectedSlot(0);
+			Items.BOW.use(player.level(), player, InteractionHand.MAIN_HAND);
+			check(!player.isUsingItem(), "A Beta bow should fire at once, not be drawn back");
+			check(player.getInventory().getItem(1).getCount() == 9, "A Beta bow shot should use one arrow");
+			check(!player.level().getEntitiesOfClass(Arrow.class, player.getBoundingBox().inflate(4)).isEmpty(), "A Beta bow shot should fire an arrow");
+
+			// Full iron armour, unworn: Beta counted 20 points for any full set, so a 10-point hit comes to 2.
+			player.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+			player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE));
+			player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS));
+			player.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.IRON_BOOTS));
+			player.setHealth(20.0F);
+			player.hurtServer(player.level(), player.damageSources().cactus(), 10.0F);
+			check(Math.abs(player.getHealth() - 18.0F) < 0.01F, "Beta armour should cut a 10-point hit to 2, health is " + player.getHealth());
+		});
+		context.waitTicks(20);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().getEntitiesOfClass(ExperienceOrb.class, player.getBoundingBox().inflate(6)).isEmpty(), "Beta had no experience orbs");
+			int breadSlots = 0;
+			for (int slot = 0; slot < 36; slot++) {
+				ItemStack stack = player.getInventory().getItem(slot);
+				if (stack.is(Items.BREAD)) {
+					check(stack.getCount() == 1, "Bread did not stack in Beta, found a stack of " + stack.getCount());
+					breadSlots++;
+				}
+			}
+			check(breadSlots == 5, "Five bread should take five slots in Beta, took " + breadSlots);
+			player.getInventory().clearContent();
+			for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+				player.setItemSlot(slot, ItemStack.EMPTY);
+			}
+		});
+		server.runCommand("kill @e[type=minecraft:arrow]");
+
+		go(context, server, Era.OLD_RELEASE);
+		server.runCommand("effect clear @a minecraft:resistance");
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			// Full iron is 15 points in 1.6.4, 4% each and no toughness: a 10-point hit comes to 4.
+			player.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+			player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE));
+			player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS));
+			player.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.IRON_BOOTS));
+			player.setHealth(20.0F);
+		});
+		// 26.3 counts newly worn armour's points on the next tick.
+		context.waitTicks(2);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.hurtServer(player.level(), player.damageSources().cactus(), 10.0F);
+			check(Math.abs(player.getHealth() - 16.0F) < 0.01F, "1.6.4 armour should cut a 10-point hit to 4, health is " + player.getHealth());
+			for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+				player.setItemSlot(slot, ItemStack.EMPTY);
+			}
+			player.setHealth(20.0F);
+		});
+		server.runCommand("effect give @a minecraft:resistance infinite 255 true");
+
+		go(context, server, Era.ALPHA);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(!player.level().getBiome(player.blockPosition()).value().hasPrecipitation(), "Alpha had no rain or snowfall");
+		});
+	}
+
+	/** Inside a 1.6.4 witch hut only witches spawn. */
+	private static void checkWitchHut(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		server.runOnServer(s -> {
+			ServerLevel level = s.getLevel(Era.OLD_RELEASE.getDimension());
+			ReleaseChunkGenerator generator = (ReleaseChunkGenerator) level.getChunkSource().getGenerator();
+			ReleaseStructures structures = generator.structures(level.getSeed());
+			BlockPos hut = null;
+			search:
+			for (int chunkX = -256; chunkX < 256; chunkX += 1) {
+				for (int chunkZ = -256; chunkZ < 256; chunkZ += 1) {
+					Optional<LegacyStart> start = structures.temple().startAt(chunkX, chunkZ);
+					if (start.isPresent()) {
+						LegacyBox box = start.get().pieces().getFirst().box();
+						BlockPos centre = new BlockPos(box.centerX(), box.centerY(), box.centerZ());
+						if (structures.temple().inWitchHut(centre)) {
+							hut = centre;
+							break search;
+						}
+					}
+				}
+			}
+			check(hut != null, "No 1.6.4 witch hut within 256 chunks");
+			var mobs = generator.getMobsAt(level, level.structureManager(), MobCategory.MONSTER, hut);
+			check(mobs.unwrap().size() == 1 && mobs.unwrap().getFirst().value().type() == EntityTypes.WITCH, "Only witches should spawn in a witch hut, got " + mobs);
+			RetroEras.LOGGER.info("1.6.4 witch hut at {}", hut);
+		});
+	}
+
+	/** Classic's water spreads without end: a spring on a long ledge runs much further than 26.3's seven blocks. */
+	private static void checkClassicWater(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.CLASSIC);
+		BlockPos start = server.computeOnServer(s -> {
+			ServerPlayer player = player(s);
+			BlockPos base = new BlockPos(player.blockPosition().getX(), 60, player.blockPosition().getZ());
+			for (int i = -1; i <= 16; i++) {
+				player.level().setBlockAndUpdate(base.offset(i, -1, 0), Blocks.STONE.defaultBlockState());
+			}
+			player.level().setBlockAndUpdate(base, Blocks.WATER.defaultBlockState());
+			return base;
+		});
+		context.waitTicks(200);
+		server.runOnServer(s -> {
+			ServerLevel level = s.getLevel(Era.CLASSIC.getDimension());
+			check(level.getFluidState(start.offset(12, 0, 0)).is(net.minecraft.tags.FluidTags.WATER),
+					"Classic water should spread more than 7 blocks along a ledge");
+			for (int i = -1; i <= 16; i++) {
+				level.setBlockAndUpdate(start.offset(i, -1, 0), Blocks.AIR.defaultBlockState());
+			}
+		});
 	}
 
 	/** 1.6.4's five villager jobs in their old outfits, and a baby farmer as a small adult. */

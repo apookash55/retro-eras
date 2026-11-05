@@ -14,16 +14,22 @@ import net.minecraft.world.level.WorldGenLevel;
 public final class ReleaseStructures {
 	private final long seed;
 	private final Stronghold stronghold;
+	private final Temple temple;
 	private final List<LegacyStructureFeature> features;
 
 	public ReleaseStructures(ReleaseTerrain terrain) {
 		this.seed = terrain.seed();
 		this.stronghold = new Stronghold(seed, terrain);
-		this.features = List.of(new Mineshaft(seed), new Village(seed, terrain), stronghold, new Temple(seed, terrain));
+		this.temple = new Temple(seed, terrain);
+		this.features = List.of(new Mineshaft(seed), new Village(seed, terrain), stronghold, temple);
 	}
 
 	public Stronghold stronghold() {
 		return stronghold;
+	}
+
+	public Temple temple() {
+		return temple;
 	}
 
 	public List<LegacyStructureFeature> features() {
