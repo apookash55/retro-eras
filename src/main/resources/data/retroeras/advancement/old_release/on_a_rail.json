@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/acquire_iron",
+  "display": {
+    "icon": {
+      "id": "minecraft:rail"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.on_a_rail.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.on_a_rail.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -37,6 +37,11 @@ import dev.retroeras.worldgen.release.structure.Fortress;
 import net.minecraft.resources.ResourceKey;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import dev.retroeras.player.EraAchievements;
+import net.minecraft.resources.Identifier;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.animal.sheep.Sheep;
@@ -94,6 +99,8 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			nightScreenshot(context, server, null);
 			checkBreeding(context, server, Era.BETA, false);
 			checkBreeding(context, server, Era.OLD_RELEASE, true);
+			checkAchievements(context, server);
+			villagerScreenshot(context, server);
 		}
 	}
 
@@ -396,6 +403,75 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		context.waitTicks(40);
 		takeScreenshot(context, (era == null ? "overworld" : era.getName()) + "_night");
 		server.runCommand("time set noon");
+	}
+
+	private static boolean done(MinecraftServer server, String id) {
+		AdvancementHolder holder = server.getAdvancements().get(Identifier.parse(id));
+		check(holder != null, "No advancement " + id);
+		return player(server).getAdvancements().getOrStartProgress(holder).isDone();
+	}
+
+	/**
+	 * Beta's achievements: opening the inventory gives "Taking Inventory", an achievement cannot come before its parent,
+	 * 26.3's advancements are not earned in an era, and nothing is earned in Alpha, which had no achievements.
+	 */
+	private static void checkAchievements(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.BETA);
+		server.runCommand("advancement revoke @a everything");
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.getInventory().clearContent();
+			EraAchievements.onCraft(player, new ItemStack(Items.CRAFTING_TABLE));
+			check(!done(s, "retroeras:beta/build_work_bench"), "Benchmarking should need Getting Wood first");
+		});
+		context.setScreen(() -> new InventoryScreen(Minecraft.getInstance().player));
+		context.waitTicks(5);
+		context.setScreen(() -> null);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(done(s, "retroeras:beta/open_inventory"), "Opening the inventory in Beta should give Taking Inventory");
+			ItemEntity log = new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), new ItemStack(Items.OAK_LOG));
+			player.level().addFreshEntity(log);
+		});
+		context.waitTicks(20);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(done(s, "retroeras:beta/mine_wood"), "Picking up wood in Beta should give Getting Wood");
+			// Holding a crafting table is what 26.3's first advancement asks for.
+			player.getInventory().add(new ItemStack(Items.CRAFTING_TABLE));
+			EraAchievements.onCraft(player, new ItemStack(Items.CRAFTING_TABLE));
+			check(done(s, "retroeras:beta/build_work_bench"), "Crafting a workbench after Getting Wood should give Benchmarking");
+			check(!done(s, "minecraft:story/root"), "26.3's advancements should not be earned in Beta");
+			check(!done(s, "retroeras:old_release/open_inventory"), "1.6.4's achievements should not be earned in Beta");
+		});
+		context.setScreen(() -> new AdvancementsScreen(Minecraft.getInstance().player.connection.getAdvancements()));
+		context.waitTicks(10);
+		takeScreenshot(context, "beta_achievements");
+		context.setScreen(() -> null);
+
+		go(context, server, Era.ALPHA);
+		context.setScreen(() -> new InventoryScreen(Minecraft.getInstance().player));
+		context.waitTicks(5);
+		context.setScreen(() -> null);
+		server.runOnServer(s -> check(!done(s, "retroeras:old_release/open_inventory") && !done(s, "minecraft:story/root"),
+				"Nothing should be earned in Alpha, which had no achievements"));
+		server.runCommand("advancement revoke @a everything");
+	}
+
+	/** 1.6.4's five villager jobs in their old outfits, and a baby farmer as a small adult. */
+	private static void villagerScreenshot(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		server.runCommand("execute as @a at @s run tp @s ~ ~ ~ 0 10");
+		String[] jobs = {"farmer", "librarian", "cleric", "armorer", "butcher", "nitwit"};
+		for (int i = 0; i < jobs.length; i++) {
+			server.runCommand("execute as @a at @s run summon minecraft:villager ^" + (i - 2.5) * 1.2 + " ^ ^4 {NoAI:1b,Rotation:[180f,0f],Tags:[\"retroeras_target\"],"
+					+ "VillagerData:{profession:\"minecraft:" + jobs[i] + "\",level:1,type:\"minecraft:plains\"}}");
+		}
+		server.runCommand("execute as @a at @s run summon minecraft:villager ^ ^ ^2.5 {NoAI:1b,Age:-24000,Rotation:[180f,0f],Tags:[\"retroeras_target\"],"
+				+ "VillagerData:{profession:\"minecraft:farmer\",level:1,type:\"minecraft:plains\"}}");
+		context.waitTicks(40);
+		takeScreenshot(context, "old_release_villagers");
+		server.runCommand("kill @e[tag=retroeras_target]");
 	}
 
 	/** Presses the first cycle button under {@code parent} whose label starts with {@code name}. */

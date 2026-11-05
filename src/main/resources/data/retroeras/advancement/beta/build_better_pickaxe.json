@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:beta/build_pickaxe",
+  "display": {
+    "icon": {
+      "id": "minecraft:stone_pickaxe"
+    },
+    "title": {
+      "translate": "advancements.retroeras.beta.build_better_pickaxe.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.beta.build_better_pickaxe.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

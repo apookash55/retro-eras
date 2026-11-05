@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/enchantments",
+  "display": {
+    "icon": {
+      "id": "minecraft:bookshelf"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.bookcase.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.bookcase.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

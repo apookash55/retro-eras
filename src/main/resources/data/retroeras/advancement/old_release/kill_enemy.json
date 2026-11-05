@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/build_sword",
+  "display": {
+    "icon": {
+      "id": "minecraft:bone"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.kill_enemy.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.kill_enemy.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

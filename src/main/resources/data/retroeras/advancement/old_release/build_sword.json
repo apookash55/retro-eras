@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/build_work_bench",
+  "display": {
+    "icon": {
+      "id": "minecraft:wooden_sword"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.build_sword.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.build_sword.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

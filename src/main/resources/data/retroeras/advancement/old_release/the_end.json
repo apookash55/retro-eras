@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/blaze_rod",
+  "display": {
+    "icon": {
+      "id": "minecraft:ender_eye"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.the_end.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.the_end.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

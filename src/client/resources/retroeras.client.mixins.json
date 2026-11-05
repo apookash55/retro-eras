@@ -3,10 +3,13 @@
 	"package": "dev.retroeras.client.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+		"AdvancementsScreenMixin",
 		"FogRendererMixin",
 		"LightmapRenderStateExtractorMixin",
 		"OptionsScreenMixin",
-		"SoundEngineMixin"
+		"SoundEngineMixin",
+		"VillagerRendererMixin",
+		"ZombieVillagerRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

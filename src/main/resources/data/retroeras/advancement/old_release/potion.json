@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/blaze_rod",
+  "display": {
+    "icon": {
+      "id": "minecraft:potion"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.potion.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.potion.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

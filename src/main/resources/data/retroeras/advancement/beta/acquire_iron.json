@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:beta/build_furnace",
+  "display": {
+    "icon": {
+      "id": "minecraft:iron_ingot"
+    },
+    "title": {
+      "translate": "advancements.retroeras.beta.acquire_iron.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.beta.acquire_iron.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

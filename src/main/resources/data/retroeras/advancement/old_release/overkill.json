@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/enchantments",
+  "display": {
+    "icon": {
+      "id": "minecraft:diamond_sword"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.overkill.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.overkill.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

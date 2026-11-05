@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:beta/kill_cow",
+  "display": {
+    "icon": {
+      "id": "minecraft:saddle"
+    },
+    "title": {
+      "translate": "advancements.retroeras.beta.fly_pig.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.beta.fly_pig.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

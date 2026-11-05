@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/the_end",
+  "display": {
+    "icon": {
+      "id": "minecraft:dragon_egg"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.the_end2.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.the_end2.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

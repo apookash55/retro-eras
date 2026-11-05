@@ -4,6 +4,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"AbstractFurnaceBlockEntityMixin",
+		"AchievementTriggersMixin",
 		"AnimalMixin",
 		"BaseFireBlockMixin",
 		"BlockBehaviourMixin",
@@ -11,12 +12,15 @@
 		"EnderEyeItemMixin",
 		"FoodDataMixin",
 		"FoodPropertiesMixin",
+		"FurnaceResultSlotMixin",
 		"ItemMixin",
 		"LeavesBlockMixin",
 		"ItemEntityMixin",
 		"LivingEntityMixin",
 		"NetherPortalBlockMixin",
-		"PlayerCombatMixin",
+		"PlayerAdvancementsMixin",
+"PlayerCombatMixin",
+		"PotionSlotMixin",
 		"VanillaPortalMixin"
 	],
 	"injectors": {

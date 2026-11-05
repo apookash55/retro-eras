@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/portal",
+  "display": {
+    "icon": {
+      "id": "minecraft:ghast_tear"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.ghast.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.ghast.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

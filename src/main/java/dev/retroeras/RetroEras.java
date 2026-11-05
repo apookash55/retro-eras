@@ -32,6 +32,7 @@ public class RetroEras implements ModInitializer {
 		EraCombat.init();
 		EraItems.init();
 		EraMobs.init();
+		dev.retroeras.player.EraAchievements.init();
 		ModEntities.init();
 		EraLayers.init();
 	}

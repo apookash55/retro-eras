@@ -1,0 +1,23 @@
+{
+  "parent": "retroeras:old_release/kill_enemy",
+  "display": {
+    "icon": {
+      "id": "minecraft:bow"
+    },
+    "title": {
+      "translate": "advancements.retroeras.old_release.snipe_skeleton.title"
+    },
+    "description": {
+      "translate": "advancements.retroeras.old_release.snipe_skeleton.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "achieved": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

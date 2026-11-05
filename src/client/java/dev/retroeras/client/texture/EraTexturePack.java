@@ -84,6 +84,7 @@ public final class EraTexturePack {
 		try {
 			pack.generateIfStale(jar);
 			pack.writeShaders();
+			pack.writeLang();
 		} catch (IOException e) {
 			RetroEras.LOGGER.error("Could not build the {} texture pack from {}", era.getName(), jar, e);
 			return Optional.empty();
@@ -95,6 +96,25 @@ public final class EraTexturePack {
 	 * Copies the era's replacement core shaders into the pack: the grey, max-of-sky-and-block lightmap of the eras before
 	 * Beta 1.8. Written on every start rather than only when the pack is rebuilt, so shader changes in the mod apply.
 	 */
+	/**
+	 * The era's own words, from its language file: Beta 1.7.3 and 1.6.4 announced "Achievement get!" and called the
+	 * screen "Achievements". Written on every start, like the shaders.
+	 */
+	private void writeLang() throws IOException {
+		Path target = packDir.resolve("assets/minecraft/lang/en_us.json");
+		if (era != Era.BETA && era != Era.OLD_RELEASE) {
+			Files.deleteIfExists(target);
+			return;
+		}
+		JsonObject lang = new JsonObject();
+		for (String toast : List.of("task", "goal", "challenge")) {
+			lang.addProperty("advancements.toast." + toast, "Achievement get!");
+		}
+		lang.addProperty("gui.advancements", "Achievements");
+		Files.createDirectories(target.getParent());
+		Files.writeString(target, lang.toString());
+	}
+
 	private void writeShaders() throws IOException {
 		Path target = packDir.resolve("assets/minecraft/shaders/core/lightmap.fsh");
 		if (!EraLightmap.usesOldLightmap(era)) {
@@ -243,7 +263,12 @@ public final class EraTexturePack {
 				}
 				continue;
 			}
-			written += writeAll(transform.equals("legacy_skin") ? legacySkin(image) : image, targets);
+			BufferedImage transformed = switch (transform) {
+				case "legacy_skin" -> legacySkin(image);
+				case "villager" -> villager(image);
+				default -> image;
+			};
+			written += writeAll(transformed, targets);
 			copyAnimation(zip, file.get("from").getAsString(), targets);
 		}
 		return written;
@@ -283,6 +308,25 @@ public final class EraTexturePack {
 			g.drawImage(image, 0, 0, null);
 			g.dispose();
 		}
+		return out;
+	}
+
+	/**
+	 * An old villager skin for 26.3's villager model, which shares its layout but added a hat and a hat brim. The old
+	 * skins have stray pixels where the hat now is, which 26.3 would draw as a hood, so the hat (32,0 to 64,19) and brim
+	 * (30,47 to 64,64) areas are cleared.
+	 */
+	private static BufferedImage villager(BufferedImage image) {
+		if (image.getWidth() != 64 || image.getHeight() != 64) {
+			return image;
+		}
+		BufferedImage out = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = out.createGraphics();
+		g.drawImage(image, 0, 0, null);
+		g.setComposite(AlphaComposite.Clear);
+		g.fillRect(32, 0, 32, 19);
+		g.fillRect(30, 47, 34, 17);
+		g.dispose();
 		return out;
 	}
 
