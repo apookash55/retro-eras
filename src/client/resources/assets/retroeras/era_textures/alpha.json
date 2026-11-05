@@ -552,21 +552,201 @@
           "item/music_disc_cat"
         ]
       }
+    },
+    {
+      "file": "particles.png",
+      "skip_empty": true,
+      "shared": true,
+      "tiles": {
+        "0": [
+          "particle/generic_0"
+        ],
+        "1": [
+          "particle/generic_1"
+        ],
+        "2": [
+          "particle/generic_2"
+        ],
+        "3": [
+          "particle/generic_3"
+        ],
+        "4": [
+          "particle/generic_4"
+        ],
+        "5": [
+          "particle/generic_5"
+        ],
+        "6": [
+          "particle/generic_6"
+        ],
+        "7": [
+          "particle/generic_7"
+        ],
+        "19": [
+          "particle/splash_0"
+        ],
+        "20": [
+          "particle/splash_1"
+        ],
+        "21": [
+          "particle/splash_2"
+        ],
+        "22": [
+          "particle/splash_3"
+        ],
+        "32": [
+          "particle/bubble"
+        ],
+        "48": [
+          "particle/flame"
+        ],
+        "49": [
+          "particle/lava"
+        ],
+        "64": [
+          "particle/note"
+        ],
+        "65": [
+          "particle/critical_hit",
+          "particle/enchanted_hit"
+        ],
+        "80": [
+          "particle/heart"
+        ],
+        "81": [
+          "particle/angry"
+        ],
+        "82": [
+          "particle/glint"
+        ],
+        "112": [
+          "particle/drip_fall"
+        ],
+        "113": [
+          "particle/drip_hang"
+        ],
+        "114": [
+          "particle/drip_land"
+        ],
+        "128": [
+          "particle/effect_0",
+          "particle/spell_0"
+        ],
+        "129": [
+          "particle/effect_1",
+          "particle/spell_1"
+        ],
+        "130": [
+          "particle/effect_2",
+          "particle/spell_2"
+        ],
+        "131": [
+          "particle/effect_3",
+          "particle/spell_3"
+        ],
+        "132": [
+          "particle/effect_4",
+          "particle/spell_4"
+        ],
+        "133": [
+          "particle/effect_5",
+          "particle/spell_5"
+        ],
+        "134": [
+          "particle/effect_6",
+          "particle/spell_6"
+        ],
+        "135": [
+          "particle/effect_7",
+          "particle/spell_7"
+        ],
+        "225": [
+          "particle/sga_a"
+        ],
+        "226": [
+          "particle/sga_b"
+        ],
+        "227": [
+          "particle/sga_c"
+        ],
+        "228": [
+          "particle/sga_d"
+        ],
+        "229": [
+          "particle/sga_e"
+        ],
+        "230": [
+          "particle/sga_f"
+        ],
+        "231": [
+          "particle/sga_g"
+        ],
+        "232": [
+          "particle/sga_h"
+        ],
+        "233": [
+          "particle/sga_i"
+        ],
+        "234": [
+          "particle/sga_j"
+        ],
+        "235": [
+          "particle/sga_k"
+        ],
+        "236": [
+          "particle/sga_l"
+        ],
+        "237": [
+          "particle/sga_m"
+        ],
+        "238": [
+          "particle/sga_n"
+        ],
+        "239": [
+          "particle/sga_o"
+        ],
+        "240": [
+          "particle/sga_p"
+        ],
+        "241": [
+          "particle/sga_q"
+        ],
+        "242": [
+          "particle/sga_r"
+        ],
+        "243": [
+          "particle/sga_s"
+        ],
+        "244": [
+          "particle/sga_t"
+        ],
+        "245": [
+          "particle/sga_u"
+        ],
+        "246": [
+          "particle/sga_v"
+        ],
+        "247": [
+          "particle/sga_w"
+        ],
+        "248": [
+          "particle/sga_x"
+        ],
+        "249": [
+          "particle/sga_y"
+        ],
+        "250": [
+          "particle/sga_z"
+        ]
+      }
+    },
+    {
+      "file": "gui/items.png",
+      "shared": true,
+      "tiles": {}
     }
   ],
   "files": [
-    {
-      "from": "armor/cloth_1.png",
-      "to": [
-        "entity/equipment/humanoid/leather|untint:A06540"
-      ]
-    },
-    {
-      "from": "armor/cloth_2.png",
-      "to": [
-        "entity/equipment/humanoid_leggings/leather|untint:A06540"
-      ]
-    },
     {
       "from": "mob/creeper.png",
       "to": [
@@ -770,6 +950,76 @@
       "to": [
         "gui/container/furnace"
       ]
+    },
+    {
+      "from": "armor/cloth_1.png",
+      "to": [
+        "entity/equipment/humanoid/leather|untint:A06540"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/cloth_2.png",
+      "to": [
+        "entity/equipment/humanoid_leggings/leather|untint:A06540"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/chain_1.png",
+      "to": [
+        "entity/equipment/humanoid/chainmail"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/chain_2.png",
+      "to": [
+        "entity/equipment/humanoid_leggings/chainmail"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/iron_1.png",
+      "to": [
+        "entity/equipment/humanoid/iron"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/iron_2.png",
+      "to": [
+        "entity/equipment/humanoid_leggings/iron"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/gold_1.png",
+      "to": [
+        "entity/equipment/humanoid/gold"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/gold_2.png",
+      "to": [
+        "entity/equipment/humanoid_leggings/gold"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/diamond_1.png",
+      "to": [
+        "entity/equipment/humanoid/diamond"
+      ],
+      "shared": true
+    },
+    {
+      "from": "armor/diamond_2.png",
+      "to": [
+        "entity/equipment/humanoid_leggings/diamond"
+      ],
+      "shared": true
     }
   ],
   "regions": [
@@ -882,6 +1132,336 @@
       "to": [
         "gui/sprites/hud/air_bursting"
       ]
+    },
+    {
+      "from": "gui/gui.png",
+      "x": 0,
+      "y": 46,
+      "w": 200,
+      "h": 20,
+      "to": [
+        "gui/sprites/widget/button_disabled"
+      ],
+      "shared": true
+    },
+    {
+      "from": "gui/gui.png",
+      "x": 0,
+      "y": 66,
+      "w": 200,
+      "h": 20,
+      "to": [
+        "gui/sprites/widget/button"
+      ],
+      "shared": true
+    },
+    {
+      "from": "gui/gui.png",
+      "x": 0,
+      "y": 86,
+      "w": 200,
+      "h": 20,
+      "to": [
+        "gui/sprites/widget/button_highlighted"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 0,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/kebab"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 16,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/aztec"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 32,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/alban"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 48,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/aztec2"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 64,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/bomb"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 80,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/plant"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 96,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/wasteland"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 0,
+      "y": 32,
+      "w": 32,
+      "h": 16,
+      "to": [
+        "painting/pool"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 32,
+      "y": 32,
+      "w": 32,
+      "h": 16,
+      "to": [
+        "painting/courbet"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 64,
+      "y": 32,
+      "w": 32,
+      "h": 16,
+      "to": [
+        "painting/sea"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 96,
+      "y": 32,
+      "w": 32,
+      "h": 16,
+      "to": [
+        "painting/sunset"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 128,
+      "y": 32,
+      "w": 32,
+      "h": 16,
+      "to": [
+        "painting/creebet"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 0,
+      "y": 64,
+      "w": 16,
+      "h": 32,
+      "to": [
+        "painting/wanderer"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 16,
+      "y": 64,
+      "w": 16,
+      "h": 32,
+      "to": [
+        "painting/graham"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 0,
+      "y": 128,
+      "w": 32,
+      "h": 32,
+      "to": [
+        "painting/match"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 32,
+      "y": 128,
+      "w": 32,
+      "h": 32,
+      "to": [
+        "painting/bust"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 64,
+      "y": 128,
+      "w": 32,
+      "h": 32,
+      "to": [
+        "painting/stage"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 96,
+      "y": 128,
+      "w": 32,
+      "h": 32,
+      "to": [
+        "painting/void"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 128,
+      "y": 128,
+      "w": 32,
+      "h": 32,
+      "to": [
+        "painting/skull_and_roses"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 160,
+      "y": 128,
+      "w": 32,
+      "h": 32,
+      "to": [
+        "painting/wither"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 0,
+      "y": 96,
+      "w": 64,
+      "h": 32,
+      "to": [
+        "painting/fighters"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 0,
+      "y": 192,
+      "w": 64,
+      "h": 64,
+      "to": [
+        "painting/pointer"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 64,
+      "y": 192,
+      "w": 64,
+      "h": 64,
+      "to": [
+        "painting/pigscene"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 128,
+      "y": 192,
+      "w": 64,
+      "h": 64,
+      "to": [
+        "painting/burning_skull"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 192,
+      "y": 64,
+      "w": 64,
+      "h": 48,
+      "to": [
+        "painting/skeleton"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 192,
+      "y": 112,
+      "w": 64,
+      "h": 48,
+      "to": [
+        "painting/donkey_kong"
+      ],
+      "shared": true
+    },
+    {
+      "from": "art/kz.png",
+      "x": 192,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "painting/back"
+      ],
+      "shared": true
     }
   ],
   "clear": [
@@ -895,6 +1475,7 @@
     "item/leather_boots_overlay",
     "entity/equipment/humanoid/leather_overlay",
     "entity/equipment/humanoid_leggings/leather_overlay",
+    "item/filled_map_markings",
     "block/grass_block_side_overlay"
   ],
   "compose": [

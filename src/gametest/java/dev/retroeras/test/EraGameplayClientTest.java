@@ -37,6 +37,7 @@ import dev.retroeras.worldgen.release.structure.Fortress;
 import net.minecraft.resources.ResourceKey;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -109,6 +110,8 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkOldRules(context, server);
 			checkWitchHut(context, server);
 			checkClassicWater(context, server);
+			textureScene(context, server, Era.BETA);
+			textureScene(context, server, Era.OLD_RELEASE);
 		}
 	}
 
@@ -573,6 +576,49 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			check(mobs.unwrap().size() == 1 && mobs.unwrap().getFirst().value().type() == EntityTypes.WITCH, "Only witches should spawn in a witch hut, got " + mobs);
 			RetroEras.LOGGER.info("1.6.4 witch hut at {}", hut);
 		});
+	}
+
+	/**
+	 * The textures every era shares, for a look: a zombie in iron armour beside a painting, smoke and hearts, spawn eggs
+	 * and leather armour in the hotbar, and the pause menu's buttons.
+	 */
+	private static void textureScene(ClientGameTestContext context, TestServerContext server, Era era) {
+		go(context, server, era);
+		server.runCommand("time set noon");
+		server.runCommand("execute as @a at @s run tp @s ~ ~ ~ 0 0");
+		BlockPos wall = server.computeOnServer(s -> {
+			ServerPlayer player = player(s);
+			BlockPos base = player.blockPosition().offset(0, 0, 4);
+			for (int x = -3; x <= 3; x++) {
+				for (int y = 0; y <= 3; y++) {
+					player.level().setBlockAndUpdate(base.offset(x, y, 1), Blocks.STONE.defaultBlockState());
+					player.level().setBlockAndUpdate(base.offset(x, y, 0), Blocks.AIR.defaultBlockState());
+				}
+			}
+			player.getInventory().clearContent();
+			player.getInventory().setItem(0, new ItemStack(Items.LEATHER_HELMET));
+			player.getInventory().setItem(1, new ItemStack(Items.IRON_CHESTPLATE));
+			player.getInventory().setItem(2, new ItemStack(era == Era.OLD_RELEASE ? Items.CREEPER_SPAWN_EGG : Items.FILLED_MAP));
+			player.getInventory().setItem(3, new ItemStack(era == Era.OLD_RELEASE ? Items.PIG_SPAWN_EGG : Items.BOW));
+			return base;
+		});
+		server.runCommand("execute in " + era.getDimension().identifier() + " run summon minecraft:painting " + (wall.getX() + 1) + " " + (wall.getY() + 1) + " "
+				+ wall.getZ() + " {facing:2b,variant:\"minecraft:pigscene\",Tags:[\"retroeras_target\"]}");
+		server.runCommand("execute in " + era.getDimension().identifier() + " run summon minecraft:zombie " + (wall.getX() - 2) + " " + wall.getY() + " "
+				+ wall.getZ() + " {NoAI:1b,Rotation:[180f,0f],Tags:[\"retroeras_target\"],equipment:{head:{id:\"minecraft:iron_helmet\"},"
+				+ "chest:{id:\"minecraft:iron_chestplate\"},legs:{id:\"minecraft:golden_leggings\"},feet:{id:\"minecraft:diamond_boots\"}}}");
+		server.runCommand("execute in " + era.getDimension().identifier() + " run particle minecraft:large_smoke " + wall.getX() + " " + (wall.getY() + 1) + " "
+				+ (wall.getZ() - 1) + " 0.5 0.5 0.2 0 20");
+		server.runCommand("execute in " + era.getDimension().identifier() + " run particle minecraft:heart " + (wall.getX() - 2) + " " + (wall.getY() + 2) + " "
+				+ wall.getZ() + " 0.3 0.2 0.3 0 4");
+		context.waitTicks(30);
+		takeScreenshot(context, era.getName() + "_textures");
+		context.setScreen(() -> new PauseScreen(true));
+		context.waitTicks(5);
+		takeScreenshot(context, era.getName() + "_pause");
+		context.setScreen(() -> null);
+		server.runCommand("kill @e[tag=retroeras_target]");
+		server.runOnServer(s -> player(s).getInventory().clearContent());
 	}
 
 	/** Classic's water spreads without end: a spring on a long ledge runs much further than 26.3's seven blocks. */

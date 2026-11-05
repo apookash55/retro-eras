@@ -168,3 +168,6 @@ $mapping = [ordered]@{
 $mapping | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8NoBOM $OutFile
 Write-Host "Mapped $($files.Count) files and $($regions.Count) regions; dropped $($dropped.Count) with no 26.3 counterpart:"
 $dropped | ForEach-Object { Write-Host "  $_" }
+
+# Particles, buttons, worn armour and paintings are shared with the other eras.
+node (Join-Path $PSScriptRoot 'add_shared_textures.js')

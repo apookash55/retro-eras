@@ -230,13 +230,29 @@ public final class EraTexturePack {
 				continue;
 			}
 			int tile = image.getWidth() / 16;
+			// A shared mapping (the particle sheet, say) may name tiles an older jar left blank; those keep 26.3's texture.
+			boolean skipEmpty = atlas.has("skip_empty") && atlas.get("skip_empty").getAsBoolean();
 			for (Map.Entry<String, JsonElement> entry : atlas.getAsJsonObject("tiles").entrySet()) {
 				int index = Integer.parseInt(entry.getKey());
 				BufferedImage sub = crop(image, (index % 16) * tile, (index / 16) * tile, tile, tile);
+				if (skipEmpty && isBlank(sub)) {
+					continue;
+				}
 				written += writeAll(sub, entry.getValue().getAsJsonArray());
 			}
 		}
 		return written;
+	}
+
+	private static boolean isBlank(BufferedImage image) {
+		for (int y = 0; y < image.getHeight(); y++) {
+			for (int x = 0; x < image.getWidth(); x++) {
+				if ((image.getRGB(x, y) >>> 24) != 0) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	private int writeFiles(ZipFile zip) throws IOException {
@@ -538,9 +554,13 @@ public final class EraTexturePack {
 				if (part.has("shade")) {
 					piece = shade(piece, part.get("shade").getAsFloat());
 				}
+				if (part.has("tint")) {
+					piece = tint(piece, Integer.parseInt(part.get("tint").getAsString(), 16));
+				}
 				int dw = dst.size() > 2 ? dst.get(2).getAsInt() : piece.getWidth();
 				int dh = dst.size() > 3 ? dst.get(3).getAsInt() : piece.getHeight();
-				g.setComposite(AlphaComposite.Src);
+				// "over" draws the piece on top of what is there (an overlay); otherwise it replaces those pixels.
+				g.setComposite(part.has("over") && part.get("over").getAsBoolean() ? AlphaComposite.SrcOver : AlphaComposite.Src);
 				g.drawImage(piece, dx, dy, dx + dw, dy + dh, 0, 0, piece.getWidth(), piece.getHeight(), null);
 				g.setComposite(AlphaComposite.SrcOver);
 			}
@@ -550,6 +570,24 @@ public final class EraTexturePack {
 			}
 		}
 		return written;
+	}
+
+	/** Multiplies each pixel by an RGB colour, as the old games tinted a grey texture (spawn eggs, say) when drawing it. */
+	private static BufferedImage tint(BufferedImage image, int rgb) {
+		BufferedImage out = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		int tr = rgb >> 16 & 255;
+		int tg = rgb >> 8 & 255;
+		int tb = rgb & 255;
+		for (int x = 0; x < image.getWidth(); x++) {
+			for (int y = 0; y < image.getHeight(); y++) {
+				int argb = image.getRGB(x, y);
+				int r = (argb >> 16 & 255) * tr / 255;
+				int g = (argb >> 8 & 255) * tg / 255;
+				int b = (argb & 255) * tb / 255;
+				out.setRGB(x, y, argb & 0xFF000000 | r << 16 | g << 8 | b);
+			}
+		}
+		return out;
 	}
 
 	private static BufferedImage shade(BufferedImage image, float factor) {

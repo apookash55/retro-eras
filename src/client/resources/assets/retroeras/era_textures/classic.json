@@ -63,6 +63,70 @@
         "248": ["block/destroy_stage_8"],
         "249": ["block/destroy_stage_9"]
       }
+    },
+    {
+      "file": "particles.png",
+      "skip_empty": true,
+      "shared": true,
+      "tiles": {
+        "0": ["particle/generic_0"],
+        "1": ["particle/generic_1"],
+        "2": ["particle/generic_2"],
+        "3": ["particle/generic_3"],
+        "4": ["particle/generic_4"],
+        "5": ["particle/generic_5"],
+        "6": ["particle/generic_6"],
+        "7": ["particle/generic_7"],
+        "19": ["particle/splash_0"],
+        "20": ["particle/splash_1"],
+        "21": ["particle/splash_2"],
+        "22": ["particle/splash_3"],
+        "32": ["particle/bubble"],
+        "48": ["particle/flame"],
+        "49": ["particle/lava"],
+        "64": ["particle/note"],
+        "65": ["particle/critical_hit", "particle/enchanted_hit"],
+        "80": ["particle/heart"],
+        "81": ["particle/angry"],
+        "82": ["particle/glint"],
+        "112": ["particle/drip_fall"],
+        "113": ["particle/drip_hang"],
+        "114": ["particle/drip_land"],
+        "128": ["particle/effect_0", "particle/spell_0"],
+        "129": ["particle/effect_1", "particle/spell_1"],
+        "130": ["particle/effect_2", "particle/spell_2"],
+        "131": ["particle/effect_3", "particle/spell_3"],
+        "132": ["particle/effect_4", "particle/spell_4"],
+        "133": ["particle/effect_5", "particle/spell_5"],
+        "134": ["particle/effect_6", "particle/spell_6"],
+        "135": ["particle/effect_7", "particle/spell_7"],
+        "225": ["particle/sga_a"],
+        "226": ["particle/sga_b"],
+        "227": ["particle/sga_c"],
+        "228": ["particle/sga_d"],
+        "229": ["particle/sga_e"],
+        "230": ["particle/sga_f"],
+        "231": ["particle/sga_g"],
+        "232": ["particle/sga_h"],
+        "233": ["particle/sga_i"],
+        "234": ["particle/sga_j"],
+        "235": ["particle/sga_k"],
+        "236": ["particle/sga_l"],
+        "237": ["particle/sga_m"],
+        "238": ["particle/sga_n"],
+        "239": ["particle/sga_o"],
+        "240": ["particle/sga_p"],
+        "241": ["particle/sga_q"],
+        "242": ["particle/sga_r"],
+        "243": ["particle/sga_s"],
+        "244": ["particle/sga_t"],
+        "245": ["particle/sga_u"],
+        "246": ["particle/sga_v"],
+        "247": ["particle/sga_w"],
+        "248": ["particle/sga_x"],
+        "249": ["particle/sga_y"],
+        "250": ["particle/sga_z"]
+      }
     }
   ],
   "clear": ["block/grass_block_side_overlay"],
@@ -81,18 +145,16 @@
     {
       "from": "char.png",
       "transform": "legacy_skin",
-      "to": [
-        "entity/player/wide/steve", "entity/player/wide/alex", "entity/player/wide/ari", "entity/player/wide/efe", "entity/player/wide/kai",
-        "entity/player/wide/makena", "entity/player/wide/noor", "entity/player/wide/sunny", "entity/player/wide/zuri",
-        "entity/player/slim/steve", "entity/player/slim/alex", "entity/player/slim/ari", "entity/player/slim/efe", "entity/player/slim/kai",
-        "entity/player/slim/makena", "entity/player/slim/noor", "entity/player/slim/sunny", "entity/player/slim/zuri"
-      ]
+      "to": ["entity/player/wide/steve", "entity/player/wide/alex", "entity/player/wide/ari", "entity/player/wide/efe", "entity/player/wide/kai", "entity/player/wide/makena", "entity/player/wide/noor", "entity/player/wide/sunny", "entity/player/wide/zuri", "entity/player/slim/steve", "entity/player/slim/alex", "entity/player/slim/ari", "entity/player/slim/efe", "entity/player/slim/kai", "entity/player/slim/makena", "entity/player/slim/noor", "entity/player/slim/sunny", "entity/player/slim/zuri"]
     }
   ],
   "regions": [
     { "from": "gui/gui.png", "x": 0, "y": 0, "w": 182, "h": 22, "to": ["gui/sprites/hud/hotbar"] },
     { "from": "gui/gui.png", "x": 0, "y": 22, "w": 24, "h": 23, "to": ["gui/sprites/hud/hotbar_selection"] },
-    { "from": "gui/icons.png", "x": 0, "y": 0, "w": 15, "h": 15, "to": ["gui/sprites/hud/crosshair"] }
+    { "from": "gui/icons.png", "x": 0, "y": 0, "w": 15, "h": 15, "to": ["gui/sprites/hud/crosshair"] },
+    { "from": "gui/gui.png", "x": 0, "y": 46, "w": 200, "h": 20, "to": ["gui/sprites/widget/button_disabled"], "shared": true },
+    { "from": "gui/gui.png", "x": 0, "y": 66, "w": 200, "h": 20, "to": ["gui/sprites/widget/button"], "shared": true },
+    { "from": "gui/gui.png", "x": 0, "y": 86, "w": 200, "h": 20, "to": ["gui/sprites/widget/button_highlighted"], "shared": true }
   ],
   "effects": [
     { "effect": "water_still", "frames": 64, "to": ["block/water_still|untint:3F76E4"] },
