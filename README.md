@@ -209,6 +209,23 @@ The aim is for each era to be as close to the real version as possible. What sti
 | Old screens | 1.6.4 and others | Medium | 1.6.4's inventory, the pause menu and the F3 screen are 26.3's. Beta's inventory is done. |
 | Old block shapes | Alpha to 1.6.4 | Medium | Some blocks changed shape since, such as fences and stairs. |
 
+**Textures still 26.3's**
+
+Block textures and item icons are nearly all old: Classic and Cave game are complete, and Infdev, Alpha and Beta lack only a handful. (Slabs, stairs, fences, buttons, pressure plates and carpets use their block's texture, so they already look old.) What is still 26.3's:
+
+| Plan | Eras | Size | What it involves |
+| --- | --- | --- | --- |
+| Particles | Infdev to 1.6.4 | Small–Medium | Smoke, explosions, bubbles, rain splashes, hearts and critical hits from each jar's particles.png. No era has its old particles yet. |
+| Buttons and menu backgrounds | Infdev to 1.6.4 | Small | The pause, death and options screens use 26.3's buttons and backgrounds; the old ones are in each jar's gui.png and background.png. |
+| Worn armour | Infdev, 1.6.4 | Small | The armour drawn on players and mobs (armor/*_1.png and *_2.png). Alpha and Beta have it; Infdev and 1.6.4 do not. |
+| Paintings | Alpha to 1.6.4 | Small | The old paintings, all on one sheet (art/kz.png), cut into 26.3's separate pictures. |
+| Arrows, boats, minecarts and signs in the world | Infdev to 1.6.4 | Small–Medium | The entity textures for these (item/arrows.png, boat.png, cart.png, sign.png in Beta); 26.3's models changed shape, so some need rebuilding like the chests. |
+| Chests, beds and skulls in 1.6.4 | 1.6.4 | Small–Medium | 1.6.4's chest, ender chest, trapped chest, bed and mob head textures, rebuilt for 26.3's models, as was done for Beta's chests and beds. |
+| Leftover items | Infdev, Beta, 1.6.4 | Small | Infdev's chest, leather armour and minecart icons; Beta's sticky piston and filled map; 1.6.4's spawn eggs (one tinted egg then, a picture per mob now) and enchanted golden apple. |
+| Compass and clock | Alpha to 1.6.4 | Small–Medium | Both were drawn by code each tick in the old versions, like water and fire; they need ports of that code. |
+| Map and status effect icons | Beta, 1.6.4 | Small | The map background and markers (misc/mapbg.png, mapicons.png), and 1.6.4's potion effect icons in the inventory. |
+| 1.6.4 water, lava, horses and inventory | 1.6.4 | Medium | Left modern when 1.6.4's textures were mapped: its water and lava tint differently, horses changed model, and its inventory screen moved the crafting grid. |
+
 **Bigger gameplay and generation**
 
 | Plan | Eras | Size | What it involves |
