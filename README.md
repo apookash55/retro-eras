@@ -13,7 +13,7 @@ A Fabric mod for Minecraft 26.3 that adds a dimension for each historical era of
 
 1.6.4, Beta and Alpha each have their own Nether too: `retroeras:old_release_nether`, `retroeras:beta_nether` and `retroeras:alpha_nether`.
 
-All six eras can be played in single player. The latest release is **v0.2.0**, on the GitHub Releases page of `apookash55/retro-eras`.
+All six eras can be played in single player. The latest release is **v0.3.0**, on the GitHub Releases page of `apookash55/retro-eras`.
 
 ## Getting to an era
 
@@ -37,7 +37,7 @@ Retro Eras is a Fabric mod for Minecraft 26.3. It needs Fabric Loader 0.20.1 or 
 2. Install Fabric for 26.3 (the Fabric installer from fabricmc.net, or the version profile from `meta.fabricmc.net`), and put the mod and Fabric API in that profile's `mods` folder.
 3. Play each old version once in the launcher (Beta 1.7.3, Alpha 1.2.6, Infdev 20100618, Classic c0.30_01c, rd-132211 and 1.6.4) so its jar and sounds are on your computer. The mod reads its textures and sounds from them, and an era whose jar is missing keeps modern textures.
 
-Ready-made jars are on the GitHub Releases page. To publish a new one, set `version` in `gradle.properties`, commit, and push a matching tag (`git tag v0.3.0` then `git push origin v0.3.0`): GitHub Actions builds the mod and attaches the jar to a new release, with the install steps from `.github/release-notes.md`.
+Ready-made jars are on the GitHub Releases page. To publish a new one, set `version` in `gradle.properties`, commit, and push a matching tag (`git tag v0.4.0` then `git push origin v0.4.0`): GitHub Actions builds the mod and attaches the jar to a new release, with the install steps from `.github/release-notes.md`.
 
 For development, `./gradlew runClient` starts the game with the mod from source.
 
