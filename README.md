@@ -13,7 +13,7 @@ A Fabric mod for Minecraft 26.3 that adds a dimension for each historical era of
 
 1.6.4, Beta and Alpha each have their own Nether too: `retroeras:old_release_nether`, `retroeras:beta_nether` and `retroeras:alpha_nether`.
 
-All six eras can be played in single player. The latest release is **v0.5.0**, on the GitHub Releases page of `apookash55/retro-eras`.
+All six eras can be played in single player. The latest release is **v0.6.0**, on the GitHub Releases page of `apookash55/retro-eras`.
 
 ## Getting to an era
 
