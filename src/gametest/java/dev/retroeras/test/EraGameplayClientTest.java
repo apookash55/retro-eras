@@ -10,6 +10,11 @@ import dev.retroeras.player.EraItems;
 import dev.retroeras.client.EraFog;
 import dev.retroeras.client.EraSettingsScreen;
 
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.client.gui.components.CycleButton;
@@ -110,6 +115,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkOldRules(context, server);
 			checkWitchHut(context, server);
 			checkClassicWater(context, server);
+			checkEnd(context, server);
 			textureScene(context, server, Era.BETA);
 			textureScene(context, server, Era.OLD_RELEASE);
 		}
@@ -290,7 +296,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 	 * which had no Nether.
 	 */
 	private static void checkVanillaPortals(ClientGameTestContext context, TestServerContext server) {
-		go(context, server, Era.OLD_RELEASE);
+		go(context, server, Era.BETA);
 		BlockPos feet = server.computeOnServer(s -> {
 			ServerPlayer player = player(s);
 			BlockPos pos = player.blockPosition();
@@ -300,7 +306,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		context.waitTicks(20);
 		server.runOnServer(s -> {
 			ServerPlayer player = player(s);
-			check(player.level().dimension() == Era.OLD_RELEASE.getDimension(), "An End portal in Old Release should not lead out, player is in " + player.level().dimension());
+			check(player.level().dimension() == Era.BETA.getDimension(), "An End portal in Beta should not lead out, player is in " + player.level().dimension());
 			player.level().setBlock(feet, Blocks.AIR.defaultBlockState(), 2);
 		});
 
@@ -622,6 +628,96 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 	}
 
 	/** Classic's water spreads without end: a spring on a long ledge runs much further than 26.3's seven blocks. */
+	/**
+	 * 1.6.4's End: a stronghold's portal leads to the obsidian platform, the dragon there is the old one, killing it leaves
+	 * the exit portal and egg under it, and that portal plays the credits and returns to the era.
+	 */
+	private static void checkEnd(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			player.setGameMode(GameType.CREATIVE);
+			player.level().setBlock(player.blockPosition(), Blocks.END_PORTAL.defaultBlockState(), 2);
+		});
+		context.waitTicks(40);
+		ResourceKey<Level> end = Era.OLD_RELEASE.getEnd();
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().dimension() == end, "An End portal in Old Release should lead to its End, player is in " + player.level().dimension());
+			check(player.level().getBlockState(new BlockPos(100, 48, 0)).is(Blocks.OBSIDIAN), "The arrival platform should be obsidian at y = 48");
+			check(player.level().getBlockState(new BlockPos(100, 49, 0)).isAir(), "The arrival platform should have air above it");
+			player.getAbilities().flying = true;
+			player.onUpdateAbilities();
+			player.teleportTo(0.5, 110.0, 40.5);
+		});
+		context.waitTicks(60);
+		takeScreenshot(context, "end_island");
+		Vec3[] start = new Vec3[1];
+		server.runOnServer(s -> {
+			ServerLevel level = s.getLevel(end);
+			List<? extends EnderDragon> dragons = level.getEntities(EntityTypes.ENDER_DRAGON, dragon -> true);
+			check(dragons.size() == 1, "The End should have one dragon, found " + dragons.size());
+			check(level.getDragonFight() == null, "This End should have no modern dragon fight");
+			start[0] = dragons.get(0).position();
+		});
+		context.waitTicks(100);
+		server.runOnServer(s -> {
+			ServerLevel level = s.getLevel(end);
+			EnderDragon dragon = level.getEntities(EntityTypes.ENDER_DRAGON, d -> true).get(0);
+			double moved = dragon.position().distanceTo(start[0]);
+			check(moved > 5.0, "The dragon should fly, it moved " + moved + " blocks in 5 seconds");
+			ServerPlayer attacker = player(s);
+			dragon.setHealth(100.0F);
+			check(!dragon.hurtServer(level, level.damageSources().playerAttack(attacker), 50.0F), "The dragon's body should not take damage itself");
+			check(dragon.getHealth() == 100.0F, "The dragon's body should not take damage itself, health is " + dragon.getHealth());
+			dragon.head.hurtServer(level, level.damageSources().playerAttack(attacker), 20.0F);
+			check(dragon.getHealth() == 80.0F, "A hit on the head should do full damage, health is " + dragon.getHealth());
+			dragon.damageCooldownTime = 0;
+			EnderDragonPart wing = dragon.getSubEntities()[6];
+			wing.hurtServer(level, level.damageSources().playerAttack(attacker), 20.0F);
+			check(dragon.getHealth() == 74.0F, "A hit elsewhere should do a quarter plus one, health is " + dragon.getHealth());
+			dragon.damageCooldownTime = 0;
+			wing.hurtServer(level, level.damageSources().cactus(), 20.0F);
+			check(dragon.getHealth() == 74.0F, "Only players and explosions should hurt the dragon, health is " + dragon.getHealth());
+			dragon.damageCooldownTime = 0;
+			dragon.setHealth(1.0F);
+			dragon.head.hurtServer(level, level.damageSources().playerAttack(attacker), 20.0F);
+			check(dragon.isDeadOrDying(), "The dragon should die without a modern dying phase, health is " + dragon.getHealth());
+		});
+		context.waitTicks(100);
+		takeScreenshot(context, "end_dragon_dying");
+		context.waitTicks(140);
+		server.runOnServer(s -> {
+			ServerLevel level = s.getLevel(end);
+			check(level.getEntities(EntityTypes.ENDER_DRAGON, d -> true).isEmpty(), "The dragon should be gone ten seconds after dying");
+			BlockPos egg = null;
+			for (BlockPos pos : BlockPos.betweenClosed(-96, 68, -96, 96, 68, 96)) {
+				if (level.getBlockState(pos).is(Blocks.DRAGON_EGG)) {
+					egg = pos.immutable();
+				}
+			}
+			check(egg != null, "The dragon should leave its egg at y = 68");
+			BlockPos centre = egg.below(4);
+			check(level.getBlockState(centre).is(Blocks.BEDROCK), "The egg should stand on a bedrock pillar");
+			check(level.getBlockState(centre.above(2).north()).is(Blocks.WALL_TORCH), "The pillar should have torches");
+			check(level.getBlockState(centre.east()).is(Blocks.END_PORTAL), "The exit should be a pool of End portal at y = 64");
+			check(level.getBlockState(centre.east(3)).is(Blocks.BEDROCK), "The pool should have a bedrock rim");
+			player(s).teleportTo(centre.getX() + 1.5, 64.2, centre.getZ() + 0.5);
+		});
+		context.waitTicks(40);
+		context.runOnClient(client -> {
+			check(client.gui.screen() instanceof WinScreen, "The exit portal should play the credits, screen is " + client.gui.screen());
+			client.gui.screen().onClose();
+		});
+		context.waitTicks(40);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			check(player.level().dimension() == Era.OLD_RELEASE.getDimension(), "The credits should end in the era, player is in " + player.level().dimension());
+			player.setGameMode(GameType.SURVIVAL);
+		});
+		go(context, server, null);
+	}
+
 	private static void checkClassicWater(ClientGameTestContext context, TestServerContext server) {
 		go(context, server, Era.CLASSIC);
 		BlockPos start = server.computeOnServer(s -> {

@@ -144,6 +144,9 @@ public final class EraAchievements {
 			if (era != null && era.isNether(destination.dimension())) {
 				award(player, "portal");
 			}
+			if (era != null && era.isEnd(destination.dimension())) {
+				award(player, "the_end");
+			}
 		});
 
 		ServerTickEvents.END_SERVER_TICK.register(server -> {

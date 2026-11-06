@@ -2809,6 +2809,42 @@
       ]
     },
     {
+      "from": "assets/minecraft/textures/entity/enderdragon/dragon.png",
+      "to": [
+        "entity/enderdragon/dragon"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/entity/enderdragon/dragon_exploding.png",
+      "to": [
+        "entity/enderdragon/dragon_exploding"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/entity/enderdragon/dragon_eyes.png",
+      "to": [
+        "entity/enderdragon/dragon_eyes"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/entity/endercrystal/endercrystal.png",
+      "to": [
+        "entity/end_crystal/end_crystal"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/entity/endercrystal/endercrystal_beam.png",
+      "to": [
+        "entity/end_crystal/end_crystal_beam"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/entity/end_portal.png",
+      "to": [
+        "entity/end_portal/end_portal"
+      ]
+    },
+    {
       "from": "assets/minecraft/textures/entity/pig/pig.png",
       "to": [
         "entity/pig/pig_temperate"
@@ -2942,6 +2978,12 @@
       "from": "assets/minecraft/textures/environment/clouds.png",
       "to": [
         "environment/clouds"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/environment/end_sky.png",
+      "to": [
+        "environment/end_sky"
       ]
     },
     {
@@ -3913,195 +3955,6 @@
     "entity/zombie_villager/type/taiga",
     "entity/zombie_villager/type/jungle",
     "entity/villager/type/desert"
-  ],
-  "atlases": [
-    {
-      "file": "assets/minecraft/textures/particle/particles.png",
-      "skip_empty": true,
-      "shared": true,
-      "tiles": {
-        "0": [
-          "particle/generic_0"
-        ],
-        "1": [
-          "particle/generic_1"
-        ],
-        "2": [
-          "particle/generic_2"
-        ],
-        "3": [
-          "particle/generic_3"
-        ],
-        "4": [
-          "particle/generic_4"
-        ],
-        "5": [
-          "particle/generic_5"
-        ],
-        "6": [
-          "particle/generic_6"
-        ],
-        "7": [
-          "particle/generic_7"
-        ],
-        "19": [
-          "particle/splash_0"
-        ],
-        "20": [
-          "particle/splash_1"
-        ],
-        "21": [
-          "particle/splash_2"
-        ],
-        "22": [
-          "particle/splash_3"
-        ],
-        "32": [
-          "particle/bubble"
-        ],
-        "48": [
-          "particle/flame"
-        ],
-        "49": [
-          "particle/lava"
-        ],
-        "64": [
-          "particle/note"
-        ],
-        "65": [
-          "particle/critical_hit",
-          "particle/enchanted_hit"
-        ],
-        "80": [
-          "particle/heart"
-        ],
-        "81": [
-          "particle/angry"
-        ],
-        "82": [
-          "particle/glint"
-        ],
-        "112": [
-          "particle/drip_fall"
-        ],
-        "113": [
-          "particle/drip_hang"
-        ],
-        "114": [
-          "particle/drip_land"
-        ],
-        "128": [
-          "particle/effect_0",
-          "particle/spell_0"
-        ],
-        "129": [
-          "particle/effect_1",
-          "particle/spell_1"
-        ],
-        "130": [
-          "particle/effect_2",
-          "particle/spell_2"
-        ],
-        "131": [
-          "particle/effect_3",
-          "particle/spell_3"
-        ],
-        "132": [
-          "particle/effect_4",
-          "particle/spell_4"
-        ],
-        "133": [
-          "particle/effect_5",
-          "particle/spell_5"
-        ],
-        "134": [
-          "particle/effect_6",
-          "particle/spell_6"
-        ],
-        "135": [
-          "particle/effect_7",
-          "particle/spell_7"
-        ],
-        "225": [
-          "particle/sga_a"
-        ],
-        "226": [
-          "particle/sga_b"
-        ],
-        "227": [
-          "particle/sga_c"
-        ],
-        "228": [
-          "particle/sga_d"
-        ],
-        "229": [
-          "particle/sga_e"
-        ],
-        "230": [
-          "particle/sga_f"
-        ],
-        "231": [
-          "particle/sga_g"
-        ],
-        "232": [
-          "particle/sga_h"
-        ],
-        "233": [
-          "particle/sga_i"
-        ],
-        "234": [
-          "particle/sga_j"
-        ],
-        "235": [
-          "particle/sga_k"
-        ],
-        "236": [
-          "particle/sga_l"
-        ],
-        "237": [
-          "particle/sga_m"
-        ],
-        "238": [
-          "particle/sga_n"
-        ],
-        "239": [
-          "particle/sga_o"
-        ],
-        "240": [
-          "particle/sga_p"
-        ],
-        "241": [
-          "particle/sga_q"
-        ],
-        "242": [
-          "particle/sga_r"
-        ],
-        "243": [
-          "particle/sga_s"
-        ],
-        "244": [
-          "particle/sga_t"
-        ],
-        "245": [
-          "particle/sga_u"
-        ],
-        "246": [
-          "particle/sga_v"
-        ],
-        "247": [
-          "particle/sga_w"
-        ],
-        "248": [
-          "particle/sga_x"
-        ],
-        "249": [
-          "particle/sga_y"
-        ],
-        "250": [
-          "particle/sga_z"
-        ]
-      }
-    }
   ],
   "compose": [
     {
@@ -5169,6 +5022,195 @@
           "over": true
         }
       ]
+    }
+  ],
+  "atlases": [
+    {
+      "file": "assets/minecraft/textures/particle/particles.png",
+      "skip_empty": true,
+      "shared": true,
+      "tiles": {
+        "0": [
+          "particle/generic_0"
+        ],
+        "1": [
+          "particle/generic_1"
+        ],
+        "2": [
+          "particle/generic_2"
+        ],
+        "3": [
+          "particle/generic_3"
+        ],
+        "4": [
+          "particle/generic_4"
+        ],
+        "5": [
+          "particle/generic_5"
+        ],
+        "6": [
+          "particle/generic_6"
+        ],
+        "7": [
+          "particle/generic_7"
+        ],
+        "19": [
+          "particle/splash_0"
+        ],
+        "20": [
+          "particle/splash_1"
+        ],
+        "21": [
+          "particle/splash_2"
+        ],
+        "22": [
+          "particle/splash_3"
+        ],
+        "32": [
+          "particle/bubble"
+        ],
+        "48": [
+          "particle/flame"
+        ],
+        "49": [
+          "particle/lava"
+        ],
+        "64": [
+          "particle/note"
+        ],
+        "65": [
+          "particle/critical_hit",
+          "particle/enchanted_hit"
+        ],
+        "80": [
+          "particle/heart"
+        ],
+        "81": [
+          "particle/angry"
+        ],
+        "82": [
+          "particle/glint"
+        ],
+        "112": [
+          "particle/drip_fall"
+        ],
+        "113": [
+          "particle/drip_hang"
+        ],
+        "114": [
+          "particle/drip_land"
+        ],
+        "128": [
+          "particle/effect_0",
+          "particle/spell_0"
+        ],
+        "129": [
+          "particle/effect_1",
+          "particle/spell_1"
+        ],
+        "130": [
+          "particle/effect_2",
+          "particle/spell_2"
+        ],
+        "131": [
+          "particle/effect_3",
+          "particle/spell_3"
+        ],
+        "132": [
+          "particle/effect_4",
+          "particle/spell_4"
+        ],
+        "133": [
+          "particle/effect_5",
+          "particle/spell_5"
+        ],
+        "134": [
+          "particle/effect_6",
+          "particle/spell_6"
+        ],
+        "135": [
+          "particle/effect_7",
+          "particle/spell_7"
+        ],
+        "225": [
+          "particle/sga_a"
+        ],
+        "226": [
+          "particle/sga_b"
+        ],
+        "227": [
+          "particle/sga_c"
+        ],
+        "228": [
+          "particle/sga_d"
+        ],
+        "229": [
+          "particle/sga_e"
+        ],
+        "230": [
+          "particle/sga_f"
+        ],
+        "231": [
+          "particle/sga_g"
+        ],
+        "232": [
+          "particle/sga_h"
+        ],
+        "233": [
+          "particle/sga_i"
+        ],
+        "234": [
+          "particle/sga_j"
+        ],
+        "235": [
+          "particle/sga_k"
+        ],
+        "236": [
+          "particle/sga_l"
+        ],
+        "237": [
+          "particle/sga_m"
+        ],
+        "238": [
+          "particle/sga_n"
+        ],
+        "239": [
+          "particle/sga_o"
+        ],
+        "240": [
+          "particle/sga_p"
+        ],
+        "241": [
+          "particle/sga_q"
+        ],
+        "242": [
+          "particle/sga_r"
+        ],
+        "243": [
+          "particle/sga_s"
+        ],
+        "244": [
+          "particle/sga_t"
+        ],
+        "245": [
+          "particle/sga_u"
+        ],
+        "246": [
+          "particle/sga_v"
+        ],
+        "247": [
+          "particle/sga_w"
+        ],
+        "248": [
+          "particle/sga_x"
+        ],
+        "249": [
+          "particle/sga_y"
+        ],
+        "250": [
+          "particle/sga_z"
+        ]
+      }
     }
   ]
 }

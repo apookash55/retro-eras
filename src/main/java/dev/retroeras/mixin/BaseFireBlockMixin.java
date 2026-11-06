@@ -16,7 +16,7 @@ abstract class BaseFireBlockMixin {
 	@Inject(method = "inPortalDimension", at = @At("HEAD"), cancellable = true)
 	private static void retroeras$eraPortals(Level level, CallbackInfoReturnable<Boolean> cir) {
 		Era era = Era.fromDimension(level.dimension());
-		if (era != null && era.getNether() != null) {
+		if (era != null && era.getNether() != null && !era.isEnd(level.dimension())) {
 			cir.setReturnValue(true);
 		}
 	}

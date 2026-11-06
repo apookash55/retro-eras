@@ -1,0 +1,10 @@
+{
+  "type": "retroeras:end",
+  "generator": {
+    "type": "retroeras:end",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "retroeras:release/sky"
+    }
+  }
+}

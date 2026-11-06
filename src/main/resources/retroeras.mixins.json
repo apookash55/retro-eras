@@ -12,7 +12,10 @@
 		"BowItemMixin",
 		"ClassicLiquidMixin",
 		"CraftingMenuMixin",
+		"EndCrystalMixin",
+		"EnderDragonMixin",
 		"EnderEyeItemMixin",
+		"EndPortalBlockMixin",
 		"FoodDataMixin",
 		"FoodPropertiesMixin",
 		"FurnaceResultSlotMixin",
@@ -26,6 +29,7 @@
 		"PlayerCrawlMixin",
 		"PlayerPoseMixin",
 		"PotionSlotMixin",
+		"ServerPlayerRespawnMixin",
 		"VanillaPortalMixin"
 	],
 	"injectors": {

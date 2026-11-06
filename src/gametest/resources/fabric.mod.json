@@ -10,6 +10,7 @@
 			"dev.retroeras.test.AlphaTerrainTest",
 			"dev.retroeras.test.FarLandsTest",
 			"dev.retroeras.test.NetherTerrainTest",
+			"dev.retroeras.test.EndTerrainTest",
 			"dev.retroeras.test.CavegameTerrainTest",
 			"dev.retroeras.test.ClassicTerrainTest",
 			"dev.retroeras.test.InfdevTerrainTest",

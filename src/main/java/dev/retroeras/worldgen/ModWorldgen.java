@@ -26,6 +26,7 @@ public final class ModWorldgen {
 		Registry.register(BuiltInRegistries.CHUNK_GENERATOR, RetroEras.id("release"), ReleaseChunkGenerator.CODEC);
 		Registry.register(BuiltInRegistries.BIOME_SOURCE, RetroEras.id("release"), ReleaseBiomeSource.CODEC);
 		Registry.register(BuiltInRegistries.CHUNK_GENERATOR, RetroEras.id("nether"), dev.retroeras.worldgen.nether.NetherChunkGenerator.CODEC);
+		Registry.register(BuiltInRegistries.CHUNK_GENERATOR, RetroEras.id("end"), dev.retroeras.worldgen.end.EndChunkGenerator.CODEC);
 
 		// Seed the Beta and 1.6.4 generators as soon as their level loads, so biome lookups (e.g. /locate) work before any chunk generates.
 		ServerLevelEvents.LOAD.register((server, level) -> {
