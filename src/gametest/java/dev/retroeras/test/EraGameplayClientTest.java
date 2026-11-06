@@ -14,6 +14,14 @@ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.vehicle.boat.Boat;
+import net.minecraft.world.entity.vehicle.minecart.Minecart;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
@@ -118,6 +126,15 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkClassicWater(context, server);
 			checkEnd(context, server);
 			checkDecoration(context, server);
+			checkArmourAgainstFalls(context, server);
+			droppedItemsScreenshot(context, server, Era.BETA);
+			droppedItemsScreenshot(context, server, Era.OLD_RELEASE);
+			vehiclesScreenshot(context, server, Era.BETA);
+			vehiclesScreenshot(context, server, Era.OLD_RELEASE);
+			mobsScreenshot(context, server, Era.BETA);
+			mobsScreenshot(context, server, Era.OLD_RELEASE);
+			shadowScreenshot(context, server, Era.CLASSIC);
+			shadowScreenshot(context, server, Era.CAVEGAME);
 			textureScene(context, server, Era.BETA);
 			textureScene(context, server, Era.OLD_RELEASE);
 		}
@@ -682,6 +699,8 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			wing.hurtServer(level, level.damageSources().cactus(), 20.0F);
 			check(dragon.getHealth() == 74.0F, "Only players and explosions should hurt the dragon, health is " + dragon.getHealth());
 			dragon.damageCooldownTime = 0;
+			// Dying only ticks in simulated chunks, so keep it close by, as it would be in a fight.
+			dragon.snapTo(attacker.getX(), attacker.getY() + 10.0, attacker.getZ(), 0.0F, 0.0F);
 			dragon.setHealth(1.0F);
 			dragon.head.hurtServer(level, level.damageSources().playerAttack(attacker), 20.0F);
 			check(dragon.isDeadOrDying(), "The dragon should die without a modern dying phase, health is " + dragon.getHealth());
@@ -720,6 +739,37 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		go(context, server, null);
 	}
 
+	/** Armour softens a fall in Beta, where it softened everything, but not in 1.6.4. */
+	private static void checkArmourAgainstFalls(ClientGameTestContext context, TestServerContext server) {
+		for (Era era : new Era[] {Era.BETA, Era.OLD_RELEASE}) {
+			go(context, server, era);
+			server.runOnServer(s -> {
+				ServerPlayer player = player(s);
+				player.setGameMode(GameType.SURVIVAL);
+				player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+			});
+			context.waitTicks(2);
+			server.runOnServer(s -> {
+				ServerPlayer player = player(s);
+				player.setHealth(20.0F);
+				player.damageCooldownTime = 0;
+				player.setInvulnerableTime(0);
+				// The test world gives the player Resistance, which would take all of the fall.
+				MobEffectInstance resistance = player.getEffect(MobEffects.RESISTANCE);
+				player.removeEffect(MobEffects.RESISTANCE);
+				player.hurtServer(player.level(), player.damageSources().fall(), 10.0F);
+				if (resistance != null) {
+					player.addEffect(resistance);
+				}
+				float taken = 20.0F - player.getHealth();
+				boolean softened = taken < 10.0F;
+				check(taken > 0.0F && softened == (era == Era.BETA), era.getName() + " fall of 10 did " + taken);
+				player.setHealth(20.0F);
+				player.setItemSlot(EquipmentSlot.CHEST, ItemStack.EMPTY);
+			});
+		}
+	}
+
 	/** Beta's and Alpha's ported decoration, counted over the chunks around the origin of each. */
 	private static void checkDecoration(ClientGameTestContext context, TestServerContext server) {
 		for (Era era : new Era[] {Era.BETA, Era.ALPHA}) {
@@ -742,6 +792,106 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 				player.onUpdateAbilities();
 			});
 		}
+	}
+
+	/** Items in front of the player: flat pictures before 1.6.4, a block stays a cube. */
+	private static void droppedItemsScreenshot(ClientGameTestContext context, TestServerContext server, Era era) {
+		go(context, server, era);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			ServerLevel level = player.level();
+			Vec3 look = player.getLookAngle();
+			Vec3 side = new Vec3(-look.z, 0.0, look.x).normalize();
+			int count = 0;
+			for (ItemStack stack : List.of(new ItemStack(Items.DIAMOND), new ItemStack(Items.STICK, 32), new ItemStack(Items.STONE))) {
+				ItemEntity item = new ItemEntity(level, player.getX() + look.x * 2.5 + side.x * (count - 1) * 0.8, player.getEyeY() + look.y * 2.5 - 0.3,
+						player.getZ() + look.z * 2.5 + side.z * (count - 1) * 0.8, stack, 0.0, 0.0, 0.0);
+				item.setNoGravity(true);
+				item.setNeverPickUp();
+				level.addFreshEntity(item);
+				count++;
+			}
+		});
+		context.waitTicks(30);
+		takeScreenshot(context, era.getName() + "_dropped_items");
+	}
+
+	/** A boat, minecart and arrow on a stone floor, on their old textures. */
+	private static void vehiclesScreenshot(ClientGameTestContext context, TestServerContext server, Era era) {
+		go(context, server, era);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			ServerLevel level = player.level();
+			BlockPos feet = player.blockPosition();
+			Vec3 look = player.getLookAngle();
+			Vec3 side = new Vec3(-look.z, 0.0, look.x).normalize();
+			BlockPos centre = feet.offset((int) Math.round(look.x * 5.0), 0, (int) Math.round(look.z * 5.0));
+			for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-5, -1, -5), centre.offset(5, -1, 5))) {
+				level.setBlock(pos, Blocks.STONE.defaultBlockState(), 3);
+			}
+			for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-5, 0, -5), centre.offset(5, 3, 5))) {
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			}
+			float facing = player.getYRot() + 180.0F;
+			Boat boat = EntityTypes.OAK_BOAT.create(level, EntitySpawnReason.COMMAND);
+			check(boat != null, "Could not create a boat");
+			boat.snapTo(centre.getX() + 0.5 - side.x * 2.5, centre.getY(), centre.getZ() + 0.5 - side.z * 2.5, facing + 45.0F, 0.0F);
+			level.addFreshEntity(boat);
+			Minecart cart = EntityTypes.MINECART.create(level, EntitySpawnReason.COMMAND);
+			check(cart != null, "Could not create a minecart");
+			cart.snapTo(centre.getX() + 0.5 + side.x * 2.5, centre.getY(), centre.getZ() + 0.5 + side.z * 2.5, facing + 45.0F, 0.0F);
+			level.addFreshEntity(cart);
+			Arrow arrow = new Arrow(level, centre.getX() + 0.5 + look.x * -1.5, centre.getY() + 1.5, centre.getZ() + 0.5 + look.z * -1.5, new ItemStack(Items.ARROW), null);
+			arrow.setNoGravity(true);
+			arrow.setYRot(facing + 90.0F);
+			level.addFreshEntity(arrow);
+		});
+		context.waitTicks(30);
+		takeScreenshot(context, era.getName() + "_vehicles");
+	}
+
+	/** Adults and babies side by side, on the old models and old textures. */
+	private static void mobsScreenshot(ClientGameTestContext context, TestServerContext server, Era era) {
+		go(context, server, era);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			ServerLevel level = player.level();
+			Vec3 look = player.getLookAngle();
+			Vec3 side = new Vec3(-look.z, 0.0, look.x);
+			List<EntityType<? extends Mob>> types = List.of(EntityTypes.COW, EntityTypes.PIG, EntityTypes.SHEEP, EntityTypes.CHICKEN, EntityTypes.WOLF);
+			for (int i = 0; i < types.size(); i++) {
+				for (int baby = 0; baby < 2; baby++) {
+					Mob mob = types.get(i).create(level, EntitySpawnReason.COMMAND);
+					check(mob != null, "Could not create " + types.get(i));
+					double x = player.getX() + look.x * (5.0 + baby * 2.0) + side.x * (i - 2) * 2.0;
+					double z = player.getZ() + look.z * (5.0 + baby * 2.0) + side.z * (i - 2) * 2.0;
+					mob.snapTo(x, level.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) Math.floor(x), (int) Math.floor(z)), z, player.getYRot() + 180.0F, 0.0F);
+					mob.setNoAi(true);
+					if (baby == 1 && mob instanceof AgeableMob ageable) {
+						ageable.setBaby(true);
+					}
+					level.addFreshEntity(mob);
+				}
+			}
+		});
+		context.waitTicks(30);
+		takeScreenshot(context, era.getName() + "_mobs");
+	}
+
+	/** A roof over the player: the one fixed shade of Cave game and Classic, with no gradual edge. */
+	private static void shadowScreenshot(ClientGameTestContext context, TestServerContext server, Era era) {
+		go(context, server, era);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			BlockPos feet = player.blockPosition();
+			Vec3 look = player.getLookAngle();
+			BlockPos centre = feet.offset((int) Math.round(look.x * 4.0), 0, (int) Math.round(look.z * 4.0));
+			for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-1, 3, -1), centre.offset(1, 3, 1))) {
+				player.level().setBlock(pos, Blocks.COBBLESTONE.defaultBlockState(), 3);
+			}
+		});
+		context.waitTicks(40);
+		takeScreenshot(context, era.getName() + "_shadow");
 	}
 
 	private static void checkClassicWater(ClientGameTestContext context, TestServerContext server) {

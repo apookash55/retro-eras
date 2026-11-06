@@ -31,6 +31,12 @@ public final class EraArmor {
 		return era.hasHunger() ? player.getArmorValue() : betaArmour(player);
 	}
 
+	/** Before 1.0 no damage got past armour: it softened falls, fire and drowning too. */
+	public static boolean softensEverything(Player player) {
+		Era era = Era.fromDimension(player.level().dimension());
+		return era != null && era.isSurvival() && !era.hasHunger();
+	}
+
 	/** Beta's total: the slots' fixed points, scaled by how much durability the pieces have left. */
 	private static int betaArmour(Player player) {
 		int points = 0;

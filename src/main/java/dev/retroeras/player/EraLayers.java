@@ -98,7 +98,9 @@ public final class EraLayers {
 
 	private static void tick(MinecraftServer server, ServerPlayer player) {
 		ServerLevel level = player.level();
-		if (FALLING_IN.contains(player.getUUID()) && (player.onGround() || player.isInWater() || player.getAbilities().flying)) {
+		// The on-ground flag can still be left over from the level above for a moment after arriving, so look for real ground.
+		boolean landed = player.onGround() && !level.noCollision(player, player.getBoundingBox().move(0.0, -0.1, 0.0));
+		if (FALLING_IN.contains(player.getUUID()) && (landed || player.isInWater() || player.getAbilities().flying)) {
 			FALLING_IN.remove(player.getUUID());
 		}
 		if (player.getY() < level.getMinY() - FALL_MARGIN) {

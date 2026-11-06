@@ -748,6 +748,24 @@
   ],
   "files": [
     {
+      "from": "item/arrows.png",
+      "to": [
+        "entity/projectiles/arrow"
+      ]
+    },
+    {
+      "from": "item/cart.png",
+      "to": [
+        "entity/minecart/minecart"
+      ]
+    },
+    {
+      "from": "item/boat.png",
+      "to": [
+        "entity/boat/oak"
+      ]
+    },
+    {
       "from": "mob/creeper.png",
       "to": [
         "entity/creeper/creeper"
@@ -794,34 +812,37 @@
     {
       "from": "mob/chicken.png",
       "to": [
-        "entity/chicken/chicken_temperate"
+        "entity/chicken/chicken_temperate",
+        "entity/chicken/chicken_temperate_baby"
       ]
     },
     {
       "from": "mob/sheep.png",
       "to": [
-        "entity/sheep/sheep"
+        "entity/sheep/sheep",
+        "entity/sheep/sheep_baby"
       ]
     },
     {
       "from": "mob/sheep_fur.png",
       "to": [
-        "entity/sheep/sheep_wool"
+        "entity/sheep/sheep_wool",
+        "entity/sheep/sheep_wool_baby"
       ]
     },
     {
       "from": "mob/pig.png",
       "to": [
-        "entity/pig/pig_temperate"
-      ],
-      "transform": "over_modern"
+        "entity/pig/pig_temperate",
+        "entity/pig/pig_temperate_baby"
+      ]
     },
     {
       "from": "mob/cow.png",
       "to": [
-        "entity/cow/cow_temperate"
-      ],
-      "transform": "over_modern"
+        "entity/cow/cow_temperate",
+        "entity/cow/cow_temperate_baby"
+      ]
     },
     {
       "from": "mob/zombie.png",

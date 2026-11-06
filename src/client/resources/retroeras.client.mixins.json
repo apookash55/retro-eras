@@ -4,9 +4,12 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"AdvancementsScreenMixin",
+		"EntityModelSetMixin",
 		"FogRendererMixin",
+		"ItemEntityRendererMixin",
 		"LightmapRenderStateExtractorMixin",
 		"OptionsScreenMixin",
+		"SkyRendererMixin",
 		"SoundEngineMixin",
 		"VillagerRendererMixin",
 		"ZombieVillagerRendererMixin"

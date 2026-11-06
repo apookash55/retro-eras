@@ -63,7 +63,8 @@ The eras are stacked on top of each other, newest at the top: the overworld, the
 - **1.6.4 hunger.** Old Release has no fast healing from saturation (added in 1.11). You heal half a heart every 4 seconds while your hunger bar is at 18 or more, which costs 3 exhaustion as it did in 1.6.4.
 - **No experience before Beta 1.8.** In Beta, Alpha and Infdev no experience orbs appear, from mobs, ores or anything else.
 - **Bows before Beta 1.8** fire the moment you click, with no drawing back, and never wear out. Arrows leave at Beta's speed and hit for 4.
-- **Old armour.** Armour takes a flat 4% off a hit per point, with no toughness, so heavy blows are not let through. In 1.6.4 the points are each piece's. Before 1.0 any full set counted 20 points, whatever it was made of, and protected less as it wore down.
+- **Old armour.** Armour takes a flat 4% off a hit per point, with no toughness, so heavy blows are not let through. In 1.6.4 the points are each piece's. Before 1.0 any full set counted 20 points, whatever it was made of, and protected less as it wore down, and it softened everything, falls, fire and drowning included.
+- **Old recipes.** Slabs make 3 and signs 1 before 1.6.4, doors 1 up to 1.6.4, and ladders 2 in Beta and 1 before it. Fences take six sticks and make 2, books take three paper and golden apples eight blocks of gold before 1.0, and wool and glowstone take nine in Alpha and Infdev (`OldRecipes`).
 - **Old stack sizes.** Before Beta 1.8, food that heals you (apples, bread, pork, fish, golden apples and stew) does not stack, cookies stack to 8, and signs and doors do not stack. Doors do not stack in 1.6.4 either.
 - **No swimming or crawling.** Both came in 1.13, so in the eras you never swim, even sprinting under water, and never drop to a crawl to fit through a gap.
 - **No rain before Beta 1.5.** Alpha and Infdev never rain or snow; cold biomes still have their snow cover.
@@ -92,6 +93,7 @@ Each era keeps its own (`EraAchievements`). Beta 1.7.3 has its 16 achievements a
 ## Lighting
 
 Infdev, Alpha and Beta lit the world differently from 26.3 (`EraLightmap`). A block took the brighter of its sky light and its block light and shaded it in plain grey, rather than adding the two together with warm torchlight and blue nights. Daylight fell in whole steps from noon to night, a little more in rain and thunder, rather than fading smoothly. The era packs carry a replacement lightmap shader that does this, and smooth lighting is off there, as it was by default. 1.6.4 already had the coloured lightmap, so it keeps 26.3's. The Brightness option still works.
+Cave game and Classic had no light levels at all: a block was lit if nothing stood above it, and otherwise in one fixed shade, 0.8 in Cave game and 0.6 in Classic, with no gradual edge. Cave game also drew blocks in shadow through a black fog, which is not reproduced.
 
 ## The Far Lands
 
@@ -112,6 +114,13 @@ Sounds come the same way, from your own copies of the old sound files, which the
 - **Classic** had Infdev's footsteps but no music, so its music is silent.
 - **Cave game** had no sound at all, so everything is silent while you are there.
 If the sound files are missing (the launcher downloads them the first time you play that version), the era keeps modern sounds.
+
+## Old models and drawing
+
+- **Dropped items** before 1.6.4 are flat pictures that always face you, with up to four for a big stack. Blocks stay small spinning cubes (`ItemEntityRendererMixin`).
+- **Boats** have their old plain box model with no paddles, and arrows and minecarts their old textures.
+- **Stars** before 1.6.4 are their old size, about twice today's. Beta's sun, moon, cloud speed and sunrise colours match 26.3 already.
+- **Mob models** (`OldMobModels`): cows lose 26.3's muzzle and have their old horns and udder, and pigs go back on the old 64 by 32 texture. Babies are the adult model with a half-size body and a big head, wearing the adult's texture. Adult sheep, chickens and wolves have barely changed, so they stay. The models load with the era's textures.
 
 ## Layout
 
@@ -199,23 +208,12 @@ The aim is for each era to be as close to the real version as possible. What sti
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
 | 1.6.4 villagers | 1.6.4 | Medium | 1.6.4's trade lists, and no sleeping, job blocks or gossip. Their outfits are done. |
-| Old mob models | Alpha to 1.6.4 | Medium | 26.3 redesigned the cow, pig, sheep, chicken and wolf; the old textures are on the new shapes. |
 | Old mob AI | All eras | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
-
-### Gameplay rules
-
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| Armour against falls and fire | Infdev, Alpha, Beta | Small | Before 1.0, armour also softened falls, fire and drowning; here it only takes off the damage 26.3 lets armour reduce. |
-| Old recipes | Alpha, Beta | Small–Medium | Some recipes made different amounts, such as slabs and ladders. |
 
 ### How the world is drawn
 
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
-| Old sky | Infdev, Alpha, Beta | Small | Beta's stars, cloud speed and sunrise. The old lighting is done. |
-| Flat dropped items | Cave game to Beta | Small | Dropped items were flat pictures that always faced you, not spinning models. |
-| Cave game and Classic lighting | Cave game, Classic | Small | Cave game's darker shade with black fog for blocks out of the sun, and Classic's lit-or-shadow shading. |
 | Old first-person view | All eras | Medium | The held item, arm swing and view bobbing are 26.3's. |
 | Old block shapes | Alpha to 1.6.4 | Medium | Some blocks changed shape since, such as fences and stairs. |
 
@@ -232,9 +230,9 @@ Block textures, item icons, particles, buttons, worn armour and paintings are ol
 
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
-| Arrows, boats, minecarts and signs in the world | Infdev to 1.6.4 | Small–Medium | The entity textures for these (item/arrows.png, boat.png, cart.png, sign.png in Beta); 26.3's models changed shape, so some need rebuilding like the chests. |
 | Chests, beds and skulls in 1.6.4 | 1.6.4 | Small–Medium | 1.6.4's chest, ender chest, trapped chest, bed and mob head textures, rebuilt for 26.3's models, as was done for Beta's chests and beds. |
 | Compass and clock | Alpha to 1.6.4 | Small–Medium | Both were drawn by code each tick in the old versions, like water and fire; they need ports of that code. |
+| Signs in the world | Infdev to 1.6.4 | Small | 26.3 redrew signs on a smaller 32 by 32 layout, so the old 64 by 32 sign needs rebuilding for it. |
 | 1.6.4 water, lava and horses | 1.6.4 | Medium | Left modern when 1.6.4's textures were mapped: its water and lava tint differently, and horses changed model. |
 
 Multiplayer is out of scope for now.

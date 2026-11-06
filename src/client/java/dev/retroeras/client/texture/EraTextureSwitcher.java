@@ -21,6 +21,7 @@ import net.minecraft.server.packs.repository.PackRepository;
  */
 public final class EraTextureSwitcher {
 	private static final Map<Era, String> PACKS = new EnumMap<>(Era.class);
+	private static volatile @Nullable Era activeEra;
 
 	private EraTextureSwitcher() {
 	}
@@ -39,8 +40,14 @@ public final class EraTextureSwitcher {
 		ClientPlayConnectionEvents.DISCONNECT.register((listener, client) -> client.execute(() -> apply(client, null)));
 	}
 
+	/** The era whose pack is selected, for what loads with the resources. Null outside an era, or if that era has no pack. */
+	public static @Nullable Era activeEra() {
+		return activeEra;
+	}
+
 	/** Selects only {@code current}'s pack (or none) and reloads resources if that changed anything. */
 	private static void apply(Minecraft client, @Nullable Era current) {
+		activeEra = current != null && PACKS.containsKey(current) ? current : null;
 		PackRepository repository = client.getResourcePackRepository();
 		boolean changed = false;
 		for (Map.Entry<Era, String> entry : PACKS.entrySet()) {

@@ -117,16 +117,25 @@ public final class EraTexturePack {
 
 	private void writeShaders() throws IOException {
 		Path target = packDir.resolve("assets/minecraft/shaders/core/lightmap.fsh");
-		if (!EraLightmap.usesOldLightmap(era)) {
+		String shader;
+		if (EraLightmap.usesOldLightmap(era)) {
+			shader = readShader("lightmap.fsh");
+		} else if (era == Era.CLASSIC || era == Era.CAVEGAME) {
+			shader = readShader("lightmap_lit.fsh").replace("SHADOW", era == Era.CLASSIC ? "0.6" : "0.8");
+		} else {
 			Files.deleteIfExists(target);
 			return;
 		}
-		try (InputStream in = EraTexturePack.class.getResourceAsStream("/assets/" + RetroEras.MOD_ID + "/era_shaders/lightmap.fsh")) {
+		Files.createDirectories(target.getParent());
+		Files.writeString(target, shader);
+	}
+
+	private static String readShader(String name) throws IOException {
+		try (InputStream in = EraTexturePack.class.getResourceAsStream("/assets/" + RetroEras.MOD_ID + "/era_shaders/" + name)) {
 			if (in == null) {
-				throw new IOException("The mod's era_shaders/lightmap.fsh is missing");
+				throw new IOException("The mod's era_shaders/" + name + " is missing");
 			}
-			Files.createDirectories(target.getParent());
-			Files.copy(in, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			return new String(in.readAllBytes(), StandardCharsets.UTF_8);
 		}
 	}
 

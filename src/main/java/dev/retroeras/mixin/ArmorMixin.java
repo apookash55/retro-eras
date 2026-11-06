@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
@@ -27,6 +28,13 @@ abstract class ArmorMixin {
 	private void retroeras$armourBeforeWear(DamageSource source, float damage, CallbackInfoReturnable<Float> cir,
 			@Share("armour") LocalIntRef armour) {
 		armour.set((Object) this instanceof Player player ? EraArmor.points(player) : -1);
+	}
+
+	/** Before 1.0 armour took its share of everything: falls, fire, drowning and the rest. */
+	@ModifyExpressionValue(method = "getDamageAfterArmorAbsorb", at = @At(value = "INVOKE",
+			target = "Lnet/minecraft/world/damagesource/DamageSource;is(Lnet/minecraft/tags/TagKey;)Z"))
+	private boolean retroeras$armourAgainstAll(boolean bypassesArmour) {
+		return bypassesArmour && !((Object) this instanceof Player player && EraArmor.softensEverything(player));
 	}
 
 	@WrapOperation(method = "getDamageAfterArmorAbsorb", at = @At(value = "INVOKE",
