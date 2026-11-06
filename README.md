@@ -141,15 +141,15 @@ If the sound files are missing (the launcher downloads them the first time you p
 ## Beta (1.7.3)
 
 - The world runs from y=0 to 127, with sea level at 64 and clouds at about y=108.
-- Terrain is a port of Beta 1.7.3's own generator (`src/main/java/dev/retroeras/worldgen/beta/`): its Perlin and simplex noise, density field, climate and biome lookup, sand and gravel beaches, and caves. A seed gives the same landscape it gave in Beta 1.7.3. Trees, ores and plants still come from the biomes' feature lists, so they differ from Beta in detail.
-- It has Beta's 10 biomes: rainforest, seasonal forest, forest, swampland, savanna, shrubland, plains, taiga, tundra and desert. Their grass, leaf and sky colours are computed from Beta's own colormaps and sky formula. Trees use Beta's mixes, and there are no bee nests, leaf litter, fallen logs, cactus flowers, copper, granite, diorite, andesite, tuff, geodes, glow lichen or ravines. Ores are spread over y=0–127 the way Beta placed them. The biome files come from `tools/gen_beta_worldgen.ps1`, so edit that script and re-run it rather than editing the JSON.
+- Terrain is a port of Beta 1.7.3's own generator (`src/main/java/dev/retroeras/worldgen/beta/`): its Perlin and simplex noise, density field, climate and biome lookup, sand and gravel beaches, and caves. A seed gives the same landscape it gave in Beta 1.7.3. Decoration is a port too (`BetaDecorator`): lakes, dungeons, clay, ores, trees, flowers, tall grass, reeds, pumpkins, cacti, springs and snow, in Beta's order and from its chunk random. Because 26.3 places decoration one chunk at a time and Beta's depended on the order you explored in, the same seed gives the same kinds and amounts, though not always each tree in the same place. Wild pumpkins have their faces, as they did before shears.
+- It has Beta's 10 biomes: rainforest, seasonal forest, forest, swampland, savanna, shrubland, plains, taiga, tundra and desert. Their grass, leaf and sky colours are computed from Beta's own colormaps and sky formula. Trees are Beta's own oak, birch, big oak and two spruces, and there are no bee nests, leaf litter, fallen logs, cactus flowers, copper, granite, diorite, andesite, tuff, geodes, glow lichen or ravines. Ores are spread over y=0–127 the way Beta placed them. The biome files come from `tools/gen_beta_worldgen.ps1`, so edit that script and re-run it rather than editing the JSON.
 - Mobs are limited to Beta's: pigs, sheep, cows, chickens and wolves, plus zombies, skeletons, spiders, creepers and slimes.
 - Gameplay follows Beta: there is no hunger, no sprinting and no natural healing, and food heals you straight away. The hunger and XP bars are hidden, and smooth lighting is switched off while you are there. Your modern hunger is saved and given back when you leave.
 
 ## Alpha (1.2.6)
 
 - Alpha 1.2.6, the last Alpha, generated terrain with the same code Beta 1.7.3 later used, so a seed gives the same landscape in both eras. The one difference is underground: Beta 1.2 added a few blocks of sandstone under sand, and Alpha has none. Its 10 biomes, climate, colours and caves are the same as Beta's.
-- Its decoration is plainer: only oak and big oak trees, thick in forests, rainforests and taigas, rare elsewhere, and none at all on plains, deserts or tundra. Dandelions, roses, mushrooms, reeds, pumpkins and cacti; no tall grass, ferns, dead bushes or lapis. The biome files come from `tools/gen_alpha_worldgen.ps1`.
+- Its decoration is a port of Alpha's own and is plainer: only oak and big oak trees, one kind for a whole chunk, thick in forests, rainforests and taigas, rare elsewhere, and none at all on plains, deserts or tundra. Dandelions, roses, mushrooms, reeds, pumpkins and cacti; no tall grass, ferns, dead bushes or lapis. The biome files come from `tools/gen_alpha_worldgen.ps1`.
 - Mobs are Alpha's: pigs, sheep, cows and chickens, plus zombies, skeletons, spiders, creepers and slimes. No wolves or squid yet.
 - Textures and sounds come from your own `a1.2.6` jar, with the same rebuilt chests, inventory screen and animations as Beta. Its mapping is built from Beta's by `tools/gen_alpha_texture_map.ps1`, which leaves out the tiles Alpha did not have yet and turns its red redstone dust grey for 26.3 to tint.
 - Rules are Beta's: no hunger, sprinting or natural healing, and Beta's weapon damage. "Minecraft Alpha v1.2.6" sits in the top left corner, as it did.
@@ -192,13 +192,7 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 ## Future plans
 
-The aim is for each era to be as close to the real version as possible. What still differs, grouped by what it touches, with the eras it affects and a rough size. Next up is Beta's decorator.
-
-### Worlds and dimensions
-
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| Beta's decorator (next) | Beta, Alpha | Medium | Beta's own trees, ores, flowers and dungeons, ported like its terrain, instead of feature lists. |
+The aim is for each era to be as close to the real version as possible. What still differs, grouped by what it touches, with the eras it affects and a rough size.
 
 ### Mobs
 

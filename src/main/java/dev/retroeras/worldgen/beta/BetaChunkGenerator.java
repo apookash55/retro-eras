@@ -23,6 +23,7 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
@@ -41,7 +42,7 @@ import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 
 /**
  * Generates terrain with Beta 1.7.3's own algorithm ({@link BetaTerrain}) and places biomes with its climate
- * ({@link BetaBiomeSource}). Decoration (trees, ores, flowers) still runs through the biomes' modern feature lists.
+ * ({@link BetaBiomeSource}). Decoration is ported too ({@link BetaDecorator}).
  */
 public final class BetaChunkGenerator extends ChunkGenerator {
 	private static final MapCodec<BetaBiomeSource> BETA_BIOME_SOURCE = BiomeSource.CODEC.comapFlatMap(
@@ -177,6 +178,11 @@ public final class BetaChunkGenerator extends ChunkGenerator {
 			column[y] = toState(generated.get(x & 15, y, z & 15));
 		}
 		return new NoiseColumn(0, column);
+	}
+
+	@Override
+	public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
+		BetaDecorator.decorate(level, chunk.getPos(), terrain(level.getSeed()), !sandstone);
 	}
 
 	@Override

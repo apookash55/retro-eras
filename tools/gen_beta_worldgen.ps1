@@ -1,6 +1,6 @@
 param([string]$DataDir = (Join-Path $PSScriptRoot '..\src\main\resources\data\retroeras'))
-# Generates the Beta era's biomes, tree/ore/cactus features and dimension from one table, so every biome shares the
-# same feature order (Minecraft rejects biomes whose feature lists disagree on order).
+# Generates the Beta era's biomes and dimension from one table, and the tree, ore and cactus features the Infdev and
+# 1.6.4 eras borrow. Beta's and Alpha's own decoration is a port of their populate (BetaDecorator), not feature lists.
 #
 # Colours come from Beta 1.7.3 itself: grass/foliage are its colormaps sampled at each biome's Beta climate
 # (ColorizerGrass: x = (1 - temp) * 255, y = (1 - humidity * temp) * 255), and sky is BiomeGenBase.getSkyColorByTemp.
@@ -19,7 +19,6 @@ function Uniform($min, $max) { @{ type = 'minecraft:uniform'; min_inclusive = @{
 $treeMixes = [ordered]@{
   default    = @{ default = 'minecraft:oak_checked'; features = @(@{ chance = 0.1; feature = 'minecraft:fancy_oak_checked' }) }
   forest     = @{ default = 'minecraft:oak_checked'; features = @(@{ chance = 0.2; feature = 'minecraft:birch_checked' }, @{ chance = 0.1; feature = 'minecraft:fancy_oak_checked' }) }
-  rainforest = @{ default = 'minecraft:oak_checked'; features = @(@{ chance = 0.33333334; feature = 'minecraft:fancy_oak_checked' }) }
   taiga      = @{ default = 'minecraft:spruce_checked'; features = @(@{ chance = 0.33333334; feature = 'minecraft:pine_checked' }) }
 }
 foreach ($mix in $treeMixes.Keys) {
@@ -29,12 +28,6 @@ foreach ($mix in $treeMixes.Keys) {
 # Placed tree features: [feature, count]. A count of 0 means "1 tree in 1 of 10 chunks", like vanilla plains.
 $treePlacements = [ordered]@{
   trees_sparse     = @('default', 0)
-  trees_shrubland  = @('default', 1)
-  trees_swamp      = @('default', 2)
-  trees_seasonal   = @('default', 3)
-  trees_forest     = @('forest', 6)
-  trees_rainforest = @('rainforest', 7)
-  trees_taiga      = @('taiga', 6)
 }
 foreach ($name in $treePlacements.Keys) {
   $mix, $count = $treePlacements[$name]
@@ -101,16 +94,6 @@ foreach ($name in $ores.Keys) {
 $oreList = @($ores.Keys | ForEach-Object { "retroeras:beta/$_" }) + @('minecraft:disk_sand', 'minecraft:disk_clay', 'minecraft:disk_gravel')
 
 # --- Biomes ----------------------------------------------------------------------------------------------------------
-# One global vegetation order; each biome picks a subset, which keeps the order consistent across biomes.
-$vegetationOrder = @(
-  'retroeras:beta/trees_sparse', 'retroeras:beta/trees_shrubland', 'retroeras:beta/trees_swamp', 'retroeras:beta/trees_seasonal',
-  'retroeras:beta/trees_forest', 'retroeras:beta/trees_rainforest', 'retroeras:beta/trees_taiga',
-  'minecraft:flower_default', 'minecraft:patch_grass_plain', 'minecraft:patch_grass_forest', 'minecraft:patch_grass_taiga_2',
-  'minecraft:patch_dead_bush_2', 'minecraft:brown_mushroom_normal', 'minecraft:red_mushroom_normal',
-  'minecraft:patch_sugar_cane', 'minecraft:patch_sugar_cane_desert', 'minecraft:patch_pumpkin', 'retroeras:beta/patch_cactus'
-)
-$common = @('minecraft:flower_default', 'minecraft:brown_mushroom_normal', 'minecraft:red_mushroom_normal', 'minecraft:patch_sugar_cane', 'minecraft:patch_pumpkin')
-
 # name: modern temperature (controls snow and rain), downfall, precipitation, Beta grass, Beta foliage, Beta sky, extra vegetation
 $biomes = [ordered]@{
   tundra          = @(-0.5, 0.5, $true,  '#83b593', '#64a278', '#7fa2ff', @())
@@ -135,9 +118,6 @@ Get-ChildItem (Join-Path $DataDir 'worldgen/biome/beta') -Filter *.json -ErrorAc
 
 foreach ($name in $biomes.Keys) {
   $temp, $downfall, $precip, $grass, $foliage, $sky, $extra = $biomes[$name]
-  $wanted = $common + $extra
-  if ($name -eq 'desert') { $wanted = @('minecraft:brown_mushroom_normal', 'minecraft:red_mushroom_normal') + $extra }
-  $vegetation = @($vegetationOrder | Where-Object { $wanted -contains $_ })
   # @(...) keeps an empty list an array; a bare if-expression would turn it into null.
   $creatureSpawns = @(if ($name -eq 'desert') { } elseif ($name -eq 'taiga') { $creatures + @(Spawn 'minecraft:wolf' 2 4) } else { $creatures })
   Write-Json "worldgen/biome/beta/$name.json" ([ordered]@{
@@ -151,10 +131,7 @@ foreach ($name in $biomes.Keys) {
     carvers = @('minecraft:cave')
     downfall = $downfall
     effects = [ordered]@{ water_color = '#3f76e4'; grass_color = $grass; foliage_color = $foliage }
-    features = @(
-      @(), @('minecraft:lake_lava_underground', 'minecraft:lake_lava_surface'), @(), @('minecraft:monster_room'), @(), @(),
-      $oreList, @(), @('minecraft:spring_water', 'minecraft:spring_lava'), $vegetation, @('minecraft:freeze_top_layer')
-    )
+    features = @()
     has_precipitation = $precip
     temperature = $temp
   })

@@ -71,6 +71,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.block.Blocks;
 
 /**
@@ -116,6 +117,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkWitchHut(context, server);
 			checkClassicWater(context, server);
 			checkEnd(context, server);
+			checkDecoration(context, server);
 			textureScene(context, server, Era.BETA);
 			textureScene(context, server, Era.OLD_RELEASE);
 		}
@@ -716,6 +718,30 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			player.setGameMode(GameType.SURVIVAL);
 		});
 		go(context, server, null);
+	}
+
+	/** Beta's and Alpha's ported decoration, counted over the chunks around the origin of each. */
+	private static void checkDecoration(ClientGameTestContext context, TestServerContext server) {
+		for (Era era : new Era[] {Era.BETA, Era.ALPHA}) {
+			go(context, server, era);
+			server.runOnServer(s -> {
+				ServerPlayer player = player(s);
+				BlockPos forest = BetaDecorationCheck.check(player.level(), era == Era.ALPHA);
+				int top = player.level().getHeight(Heightmap.Types.WORLD_SURFACE, forest.getX(), forest.getZ());
+				player.teleportTo(forest.getX() + 0.5, top + 12.0, forest.getZ() + 0.5);
+				player.getAbilities().mayfly = true;
+				player.getAbilities().flying = true;
+				player.onUpdateAbilities();
+			});
+			context.waitTicks(80);
+			takeScreenshot(context, era.getName() + "_forest");
+			server.runOnServer(s -> {
+				ServerPlayer player = player(s);
+				player.getAbilities().flying = false;
+				player.getAbilities().mayfly = false;
+				player.onUpdateAbilities();
+			});
+		}
 	}
 
 	private static void checkClassicWater(ClientGameTestContext context, TestServerContext server) {

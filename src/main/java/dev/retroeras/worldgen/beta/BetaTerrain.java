@@ -33,6 +33,7 @@ public final class BetaTerrain {
 	private final BetaOctaveNoise surfaceNoise;
 	private final BetaOctaveNoise scaleNoise;
 	private final BetaOctaveNoise depthNoise;
+	private final BetaOctaveNoise treeNoise;
 	private final BetaClimate climate;
 	private final BetaCaves caves;
 	private final boolean sandstone;
@@ -54,12 +55,18 @@ public final class BetaTerrain {
 		surfaceNoise = new BetaOctaveNoise(random, 4);
 		scaleNoise = new BetaOctaveNoise(random, 10);
 		depthNoise = new BetaOctaveNoise(random, 16);
+		treeNoise = new BetaOctaveNoise(random, 8);
 		climate = new BetaClimate(seed);
 		caves = new BetaCaves(seed);
 	}
 
 	public long seed() {
 		return seed;
+	}
+
+	/** The eighth noise, which only decides how many trees a chunk gets. */
+	double treeNoise(double x, double z) {
+		return treeNoise.value(x, z);
 	}
 
 	public BetaClimate climate() {

@@ -75,49 +75,7 @@
     "grass_color": "#94bf49",
     "foliage_color": "#7aae1d"
   },
-  "features": [
-    [],
-    [
-      "minecraft:lake_lava_underground",
-      "minecraft:lake_lava_surface"
-    ],
-    [],
-    [
-      "minecraft:monster_room"
-    ],
-    [],
-    [],
-    [
-      "retroeras:beta/ore_dirt",
-      "retroeras:beta/ore_gravel",
-      "retroeras:beta/ore_coal",
-      "retroeras:beta/ore_iron",
-      "retroeras:beta/ore_gold",
-      "retroeras:beta/ore_redstone",
-      "retroeras:beta/ore_diamond",
-      "retroeras:beta/ore_lapis",
-      "minecraft:disk_sand",
-      "minecraft:disk_clay",
-      "minecraft:disk_gravel"
-    ],
-    [],
-    [
-      "minecraft:spring_water",
-      "minecraft:spring_lava"
-    ],
-    [
-      "retroeras:beta/trees_sparse",
-      "minecraft:flower_default",
-      "minecraft:patch_grass_plain",
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "minecraft:patch_sugar_cane",
-      "minecraft:patch_pumpkin"
-    ],
-    [
-      "minecraft:freeze_top_layer"
-    ]
-  ],
+  "features": [],
   "has_precipitation": true,
   "temperature": 0.9
 }
