@@ -334,6 +334,7 @@
     { "file": "gui/items.png", "shared": true, "tiles": { "60": ["item/filled_map"] } }
   ],
   "files": [
+    { "from": "misc/mapbg.png", "to": ["map/map_background"] },
     { "from": "item/arrows.png", "to": ["entity/projectiles/arrow"] },
     { "from": "item/cart.png", "to": ["entity/minecart/minecart"] },
     { "from": "item/boat.png", "to": ["entity/boat/oak"] },
@@ -390,6 +391,14 @@
     { "from": "armor/diamond_2.png", "to": ["entity/equipment/humanoid_leggings/diamond"], "shared": true }
   ],
   "regions": [
+    { "from": "misc/mapicons.png", "x": 0, "y": 0, "w": 8, "h": 8, "to": ["map/decorations/player"] },
+    { "from": "misc/mapicons.png", "x": 8, "y": 0, "w": 8, "h": 8, "to": ["map/decorations/frame"] },
+    { "from": "misc/mapicons.png", "x": 16, "y": 0, "w": 8, "h": 8, "to": ["map/decorations/red_marker"] },
+    { "from": "misc/mapicons.png", "x": 24, "y": 0, "w": 8, "h": 8, "to": ["map/decorations/blue_marker"] },
+    { "from": "misc/mapicons.png", "x": 0, "y": 8, "w": 8, "h": 8, "to": ["map/decorations/target_x"] },
+    { "from": "misc/mapicons.png", "x": 8, "y": 8, "w": 8, "h": 8, "to": ["map/decorations/target_point"] },
+    { "from": "misc/mapicons.png", "x": 16, "y": 8, "w": 8, "h": 8, "to": ["map/decorations/player_off_map"] },
+    { "from": "misc/mapicons.png", "x": 24, "y": 8, "w": 8, "h": 8, "to": ["map/decorations/player_off_limits"] },
     { "from": "gui/gui.png", "x": 0, "y": 0, "w": 182, "h": 22, "to": ["gui/sprites/hud/hotbar"] },
     { "from": "gui/gui.png", "x": 0, "y": 22, "w": 24, "h": 23, "to": ["gui/sprites/hud/hotbar_selection"] },
     { "from": "gui/icons.png", "x": 0, "y": 0, "w": 15, "h": 15, "to": ["gui/sprites/hud/crosshair"] },
@@ -434,6 +443,24 @@
   ],
   "clear": ["block/redstone_dust_overlay", "gui/sprites/container/slot/shield", "gui/sprites/recipe_book/button", "gui/sprites/recipe_book/button_highlighted", "item/leather_helmet_overlay", "item/leather_chestplate_overlay", "item/leather_leggings_overlay", "item/leather_boots_overlay", "entity/equipment/humanoid/leather_overlay", "entity/equipment/humanoid_leggings/leather_overlay", "item/filled_map_markings"],
   "compose": [
+    {
+      "_comment": "26.3 lays the old sign's faces out on a 32 by 32 sheet.",
+      "to": ["block/oak_sign"],
+      "size": [32, 32],
+      "parts": [
+        { "file": "item/sign.png", "src": [2, 2, 24, 12], "dst": [0, 2] },
+        { "file": "item/sign.png", "src": [28, 2, 24, 12], "dst": [0, 16] },
+        { "file": "item/sign.png", "src": [26, 2, 2, 12], "dst": [24, 2] },
+        { "file": "item/sign.png", "src": [0, 2, 2, 12], "dst": [24, 16] },
+        { "file": "item/sign.png", "src": [2, 0, 24, 2], "dst": [0, 0] },
+        { "file": "item/sign.png", "src": [26, 0, 24, 2], "dst": [0, 28] },
+        { "file": "item/sign.png", "src": [2, 16, 2, 14], "dst": [28, 0] },
+        { "file": "item/sign.png", "src": [6, 16, 2, 14], "dst": [28, 16] },
+        { "file": "item/sign.png", "src": [4, 16, 2, 14], "dst": [30, 0] },
+        { "file": "item/sign.png", "src": [0, 16, 2, 14], "dst": [30, 16] },
+        { "file": "item/sign.png", "src": [4, 14, 2, 2], "dst": [28, 30] }
+      ]
+    },
     {
       "_comment": "Beta's chest was a block textured with terrain tiles 25 (top), 26 (side) and 27 (front); this paints them onto 26.3's chest model.",
       "to": ["entity/chest/normal"],
@@ -520,5 +547,9 @@
     { "effect": "fire", "frames": 64, "seed": 0, "to": ["block/fire_0"] },
     { "effect": "fire", "frames": 64, "seed": 1, "to": ["block/fire_1"] },
     { "effect": "portal", "frames": 32, "to": ["block/nether_portal"] }
+  ],
+  "dials": [
+    { "kind": "compass", "tile": 54, "frames": 32, "to": "item/compass_" },
+    { "kind": "clock", "tile": 70, "dial": "misc/dial.png", "frames": 64, "to": "item/clock_" }
   ]
 }

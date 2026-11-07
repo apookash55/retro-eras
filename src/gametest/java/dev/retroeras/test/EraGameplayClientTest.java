@@ -22,6 +22,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.entity.vehicle.minecart.Minecart;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.state.properties.BedPart;
+import net.minecraft.world.level.block.state.properties.ChestType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
@@ -129,6 +137,8 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			checkArmourAgainstFalls(context, server);
 			droppedItemsScreenshot(context, server, Era.BETA);
 			droppedItemsScreenshot(context, server, Era.OLD_RELEASE);
+			blocksScreenshot(context, server, Era.BETA);
+			blocksScreenshot(context, server, Era.OLD_RELEASE);
 			vehiclesScreenshot(context, server, Era.BETA);
 			vehiclesScreenshot(context, server, Era.OLD_RELEASE);
 			mobsScreenshot(context, server, Era.BETA);
@@ -814,6 +824,54 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		});
 		context.waitTicks(30);
 		takeScreenshot(context, era.getName() + "_dropped_items");
+	}
+
+	/** Chests, a bed and a sign on their old textures, and the compass and clock in the hotbar. */
+	private static void blocksScreenshot(ClientGameTestContext context, TestServerContext server, Era era) {
+		go(context, server, era);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			ServerLevel level = player.level();
+			player.setYRot(0.0F);
+			player.setXRot(20.0F);
+			player.connection.teleport(player.getX(), player.getY(), player.getZ(), 0.0F, 20.0F);
+			BlockPos feet = player.blockPosition();
+			BlockPos centre = feet.south(4);
+			for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-5, -1, -3), centre.offset(5, -1, 3))) {
+				level.setBlock(pos, Blocks.STONE.defaultBlockState(), 3);
+			}
+			for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-5, 0, -3), centre.offset(5, 3, 3))) {
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			}
+			Direction toPlayer = Direction.NORTH;
+			level.setBlock(centre.west(3), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, toPlayer), 3);
+			level.setBlock(centre.west(1), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, toPlayer).setValue(ChestBlock.TYPE, ChestType.LEFT), 3);
+			level.setBlock(centre, Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, toPlayer).setValue(ChestBlock.TYPE, ChestType.RIGHT), 3);
+			level.setBlock(centre.east(2), Blocks.OAK_SIGN.defaultBlockState().setValue(StandingSignBlock.ROTATION, 8), 3);
+			BlockPos bed = centre.east(4);
+			level.setBlock(bed, Blocks.BED.pick(DyeColor.RED).defaultBlockState().setValue(BedBlock.FACING, Direction.SOUTH).setValue(BedBlock.PART, BedPart.FOOT), 3);
+			level.setBlock(bed.south(), Blocks.BED.pick(DyeColor.RED).defaultBlockState().setValue(BedBlock.FACING, Direction.SOUTH).setValue(BedBlock.PART, BedPart.HEAD), 3);
+			player.getInventory().setItem(0, new ItemStack(Items.COMPASS));
+			player.getInventory().setItem(1, new ItemStack(Items.CLOCK));
+		});
+		context.waitTicks(30);
+		takeScreenshot(context, era.getName() + "_blocks");
+		server.runOnServer(s -> {
+			player(s).getInventory().setItem(0, new ItemStack(Items.IRON_SWORD));
+			player(s).getInventory().setItem(1, ItemStack.EMPTY);
+			// Stairs meeting at a corner: straight before 1.4, joined from then on.
+			ServerLevel level = player(s).level();
+			BlockPos pos = player(s).blockPosition().south(2).above(4);
+			level.setBlock(pos, Blocks.OAK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH), 3);
+			level.setBlock(pos.north(), Blocks.OAK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.EAST), 3);
+			StairsShape shape = level.getBlockState(pos).getValue(StairBlock.SHAPE);
+			check((shape == StairsShape.STRAIGHT) == (era != Era.OLD_RELEASE), era.getName() + " stairs at a corner are " + shape);
+			level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			level.setBlock(pos.north(), Blocks.AIR.defaultBlockState(), 3);
+		});
+		context.waitTicks(10);
+		takeScreenshot(context, era.getName() + "_sword");
+		server.runOnServer(s -> player(s).getInventory().setItem(0, ItemStack.EMPTY));
 	}
 
 	/** A boat, minecart and arrow on a stone floor, on their old textures. */

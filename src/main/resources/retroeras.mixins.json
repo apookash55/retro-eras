@@ -30,6 +30,7 @@
 		"PlayerPoseMixin",
 		"PotionSlotMixin",
 		"ServerPlayerRespawnMixin",
+		"StairBlockMixin",
 		"VanillaPortalMixin"
 	],
 	"injectors": {

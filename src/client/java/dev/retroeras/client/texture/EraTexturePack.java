@@ -84,6 +84,7 @@ public final class EraTexturePack {
 		try {
 			pack.generateIfStale(jar);
 			pack.writeShaders();
+			pack.writeItemModels();
 			pack.writeLang();
 		} catch (IOException e) {
 			RetroEras.LOGGER.error("Could not build the {} texture pack from {}", era.getName(), jar, e);
@@ -113,6 +114,23 @@ public final class EraTexturePack {
 		lang.addProperty("gui.advancements", "Achievements");
 		Files.createDirectories(target.getParent());
 		Files.writeString(target, lang.toString());
+	}
+
+	/**
+	 * Held items sit where they did in ItemRenderer before 1.9: its transforms worked out as model display values. They only
+	 * differ a little from 26.3's, but tools were held the other way round. Written on every start, like the shaders.
+	 */
+	private void writeItemModels() throws IOException {
+		Path target = packDir.resolve("assets/minecraft/models/item");
+		Files.createDirectories(target);
+		for (String name : List.of("generated.json", "handheld.json")) {
+			try (InputStream in = EraTexturePack.class.getResourceAsStream("/assets/" + RetroEras.MOD_ID + "/era_models/" + name)) {
+				if (in == null) {
+					throw new IOException("The mod's era_models/" + name + " is missing");
+				}
+				Files.copy(in, target.resolve(name), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			}
+		}
 	}
 
 	private void writeShaders() throws IOException {
@@ -570,12 +588,36 @@ public final class EraTexturePack {
 				int dh = dst.size() > 3 ? dst.get(3).getAsInt() : piece.getHeight();
 				// "over" draws the piece on top of what is there (an overlay); otherwise it replaces those pixels.
 				g.setComposite(part.has("over") && part.get("over").getAsBoolean() ? AlphaComposite.SrcOver : AlphaComposite.Src);
-				g.drawImage(piece, dx, dy, dx + dw, dy + dh, 0, 0, piece.getWidth(), piece.getHeight(), null);
+				// "flipy" turns the piece upside down: old models drew their boxes flipped, so their textures are.
+				if (part.has("flipy") && part.get("flipy").getAsBoolean()) {
+					g.drawImage(piece, dx, dy + dh, dx + dw, dy, 0, 0, piece.getWidth(), piece.getHeight(), null);
+				} else {
+					g.drawImage(piece, dx, dy, dx + dw, dy + dh, 0, 0, piece.getWidth(), piece.getHeight(), null);
+				}
 				g.setComposite(AlphaComposite.SrcOver);
 			}
 			g.dispose();
 			if (complete) {
 				written += writeAll(out, compose.getAsJsonArray("to"));
+			}
+		}
+		// The compass and clock were drawn by code each tick before 1.6; each of 26.3's frames is drawn by that code once.
+		for (JsonElement element : array("dials")) {
+			JsonObject dial = element.getAsJsonObject();
+			BufferedImage items = read(zip, "gui/items.png");
+			BufferedImage face = dial.has("dial") ? read(zip, dial.get("dial").getAsString()) : null;
+			if (items == null || (dial.has("dial") && face == null)) {
+				continue;
+			}
+			int size = items.getWidth() / 16;
+			int tile = dial.get("tile").getAsInt();
+			BufferedImage base = crop(items, (tile % 16) * size, (tile / 16) * size, size, size);
+			int frames = dial.get("frames").getAsInt();
+			for (int frame = 0; frame < frames; frame++) {
+				BufferedImage out = face == null ? LegacyDials.compass(base, frame, frames) : LegacyDials.clock(base, face, frame, frames);
+				JsonArray to = new JsonArray();
+				to.add(dial.get("to").getAsString() + String.format("%02d", frame));
+				written += writeAll(out, to);
 			}
 		}
 		return written;

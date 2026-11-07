@@ -119,6 +119,9 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 - **Dropped items** before 1.6.4 are flat pictures that always face you, with up to four for a big stack. Blocks stay small spinning cubes (`ItemEntityRendererMixin`).
 - **Boats** have their old plain box model with no paddles, and arrows and minecarts their old textures.
+- **Held items** sit where they did before 1.9, with tools turned the old way round. View bobbing and the arm swing already match.
+- **Stairs** before 1.4 stay straight rather than joining into corners.
+- **Chests, beds and signs** in 1.6.4 use its own textures, rebuilt for 26.3's layouts, and signs are rebuilt in the older eras too. The compass and clock are old in every era that had them: in Alpha and Beta each frame is drawn by a port of the code that drew them. Map backgrounds and markers are old in Beta and 1.6.4, and potion icons in 1.6.4.
 - **Stars** before 1.6.4 are their old size, about twice today's. Beta's sun, moon, cloud speed and sunrise colours match 26.3 already.
 - **Mob models** (`OldMobModels`): cows lose 26.3's muzzle and have their old horns and udder, and pigs go back on the old 64 by 32 texture. Babies are the adult model with a half-size body and a big head, wearing the adult's texture. Adult sheep, chickens and wolves have barely changed, so they stay. The models load with the era's textures.
 
@@ -210,18 +213,10 @@ The aim is for each era to be as close to the real version as possible. What sti
 | 1.6.4 villagers | 1.6.4 | Medium | 1.6.4's trade lists, and no sleeping, job blocks or gossip. Their outfits are done. |
 | Old mob AI | All eras | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
 
-### How the world is drawn
-
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| Old first-person view | All eras | Medium | The held item, arm swing and view bobbing are 26.3's. |
-| Old block shapes | Alpha to 1.6.4 | Medium | Some blocks changed shape since, such as fences and stairs. |
-
 ### Screens
 
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
-| Map and status effect icons | Beta, 1.6.4 | Small | The map background and markers (misc/mapbg.png, mapicons.png), and 1.6.4's potion effect icons in the inventory. |
 | Old screens | 1.6.4 and others | Medium | 1.6.4's inventory (its crafting grid sat elsewhere), the pause menu and the F3 screen are 26.3's. Beta's inventory is done. |
 
 ### Textures
@@ -230,9 +225,6 @@ Block textures, item icons, particles, buttons, worn armour and paintings are ol
 
 | Plan | Eras | Size | What it involves |
 | --- | --- | --- | --- |
-| Chests, beds and skulls in 1.6.4 | 1.6.4 | Small–Medium | 1.6.4's chest, ender chest, trapped chest, bed and mob head textures, rebuilt for 26.3's models, as was done for Beta's chests and beds. |
-| Compass and clock | Alpha to 1.6.4 | Small–Medium | Both were drawn by code each tick in the old versions, like water and fire; they need ports of that code. |
-| Signs in the world | Infdev to 1.6.4 | Small | 26.3 redrew signs on a smaller 32 by 32 layout, so the old 64 by 32 sign needs rebuilding for it. |
 | 1.6.4 water, lava and horses | 1.6.4 | Medium | Left modern when 1.6.4's textures were mapped: its water and lava tint differently, and horses changed model. |
 
 Multiplayer is out of scope for now.

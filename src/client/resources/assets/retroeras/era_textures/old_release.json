@@ -3095,6 +3095,57 @@
       ]
     },
     {
+      "from": "assets/minecraft/textures/map/map_background.png",
+      "to": [
+        "map/map_background"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/blocks/bed_feet_top.png",
+      "to": [
+        "block/red_bed_foot_up|rot270"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/blocks/bed_head_top.png",
+      "to": [
+        "block/red_bed_head_up|rot270"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/blocks/bed_feet_end.png",
+      "to": [
+        "block/red_bed_foot_south"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/blocks/bed_feet_side.png",
+      "to": [
+        "block/red_bed_foot_east",
+        "block/red_bed_foot_west|flipx"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/blocks/bed_head_side.png",
+      "to": [
+        "block/red_bed_head_east",
+        "block/red_bed_head_west|flipx"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/blocks/bed_head_end.png",
+      "to": [
+        "block/bed_head_north"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/blocks/planks_oak.png",
+      "to": [
+        "block/oak_planks",
+        "block/bed_down"
+      ]
+    },
+    {
       "from": "assets/minecraft/textures/models/armor/leather_layer_1.png",
       "to": [
         "entity/equipment/humanoid/leather"
@@ -3425,6 +3476,1237 @@
       "h": 5,
       "to": [
         "gui/sprites/hud/experience_bar_progress"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_00"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 16,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_01"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 32,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_02"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 48,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_03"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 64,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_04"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 80,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_05"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 96,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_06"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 112,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_07"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 128,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_08"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 144,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_09"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 160,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_10"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 176,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_11"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 192,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_12"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 208,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_13"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 224,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_14"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 240,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_15"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 256,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_16"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 272,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_17"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 288,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_18"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 304,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_19"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 320,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_20"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 336,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_21"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 352,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_22"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 368,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_23"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 384,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_24"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 400,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_25"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 416,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_26"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 432,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_27"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 448,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_28"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 464,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_29"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 480,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_30"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/compass.png",
+      "x": 0,
+      "y": 496,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/compass_31"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 0,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_00"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 16,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_01"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 32,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_02"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 48,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_03"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 64,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_04"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 80,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_05"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 96,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_06"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 112,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_07"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 128,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_08"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 144,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_09"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 160,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_10"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 176,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_11"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 192,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_12"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 208,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_13"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 224,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_14"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 240,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_15"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 256,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_16"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 272,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_17"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 288,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_18"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 304,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_19"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 320,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_20"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 336,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_21"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 352,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_22"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 368,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_23"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 384,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_24"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 400,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_25"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 416,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_26"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 432,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_27"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 448,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_28"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 464,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_29"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 480,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_30"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 496,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_31"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 512,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_32"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 528,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_33"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 544,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_34"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 560,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_35"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 576,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_36"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 592,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_37"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 608,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_38"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 624,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_39"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 640,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_40"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 656,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_41"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 672,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_42"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 688,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_43"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 704,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_44"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 720,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_45"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 736,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_46"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 752,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_47"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 768,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_48"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 784,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_49"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 800,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_50"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 816,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_51"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 832,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_52"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 848,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_53"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 864,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_54"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 880,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_55"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 896,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_56"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 912,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_57"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 928,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_58"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 944,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_59"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 960,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_60"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 976,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_61"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 992,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_62"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/items/clock.png",
+      "x": 0,
+      "y": 1008,
+      "w": 16,
+      "h": 16,
+      "to": [
+        "item/clock_63"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 0,
+      "y": 0,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/player"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 8,
+      "y": 0,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/frame"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 16,
+      "y": 0,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/red_marker"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 24,
+      "y": 0,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/blue_marker"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 0,
+      "y": 8,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/target_x"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 8,
+      "y": 8,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/target_point"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 16,
+      "y": 8,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/player_off_map"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/map/map_icons.png",
+      "x": 24,
+      "y": 8,
+      "w": 8,
+      "h": 8,
+      "to": [
+        "map/decorations/player_off_limits"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 0,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/speed"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 18,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/slowness"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 36,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/haste"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 54,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/mining_fatigue"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 72,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/strength"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 90,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/weakness"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 108,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/poison"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 126,
+      "y": 198,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/regeneration"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 0,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/invisibility"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 18,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/hunger"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 36,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/jump_boost"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 54,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/nausea"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 72,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/night_vision"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 90,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/blindness"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 108,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/resistance"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 126,
+      "y": 216,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/fire_resistance"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 0,
+      "y": 234,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/water_breathing"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 18,
+      "y": 234,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/wither"
+      ]
+    },
+    {
+      "from": "assets/minecraft/textures/gui/container/inventory.png",
+      "x": 36,
+      "y": 234,
+      "w": 18,
+      "h": 18,
+      "to": [
+        "mob_effect/absorption",
+        "mob_effect/health_boost"
       ]
     },
     {
@@ -3975,6 +5257,2090 @@
     "entity/villager/type/desert"
   ],
   "compose": [
+    {
+      "to": [
+        "entity/chest/normal"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            28,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            14,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            28,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            42,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            28,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            14,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            42,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            28,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            14,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            28,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            42,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            28,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal.png",
+          "src": [
+            14,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            42,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/trapped"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            28,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            14,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            28,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            42,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            28,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            14,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            42,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            28,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            14,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            28,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            42,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            28,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped.png",
+          "src": [
+            14,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            42,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/christmas"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            28,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            14,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            28,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            42,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            28,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            14,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            42,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            28,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            14,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            28,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            42,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            28,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas.png",
+          "src": [
+            14,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            42,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/ender"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            28,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            14,
+            0,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            28,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            42,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            28,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            14,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            42,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            28,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            14,
+            19,
+            14,
+            14
+          ],
+          "dst": [
+            28,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            28,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            42,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            28,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/ender.png",
+          "src": [
+            14,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            42,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/normal_left"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            44,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            14,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            44,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            73,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            29,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            14,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            43,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            44,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            14,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            44,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            73,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            29,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            14,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            43,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/normal_right"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            59,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            29,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            44,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            58,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            29,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            29,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            43,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            59,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            29,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            44,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            58,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            29,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/normal_double.png",
+          "src": [
+            29,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            43,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/trapped_left"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            44,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            14,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            44,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            73,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            29,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            14,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            43,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            44,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            14,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            44,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            73,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            29,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            14,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            43,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/trapped_right"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            59,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            29,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            44,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            58,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            29,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            29,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            43,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            59,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            29,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            44,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            58,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            29,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/trapped_double.png",
+          "src": [
+            29,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            43,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/christmas_left"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            44,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            14,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            44,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            73,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            29,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            14,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            43,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            44,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            14,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            44,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            73,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            29,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            14,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            43,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "entity/chest/christmas_right"
+      ],
+      "size": [
+        64,
+        64
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "dst": [
+            0,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            59,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            29,
+            0,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            0
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            44,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            0,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            58,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            14,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            0,
+            14,
+            14,
+            5
+          ],
+          "dst": [
+            29,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            29,
+            14,
+            15,
+            5
+          ],
+          "dst": [
+            43,
+            14
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            59,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            14,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            29,
+            19,
+            15,
+            14
+          ],
+          "dst": [
+            29,
+            19
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            44,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            0,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            58,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            14,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            0,
+            33,
+            14,
+            10
+          ],
+          "dst": [
+            29,
+            33
+          ],
+          "flipy": true
+        },
+        {
+          "file": "assets/minecraft/textures/entity/chest/christmas_double.png",
+          "src": [
+            29,
+            33,
+            15,
+            10
+          ],
+          "dst": [
+            43,
+            33
+          ],
+          "flipy": true
+        }
+      ]
+    },
+    {
+      "to": [
+        "block/oak_sign"
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "parts": [
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            2,
+            2,
+            24,
+            12
+          ],
+          "dst": [
+            0,
+            2
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            28,
+            2,
+            24,
+            12
+          ],
+          "dst": [
+            0,
+            16
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            26,
+            2,
+            2,
+            12
+          ],
+          "dst": [
+            24,
+            2
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            0,
+            2,
+            2,
+            12
+          ],
+          "dst": [
+            24,
+            16
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            2,
+            0,
+            24,
+            2
+          ],
+          "dst": [
+            0,
+            0
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            26,
+            0,
+            24,
+            2
+          ],
+          "dst": [
+            0,
+            28
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            2,
+            16,
+            2,
+            14
+          ],
+          "dst": [
+            28,
+            0
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            6,
+            16,
+            2,
+            14
+          ],
+          "dst": [
+            28,
+            16
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            4,
+            16,
+            2,
+            14
+          ],
+          "dst": [
+            30,
+            0
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            0,
+            16,
+            2,
+            14
+          ],
+          "dst": [
+            30,
+            16
+          ]
+        },
+        {
+          "file": "assets/minecraft/textures/entity/sign.png",
+          "src": [
+            4,
+            14,
+            2,
+            2
+          ],
+          "dst": [
+            28,
+            30
+          ]
+        }
+      ]
+    },
     {
       "to": [
         "item/creeper_spawn_egg"

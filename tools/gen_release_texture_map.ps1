@@ -68,8 +68,9 @@ $itemRenames = [ordered]@{
 $files = [Collections.Generic.List[object]]::new()
 $dropped = [Collections.Generic.List[string]]::new()
 function Add-File($from, [string[]]$to, $transform) {
-  $kept = @($to | Where-Object { $modern.Contains($_) })
-  foreach ($missing in @($to | Where-Object { -not $modern.Contains($_) })) { $dropped.Add("$from -> $missing") }
+  # A target may end in |rot270, |flipx and the like: the texture it names is the part before that.
+  $kept = @($to | Where-Object { $modern.Contains($_.Split('|')[0]) })
+  foreach ($missing in @($to | Where-Object { -not $modern.Contains($_.Split('|')[0]) })) { $dropped.Add("$from -> $missing") }
   if ($kept.Count -gt 0) {
     $entry = [ordered]@{ from = $from; to = $kept }
     if ($transform) { $entry.transform = $transform }
@@ -163,14 +164,57 @@ foreach ($r in @(
   if ($modern.Contains($target)) { $regions.Add([ordered]@{ from = $r[0]; x = $r[1]; y = $r[2]; w = $r[3]; h = $r[4]; to = @($target) }) } else { $dropped.Add("$($r[0]) region -> $target") }
 }
 
+# 1.6 keeps the compass and clock as strips with one frame per angle, in 26.3's order.
+for ($i = 0; $i -lt 32; $i++) { $regions.Add([ordered]@{ from = 'assets/minecraft/textures/items/compass.png'; x = 0; y = $i * 16; w = 16; h = 16; to = @(('item/compass_{0:d2}' -f $i)) }) }
+for ($i = 0; $i -lt 64; $i++) { $regions.Add([ordered]@{ from = 'assets/minecraft/textures/items/clock.png'; x = 0; y = $i * 16; w = 16; h = 16; to = @(('item/clock_{0:d2}' -f $i)) }) }
+# Map markers and potion icons shared sheets; 26.3 has one texture each.
+$mapIcons = @('player', 'frame', 'red_marker', 'blue_marker', 'target_x', 'target_point', 'player_off_map', 'player_off_limits')
+for ($i = 0; $i -lt 8; $i++) { $regions.Add([ordered]@{ from = 'assets/minecraft/textures/map/map_icons.png'; x = ($i % 4) * 8; y = [Math]::Floor($i / 4) * 8; w = 8; h = 8; to = @("map/decorations/$($mapIcons[$i])") }) }
+Add-File 'assets/minecraft/textures/map/map_background.png' @('map/map_background')
+$effects = @('speed', 'slowness', 'haste', 'mining_fatigue', 'strength', 'weakness', 'poison', 'regeneration', 'invisibility', 'hunger', 'jump_boost', 'nausea', 'night_vision', 'blindness', 'resistance', 'fire_resistance', 'water_breathing', 'wither', 'absorption')
+for ($i = 0; $i -lt $effects.Count; $i++) { $regions.Add([ordered]@{ from = 'assets/minecraft/textures/gui/container/inventory.png'; x = ($i % 8) * 18; y = 198 + [Math]::Floor($i / 8) * 18; w = 18; h = 18; to = @("mob_effect/$($effects[$i])") + @(if ($effects[$i] -eq 'absorption') { 'mob_effect/health_boost' }) }) }
+Add-File 'assets/minecraft/textures/blocks/bed_feet_top.png' @('block/red_bed_foot_up|rot270')
+Add-File 'assets/minecraft/textures/blocks/bed_head_top.png' @('block/red_bed_head_up|rot270')
+Add-File 'assets/minecraft/textures/blocks/bed_feet_end.png' @('block/red_bed_foot_south')
+Add-File 'assets/minecraft/textures/blocks/bed_feet_side.png' @('block/red_bed_foot_east', 'block/red_bed_foot_west|flipx')
+Add-File 'assets/minecraft/textures/blocks/bed_head_side.png' @('block/red_bed_head_east', 'block/red_bed_head_west|flipx')
+Add-File 'assets/minecraft/textures/blocks/bed_head_end.png' @('block/bed_head_north')
+Add-File 'assets/minecraft/textures/blocks/planks_oak.png' @('block/oak_planks', 'block/bed_down')
+
+# 1.6's chests were drawn flipped over, with the front one face round, so 26.3's chest has the same faces upside down and moved.
+function Part($file, $sx, $sy, $w, $h, $dx, $dy) { [ordered]@{ file = $file; src = @($sx, $sy, $w, $h); dst = @($dx, $dy); flipy = $true } }
+$compose = [Collections.Generic.List[object]]::new()
+$chests = 'assets/minecraft/textures/entity/chest'
+foreach ($name in @('normal', 'trapped', 'christmas', 'ender')) {
+  $f = "$chests/$name.png"
+  $parts = @((Part $f 0 0 6 5 0 0), (Part $f 28 0 14 14 14 0), (Part $f 14 0 14 14 28 0), (Part $f 28 14 14 5 0 14), (Part $f 42 14 14 5 14 14), (Part $f 0 14 14 5 28 14), (Part $f 14 14 14 5 42 14),
+    (Part $f 28 19 14 14 14 19), (Part $f 14 19 14 14 28 19), (Part $f 28 33 14 10 0 33), (Part $f 42 33 14 10 14 33), (Part $f 0 33 14 10 28 33), (Part $f 14 33 14 10 42 33))
+  $compose.Add([ordered]@{ to = @("entity/chest/$name"); size = @(64, 64); parts = $parts })
+}
+foreach ($name in @('normal', 'trapped', 'christmas')) {
+  $f = "$chests/$($name)_double.png"
+  foreach ($half in @(@('left', 0), @('right', 15))) {
+    $o = $half[1]; $back = 15 - $o
+    $parts = @((Part $f 0 0 6 5 0 0), (Part $f (44 + $o) 0 15 14 14 0), (Part $f (14 + $o) 0 15 14 29 0), (Part $f 44 14 14 5 0 14), (Part $f (58 + $back) 14 15 5 14 14), (Part $f 0 14 14 5 29 14), (Part $f (14 + $o) 14 15 5 43 14),
+      (Part $f (44 + $o) 19 15 14 14 19), (Part $f (14 + $o) 19 15 14 29 19), (Part $f 44 33 14 10 0 33), (Part $f (58 + $back) 33 15 10 14 33), (Part $f 0 33 14 10 29 33), (Part $f (14 + $o) 33 15 10 43 33))
+    $compose.Add([ordered]@{ to = @("entity/chest/$($name)_$($half[0])"); size = @(64, 64); parts = $parts })
+  }
+}
+$signFile = 'assets/minecraft/textures/entity/sign.png'
+$compose.Add([ordered]@{ to = @('block/oak_sign'); size = @(32, 32); parts = @(
+  foreach ($p in @(@(2, 2, 24, 12, 0, 2), @(28, 2, 24, 12, 0, 16), @(26, 2, 2, 12, 24, 2), @(0, 2, 2, 12, 24, 16), @(2, 0, 24, 2, 0, 0), @(26, 0, 24, 2, 0, 28), @(2, 16, 2, 14, 28, 0), @(6, 16, 2, 14, 28, 16), @(4, 16, 2, 14, 30, 0), @(0, 16, 2, 14, 30, 16), @(4, 14, 2, 2, 28, 30))) {
+    [ordered]@{ file = $signFile; src = @($p[0], $p[1], $p[2], $p[3]); dst = @($p[4], $p[5]) }
+  }) })
+
 $mapping = [ordered]@{
   _comment = 'Generated by tools/gen_release_texture_map.ps1 from the player''s own 1.6.4 jar; edit that script instead. Maps 1.6.4 textures onto 26.3 names. Villagers wear their 1.6.4 job outfits. The dragon, its crystals and the End''s sky and portal are 1.6.4''s. Water, lava, beds, redstone dust, chests, horses, boats, minecarts, the clock, the compass and the inventory screen stay modern.'
   jar = '1.6.4'
   files = $files
   regions = $regions
   clear = $clear
+  compose = $compose
 }
-$mapping | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8NoBOM $OutFile
+$mapping | ConvertTo-Json -Depth 10 | Set-Content -Encoding utf8NoBOM $OutFile
 Write-Host "Mapped $($files.Count) files and $($regions.Count) regions; dropped $($dropped.Count) with no 26.3 counterpart:"
 $dropped | ForEach-Object { Write-Host "  $_" }
 

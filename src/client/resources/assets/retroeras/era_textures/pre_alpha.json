@@ -332,6 +332,24 @@
   ],
   "compose": [
     {
+      "_comment": "26.3 lays the old sign's faces out on a 32 by 32 sheet.",
+      "to": ["block/oak_sign"],
+      "size": [32, 32],
+      "parts": [
+        { "file": "item/sign.png", "src": [2, 2, 24, 12], "dst": [0, 2] },
+        { "file": "item/sign.png", "src": [28, 2, 24, 12], "dst": [0, 16] },
+        { "file": "item/sign.png", "src": [26, 2, 2, 12], "dst": [24, 2] },
+        { "file": "item/sign.png", "src": [0, 2, 2, 12], "dst": [24, 16] },
+        { "file": "item/sign.png", "src": [2, 0, 24, 2], "dst": [0, 0] },
+        { "file": "item/sign.png", "src": [26, 0, 24, 2], "dst": [0, 28] },
+        { "file": "item/sign.png", "src": [2, 16, 2, 14], "dst": [28, 0] },
+        { "file": "item/sign.png", "src": [6, 16, 2, 14], "dst": [28, 16] },
+        { "file": "item/sign.png", "src": [4, 16, 2, 14], "dst": [30, 0] },
+        { "file": "item/sign.png", "src": [0, 16, 2, 14], "dst": [30, 16] },
+        { "file": "item/sign.png", "src": [4, 14, 2, 2], "dst": [28, 30] }
+      ]
+    },
+    {
       "_comment": "Beta's chest was a block textured with terrain tiles 25 (top), 26 (side) and 27 (front); this paints them onto 26.3's chest model.",
       "to": ["entity/chest/normal"],
       "size": [64, 64],
