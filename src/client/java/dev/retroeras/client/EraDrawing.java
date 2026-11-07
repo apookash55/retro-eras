@@ -12,6 +12,10 @@ public final class EraDrawing {
 	private EraDrawing() {
 	}
 
+	public static @Nullable Era currentEra() {
+		return era();
+	}
+
 	private static @Nullable Era era() {
 		ClientLevel level = Minecraft.getInstance().level;
 		return level == null ? null : Era.fromDimension(level.dimension());

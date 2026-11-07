@@ -13,7 +13,7 @@ A Fabric mod for Minecraft 26.3 that adds a dimension for each historical era of
 
 1.6.4, Beta and Alpha each have their own Nether too: `retroeras:old_release_nether`, `retroeras:beta_nether` and `retroeras:alpha_nether`.
 
-All six eras can be played in single player. The latest release is **v0.6.0**, on the GitHub Releases page of `apookash55/retro-eras`.
+All six eras can be played in single player. The latest release is **v0.7.0**, on the GitHub Releases page of `apookash55/retro-eras`.
 
 ## Getting to an era
 
@@ -64,6 +64,8 @@ The eras are stacked on top of each other, newest at the top: the overworld, the
 - **No experience before Beta 1.8.** In Beta, Alpha and Infdev no experience orbs appear, from mobs, ores or anything else.
 - **Bows before Beta 1.8** fire the moment you click, with no drawing back, and never wear out. Arrows leave at Beta's speed and hit for 4.
 - **Old armour.** Armour takes a flat 4% off a hit per point, with no toughness, so heavy blows are not let through. In 1.6.4 the points are each piece's. Before 1.0 any full set counted 20 points, whatever it was made of, and protected less as it wore down, and it softened everything, falls, fire and drowning included.
+- **1.6.4 villagers** use its trade tables, with one trade to start and another each time the newest is used, no levels and no experience. They do not sleep, claim job blocks or gossip. They wander, open doors and flee zombies, but the old village logic that sent them indoors at night and bred them is not ported, and no iron golems come from them.
+- **Old mob behaviour.** Before 1.6.4 mobs keep 26.3's pathfinding, not the old routine, but lose what it could not do: animals are not tempted, bred or led, sheep do not graze, and monsters only want players, cannot break doors, flee the sun, avoid cats or call for help, and notice you from 16 blocks. Zombies are never babies, and monsters have no armour.
 - **Old recipes.** Slabs make 3 and signs 1 before 1.6.4, doors 1 up to 1.6.4, and ladders 2 in Beta and 1 before it. Fences take six sticks and make 2, books take three paper and golden apples eight blocks of gold before 1.0, and wool and glowstone take nine in Alpha and Infdev (`OldRecipes`).
 - **Old stack sizes.** Before Beta 1.8, food that heals you (apples, bread, pork, fish, golden apples and stew) does not stack, cookies stack to 8, and signs and doors do not stack. Doors do not stack in 1.6.4 either.
 - **No swimming or crawling.** Both came in 1.13, so in the eras you never swim, even sprinting under water, and never drop to a crawl to fit through a gap.
@@ -122,6 +124,8 @@ If the sound files are missing (the launcher downloads them the first time you p
 - **Held items** sit where they did before 1.9, with tools turned the old way round. View bobbing and the arm swing already match.
 - **Stairs** before 1.4 stay straight rather than joining into corners.
 - **Chests, beds and signs** in 1.6.4 use its own textures, rebuilt for 26.3's layouts, and signs are rebuilt in the older eras too. The compass and clock are old in every era that had them: in Alpha and Beta each frame is drawn by a port of the code that drew them. Map backgrounds and markers are old in Beta and 1.6.4, and potion icons in 1.6.4.
+- **1.6.4's water, lava and horses** are its own. Horses, donkeys, mules and their foals have its 128 by 128 model with knees that no longer bend, and their saddles and armour are still 26.3's.
+- **Pause menu and F3.** The pause menu has the old layout, without 26.3's feedback and reporting buttons, and F3 shows the old version line, position, facing and memory. 1.6.4's inventory screen is its own.
 - **Stars** before 1.6.4 are their old size, about twice today's. Beta's sun, moon, cloud speed and sunrise colours match 26.3 already.
 - **Mob models** (`OldMobModels`): cows lose 26.3's muzzle and have their old horns and udder, and pigs go back on the old 64 by 32 texture. Babies are the adult model with a half-size body and a big head, wearing the adult's texture. Adult sheep, chickens and wolves have barely changed, so they stay. The models load with the era's textures.
 
@@ -204,27 +208,16 @@ If the sound files are missing (the launcher downloads them the first time you p
 
 ## Future plans
 
-The aim is for each era to be as close to the real version as possible. What still differs, grouped by what it touches, with the eras it affects and a rough size.
+Everything on the original list has been done, but not all of it to the letter. What still differs from the real versions:
 
-### Mobs
+| Gap | Eras | What it would take |
+| --- | --- | --- |
+| Mobs use 26.3's pathfinding | Infdev to Beta | A port of the old wander-and-chase routine. Today they keep modern pathfinding and only lose what the old routine could not do. |
+| Villagers have no village life | 1.6.4 | A port of the old village logic, so that they go indoors at night, breed, and bring iron golems. |
+| Horse knees, saddles and armour | 1.6.4 | Knees that bend, and the old saddle and armour on the old model. |
+| Beta's chests are slightly small | Alpha, Beta | They were full-size blocks; here their textures are on 26.3's smaller chest. |
+| Cave game's black fog | Cave game | Blocks in shadow were drawn through a black fog, which needs a change to how terrain is drawn. |
+| F3 screen's chunk and entity lines | Infdev to 1.6.4 | They reported on the old renderer, so they are left out. |
+| Recipe book button | 1.6.4 and older | It is invisible, as in Beta, but can still be clicked. |
 
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| 1.6.4 villagers | 1.6.4 | Medium | 1.6.4's trade lists, and no sleeping, job blocks or gossip. Their outfits are done. |
-| Old mob AI | All eras | Medium | The old wandering AI and monster targeting. Breeding and sheep wool are done. |
-
-### Screens
-
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| Old screens | 1.6.4 and others | Medium | 1.6.4's inventory (its crafting grid sat elsewhere), the pause menu and the F3 screen are 26.3's. Beta's inventory is done. |
-
-### Textures
-
-Block textures, item icons, particles, buttons, worn armour and paintings are old in every era that had them. (Slabs, stairs, fences, buttons, pressure plates and carpets use their block's texture, so they look old too.) What is still 26.3's:
-
-| Plan | Eras | Size | What it involves |
-| --- | --- | --- | --- |
-| 1.6.4 water, lava and horses | 1.6.4 | Medium | Left modern when 1.6.4's textures were mapped: its water and lava tint differently, and horses changed model. |
-
-Multiplayer is out of scope for now.
+An Indev era is on hold, as Mojang's launcher has no Indev build. Multiplayer is out of scope for now.

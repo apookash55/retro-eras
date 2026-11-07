@@ -45,6 +45,10 @@ public final class EraMobs {
 			if (entity instanceof Sheep sheep && onlyWhiteSheep(Era.fromDimension(level.dimension())) && sheep.getColor() != DyeColor.WHITE) {
 				sheep.setColor(DyeColor.WHITE);
 			}
+			Era era = Era.fromDimension(level.dimension());
+			if (era != null && entity instanceof net.minecraft.world.entity.Mob mob) {
+				OldMobRules.apply(mob, era);
+			}
 		});
 	}
 

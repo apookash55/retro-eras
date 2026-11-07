@@ -23,6 +23,7 @@
 		"LeavesBlockMixin",
 		"ItemEntityMixin",
 		"LivingEntityMixin",
+		"MobAccessor",
 		"NetherPortalBlockMixin",
 		"PlayerAdvancementsMixin",
 "PlayerCombatMixin",
@@ -30,6 +31,8 @@
 		"PlayerPoseMixin",
 		"PotionSlotMixin",
 		"ServerPlayerRespawnMixin",
+		"TargetGoalAccessor",
+		"VillagerMixin",
 		"StairBlockMixin",
 		"VanillaPortalMixin"
 	],

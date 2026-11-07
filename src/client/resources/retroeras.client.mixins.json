@@ -4,11 +4,13 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"AdvancementsScreenMixin",
+		"DebugScreenOverlayMixin",
 		"EntityModelSetMixin",
 		"FogRendererMixin",
 		"ItemEntityRendererMixin",
 		"LightmapRenderStateExtractorMixin",
 		"OptionsScreenMixin",
+		"PauseScreenMixin",
 		"SkyRendererMixin",
 		"SoundEngineMixin",
 		"VillagerRendererMixin",

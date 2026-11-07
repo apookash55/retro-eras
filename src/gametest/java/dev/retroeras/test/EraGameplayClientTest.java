@@ -30,6 +30,10 @@ import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
@@ -143,6 +147,10 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 			vehiclesScreenshot(context, server, Era.OLD_RELEASE);
 			mobsScreenshot(context, server, Era.BETA);
 			mobsScreenshot(context, server, Era.OLD_RELEASE);
+			horsesScreenshot(context, server);
+			checkVillagerTrades(context, server);
+			checkOldMobGoals(context, server);
+			screensScreenshots(context, server);
 			shadowScreenshot(context, server, Era.CLASSIC);
 			shadowScreenshot(context, server, Era.CAVEGAME);
 			textureScene(context, server, Era.BETA);
@@ -908,6 +916,110 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 		takeScreenshot(context, era.getName() + "_vehicles");
 	}
 
+	/** 1.6.4's horse, donkey, mule and undead horses, adults and foals, by water and lava on their old textures. */
+	private static void horsesScreenshot(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			ServerLevel level = player.level();
+			player.connection.teleport(player.getX(), player.getY(), player.getZ(), 0.0F, 10.0F);
+			BlockPos centre = player.blockPosition().south(7);
+			for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-8, -1, -3), centre.offset(8, -1, 5))) {
+				level.setBlock(pos, Blocks.STONE.defaultBlockState(), 3);
+			}
+			for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-8, 0, -3), centre.offset(8, 5, 5))) {
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			}
+			level.setBlock(centre.offset(-7, -1, 4), Blocks.WATER.defaultBlockState(), 3);
+			level.setBlock(centre.offset(7, -1, 4), Blocks.LAVA.defaultBlockState(), 3);
+			List<EntityType<? extends Mob>> types = List.of(EntityTypes.HORSE, EntityTypes.DONKEY, EntityTypes.MULE, EntityTypes.SKELETON_HORSE, EntityTypes.ZOMBIE_HORSE);
+			for (int i = 0; i < types.size(); i++) {
+				for (int baby = 0; baby < 2; baby++) {
+					Mob mob = types.get(i).create(level, EntitySpawnReason.COMMAND);
+					check(mob != null, "Could not create " + types.get(i));
+					mob.snapTo(centre.getX() + 0.5 + (2 - i) * 3.0, centre.getY(), centre.getZ() + 0.5 + baby * 3.0, 180.0F + 30.0F, 0.0F);
+					mob.setNoAi(true);
+					if (baby == 1 && mob instanceof AgeableMob ageable) {
+						ageable.setBaby(true);
+					}
+					level.addFreshEntity(mob);
+				}
+			}
+		});
+		context.waitTicks(30);
+		takeScreenshot(context, "old_release_horses");
+	}
+
+	/** A 1.6.4 villager starts with one old trade, and adds another after its newest is used. */
+	private static void checkVillagerTrades(ClientGameTestContext context, TestServerContext server) {
+		go(context, server, Era.OLD_RELEASE);
+		int[] id = new int[1];
+		server.runOnServer(s -> {
+			ServerPlayer player = player(s);
+			Villager villager = EntityTypes.VILLAGER.create(player.level(), EntitySpawnReason.COMMAND);
+			check(villager != null, "Could not create a villager");
+			villager.snapTo(player.getX() + 2.0, player.getY(), player.getZ(), 0.0F, 0.0F);
+			player.level().addFreshEntity(villager);
+			id[0] = villager.getId();
+			MerchantOffers offers = villager.getOffers();
+			check(offers.size() == 1, "A 1.6.4 villager should start with one trade, has " + offers.size());
+			check(offers.get(0).getMaxUses() == 7, "An old trade has seven uses, this has " + offers.get(0).getMaxUses());
+			villager.notifyTrade(offers.getLast());
+			check(villager.getVillagerData().level() <= 1 && villager.getVillagerXp() == 0, "1.6.4's villagers should earn no experience, has " + villager.getVillagerXp());
+		});
+		context.waitTicks(60);
+		server.runOnServer(s -> {
+			Villager villager = (Villager) player(s).level().getEntity(id[0]);
+			check(villager != null, "The villager should still be there");
+			check(villager.hasEffect(MobEffects.REGENERATION), "The villager should regenerate after its newest trade");
+			check(villager.getOffers().size() >= 1, "The villager should still have trades");
+			villager.discard();
+		});
+	}
+
+	/** Before 1.6.4 a cow cannot be tempted or bred, and a zombie wants only players, from 16 blocks. */
+	private static void checkOldMobGoals(ClientGameTestContext context, TestServerContext server) {
+		for (Era era : new Era[] {Era.BETA, Era.OLD_RELEASE}) {
+			go(context, server, era);
+			server.runOnServer(s -> {
+				ServerPlayer player = player(s);
+				ServerLevel level = player.level();
+				Cow cow = EntityTypes.COW.create(level, EntitySpawnReason.COMMAND);
+				Zombie zombie = EntityTypes.ZOMBIE.create(level, EntitySpawnReason.COMMAND);
+				check(cow != null && zombie != null, "Could not create the mobs");
+				cow.snapTo(player.getX() + 3.0, player.getY(), player.getZ(), 0.0F, 0.0F);
+				zombie.snapTo(player.getX() - 3.0, player.getY(), player.getZ(), 0.0F, 0.0F);
+				level.addFreshEntity(cow);
+				level.addFreshEntity(zombie);
+				boolean tempted = cow.getGoalSelector().getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof TemptGoal);
+				check(tempted == (era == Era.OLD_RELEASE), era.getName() + " cow tempted: " + tempted);
+				double range = zombie.getAttributeBaseValue(Attributes.FOLLOW_RANGE);
+				check((range == 16.0) == (era == Era.BETA), era.getName() + " zombie follow range " + range);
+				cow.discard();
+				zombie.discard();
+			});
+		}
+	}
+
+	/** The old pause menu and F3 screen, and 1.6.4's inventory. */
+	private static void screensScreenshots(ClientGameTestContext context, TestServerContext server) {
+		for (Era era : new Era[] {Era.BETA, Era.OLD_RELEASE}) {
+			go(context, server, era);
+			context.runOnClient(client -> client.gui.setScreen(new PauseScreen(true)));
+			context.waitTicks(10);
+			takeScreenshot(context, era.getName() + "_pause");
+			context.runOnClient(client -> client.gui.setScreen(null));
+			context.runOnClient(client -> client.debugEntries.toggleDebugOverlay());
+			context.waitTicks(10);
+			takeScreenshot(context, era.getName() + "_f3");
+			context.runOnClient(client -> client.debugEntries.toggleDebugOverlay());
+			context.runOnClient(client -> client.gui.setScreen(new InventoryScreen(client.player)));
+			context.waitTicks(10);
+			takeScreenshot(context, era.getName() + "_inventory");
+			context.runOnClient(client -> client.gui.setScreen(null));
+		}
+	}
+
 	/** Adults and babies side by side, on the old models and old textures. */
 	private static void mobsScreenshot(ClientGameTestContext context, TestServerContext server, Era era) {
 		go(context, server, era);
@@ -1072,7 +1184,7 @@ public class EraGameplayClientTest implements FabricClientGameTest {
 				ServerPlayer player = player(s);
 				IronGolem golem = player.level().getEntitiesOfClass(IronGolem.class, player.getBoundingBox().inflate(6)).getFirst();
 				// Forget any suffocation or fall damage the golem took where it was summoned, so it cannot shorten this hit.
-				golem.setInvulnerableTime(0);
+				golem.damageCooldownTime = 0;
 				float before = golem.getHealth();
 				player.attack(golem);
 				return before - golem.getHealth();
